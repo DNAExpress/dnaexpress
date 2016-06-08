@@ -1,0 +1,19 @@
+{
+  "name": "dnaexpress",
+  "version": "1.0.0",
+  "description": "travel app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnaexpress/dnaexpress.git"
+  },
+  "author": "dnaexpress",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dnaexpress/dnaexpress/issues"
+  },
+  "homepage": "https://github.com/dnaexpress/dnaexpress#readme"
+}
