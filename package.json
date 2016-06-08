@@ -2,7 +2,7 @@
   "name": "dnaexpress",
   "version": "1.0.0",
   "description": "travel app",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/dnaexpress/dnaexpress/issues"
   },
-  "homepage": "https://github.com/dnaexpress/dnaexpress#readme"
+  "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
 }
