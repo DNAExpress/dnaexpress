@@ -1,28 +1,33 @@
-var dna_app = angular.module('dna_app', ['ui-router']);
+var app = angular.module('app', [
+  'ui.router',
+  'app.welcome'
+  ]);
 
-dna_app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-  $urlRouterProvider.otherwise('/home');
+  $urlRouterProvider.otherwise('/');
 
   $stateProvider
     .state('home', {
-      url:'/index.html',
-      templateUrl:''
+      url:'/',
+      templateUrl:'app/home/welcome.html',
+      controller: 'welcomeCtrl'
     })
     .state('home.welcome', {
-      url:'/welcome.html',
-      templateUrl:'./auth/welcome.html',
+      url:'/',
+      templateUrl:'',
       controller:''
     })
     .state('home.welcome.signin', {
-      url:'/signin.html',
-      templateUrl:'./auth/signin.html',
+      url:'/',
+      templateUrl:'./home/signin.html',
       controller:''
     })
     .state('home.welcome.signup', {
-      url:'/signup.html',
-      templateUrl:'./auth/signup.html',
+      url:'/',
+      templateUrl:'./home/signup.html',
       controller:''
     })
 
-})
+    $locationProvider.html5Mode(true);
+});
