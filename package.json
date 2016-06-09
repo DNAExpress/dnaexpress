@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
   "dependencies": {
+    "bower": "^1.7.9",
     "express": "^4.13.4"
   }
 }
