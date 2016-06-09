@@ -17,9 +17,14 @@
   },
   "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
   "dependencies": {
+<<<<<<< HEAD
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "mongoose": "^4.4.20",
     "yelp": "^1.0.1"
+=======
+    "bower": "^1.7.9",
+    "express": "^4.13.4"
+>>>>>>> 460680365ce0f34f77c37ce2fdc2eb4240cde62a
   }
 }
