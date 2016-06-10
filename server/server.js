@@ -16,3 +16,5 @@ app.post('/search', function (req, res) {
 })
 
 module.exports = app;
+
+var db = require('./data/db_schema.js');  //temporary to get the database to initialize
