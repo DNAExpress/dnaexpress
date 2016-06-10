@@ -1,8 +1,18 @@
 var bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
 
 module.exports = function(app, express) {
-   app.use(express.static(__dirname + '/../../client'));
- }
+  var searchRouter = express.Router();
+  // var userRouter = express.Router();
+  // var eventRouter = express.Router();
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended:false}));
+
+  app.use(express.static(__dirname + '/../../client'));
+
+  app.use('/api/search', searchRouter);
+
+  require('../search/search_router.js')(searchRouter);
+
+};

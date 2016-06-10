@@ -1,4 +1,4 @@
-var Yelp = require('../../config/config.js');
+var Yelp = require('./restaurant_search.js');
 
 module.exports = {
 

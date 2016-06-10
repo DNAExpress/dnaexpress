@@ -12,13 +12,12 @@ module.exports.askYelp = function(searchTerm, response) {
   yelp.search({category_filter:category, location:'boston'})
   .then(function(yelpData){
     response.status(200).json(yelpData.businesses);
+    // re-write to send response back to handle before sending to client 
   })
   .catch(function(err) {
     console.log("error inside config.js askYelp", err)
   })
 }
-
-
 
 
 /*
