@@ -1,6 +1,6 @@
 angular.module('app.services', [])
 
-.factory('userFactory', ['$http', function($http){
+.factory('userFactory', ['$http', '$location', function($http, $state){
 
   var userReq = function(userdata){
     console.log('making request', userdata);
@@ -9,8 +9,10 @@ angular.module('app.services', [])
       url: '/api/search',
       data: userdata
     }).then(function(res){
+      $state.go('/recommendation');
       console.log(res);
     });
+
   };
 
   return {
