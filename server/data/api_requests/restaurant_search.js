@@ -7,15 +7,18 @@ var yelp = new Yelp({
   token_secret:'D4W6WFkDcsxrADvwLMcv3ZrDJdA'
 });
 
-module.exports.askYelp = function(searchTerm, response) {
-  var category = 'restaurants,' + searchTerm
-  yelp.search({category_filter:category, location:'boston'})
+module.exports.askYelp = function(searchCriteria, response) {
+  console.log('search criteria', searchCriteria);
+  // searchCriteria is an object with filter data
+    //will first pass in {searchTerm: 'some food type', location: 'some location'}
+  var category = 'restaurants,' + searchCriteria.searchTerm;
+  yelp.search({category_filter:category, location:searchCriteria.location})
   .then(function(yelpData){
     response.status(200).json(yelpData.businesses);
     // re-write to send response back to handle before sending to client 
   })
   .catch(function(err) {
-    console.log("error inside config.js askYelp", err)
+    console.log("error inside restaurant_search.js askYelp", err)
   })
 }
 

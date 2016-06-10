@@ -1,9 +1,17 @@
 var api_router = require('./../data/api_requests/api_router.js');
 
-module.exports = {
+module.exports = searchControls = {
   handleSearch: function handleSearch(req, res) {
-    console.log('made it to handleSearch!')
-    // api_router.askYelp(req, res);
+    console.log('search req body', req.body)
+    searchControls.makeRequest(req.body, res);
+  },
+
+  makeRequest: function makeRequest(searchInput, res) {
+    var searchCriteria = {
+      location: searchInput.location,
+      searchTerm: searchInput.opt1 
+    };
+    api_router.askYelp(searchCriteria, res);
   }
 
   // things to do
@@ -20,5 +28,15 @@ module.exports = {
     // send the selected options / resp back to the client
 }
 
+
 // search categories for MVP: Location, (3) Food Genres, Veg (y/n), by rating
 
+
+//sample current request body from client:
+    // search req body { location: 'boston',
+    //   opt1: 'indian',
+    //   opt2: 'italian',
+    //   opt3: 'american',
+    //   mealtime: 'breakfast',
+    //   preference: 'no',
+    //   searchBy: 'Stars' }
