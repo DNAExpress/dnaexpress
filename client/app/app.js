@@ -5,7 +5,8 @@ var app = angular.module('app', [
   'app.auth',
   'app.dashboard',
   'app.optionform',
-  'app.createevent'
+  'app.createevent',
+  'app.showevent'
   ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -15,35 +16,35 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
     .state('main', {
       url: '/',
-      templateUrl:'app/home/welcome.html',
+      templateUrl:'app/views/welcome.html',
       // controller: 'WelcomeCtrl'
     })
     .state('main.signup', {
-      templateUrl:'app/home/signup.html',
+      templateUrl:'app/views/signup.html',
       controller: 'AuthCtrl'
     })
     .state('main.signin', {
-      templateUrl:'app/home/signin.html',
+      templateUrl:'app/views/signin.html',
       controller: 'AuthCtrl'
     })
     .state('dashboard', {
       url:'/dashboard',
-      templateUrl:'app/dashboard/dashboard.html',
+      templateUrl:'app/views/dashboard.html',
       controller:'DashboardCtrl'
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/dashboard/createevent.html',
+      templateUrl:'app/views/createevent.html',
       controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
       url:'/events',
-      templateUrl:'app/dashboard/showevent.html',
-      controller:'ShoweventCtrl'
+      templateUrl:'app/views/showevent.html',
+      controller:'ShowEventCtrl'
     })
     .state('dashboard.optionform', {
       url:'/optionform',
-      templateUrl:'app/dashboard/optionform.html',
+      templateUrl:'app/views/optionform.html',
       controller:'OptionformCtrl'
     })
 
