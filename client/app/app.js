@@ -2,7 +2,7 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
-  'app.welcome',
+  'app.main',
   'app.auth',
   'app.dashboard',
   'app.optionform',
@@ -20,8 +20,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       url: '/',
       abstract:true,
       templateUrl:'app/views/welcome.html',
-      controller: 'DashboardCtrl'
-    })
+      controller: 'mainCtrl'
+    }
     .state('main.buttons', {
       url:'',
       templateUrl:'app/views/welcomebuttons.html'
@@ -44,34 +44,40 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       url:'/createevent',
       templateUrl:'app/views/eventform.html',
       controller:'CreateEventCtrl'
+      authenticate: true
     })
     .state('dashboard.showevent', {
       url:'/events',
       templateUrl:'app/views/showevent.html',
-      controller:'ShowEventCtrl'
+      controller:'ShowEventCtrl',
+      authenticate: true
     })
     .state('dashboard.optionform', {
       url:'/optionform',
       templateUrl:'app/views/optionform.html',
-      controller:'OptionformCtrl'
+      controller:'OptionformCtrl',
+      authenticate: true
     })
     .state('dashboard.restaurantResults', {
       url:'/recommendation',
       templateUrl:'app/views/restaurantResults.html',
-      controller:'RestaurantResultsCtrl'
+      controller:'RestaurantResultsCtrl',
+      authenticate: true
     })
     .state('dashboard.loading', {
       url:'/loading',
       templateUrl:'app/views/loading.html',
-      controller:'OptionformCtrl'
+      authenticate: true
     })
     .state('dashboard.profile', {
       url:'/profile',
-      templateUrl:'app/views/profile.html'
+      templateUrl:'app/views/profile.html',
+      authenticate: true
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
       templateUrl:'app/views/editprofile.html'
+      authenticate: true
     });
 
     $locationProvider.html5Mode(true);
@@ -93,88 +99,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
   return attach;
 })
 .run(function ($rootScope, $state, Auth) {
-  $rootScope.$on('$stateChangeStart', function (evt, toState) {
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     if (toState.authenticate && !Auth.isAuth()) {
-      $state.go('main');
+      $state.go('main.buttons');
+      event.preventDefault();
     }
   });
 });
-
-// app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-
-//   $urlRouterProvider.otherwise('/');
-
-//   $stateProvider
-//     // .state('home', {
-//     //   url:'/',
-//     //   // templateUrl:'app/home/welcome.html',
-//     //   // controller: 'welcomeCtrl'
-//     // })
-//     .state('main', {
-//       url: '/',
-//       views: {
-//         '@': {
-//           templateUrl:'app/home/welcome.html',
-//           controller: 'welcomeCtrl'
-//         },
-//         'body@.signin': {
-//           templateUrl:'app/home/signup.html',
-//           controller: 'authCtrl'
-//         },
-//         'body@.signup': {
-//           templateUrl:'app/home/signin.html',
-//           controller: 'authCtrl'
-//         }
-//       }
-
-//     })
-//     .state('main.signin', {})
-//     .state('main.signup', {});
-    // .state('home.signin', {
-    //   url:'signin',
-    //   templateUrl:'app/home/signin.html',
-    //   controller:'authCtrl'
-    // })
-    // .state('home.signup', {
-    //   url:'signup',
-    //   templateUrl:'app/home/signup.html',
-    //   controller:'authCtrl'
-    // })
-    // .state('home', {
-    //   url:'/dashboard',
-    //   parent: 'home',
-    //   templateUrl:'app/home/welcome.html',
-    //   controller:'welcomeCtrl'
-    // })
-
-//     $locationProvider.html5Mode(true);
-// });
-
-//   'app.welcome',
-//   'app.auth',
-//   'app.dashboard'
-//   ]);
-
-// app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-
-//   $urlRouterProvider.otherwise('/');
-
-//   $stateProvider
-//     .state('main', {
-//       url: '/',
-//       templateUrl:'app/home/welcome.html',
-//       controller: 'welcomeCtrl'
-//     })
-//     .state('signup', {
-//       templateUrl:'app/home/signup.html',
-//       controller: 'authCtrl'
-//     })
-//     .state('signin', {
-//       templateUrl:'app/home/signin.html',
-//       controller: 'authCtrl'
-//     })
-//     .state('dashboard', {
-//       url:'/dashboard',
-//       templateUrl:'app/dashboard/dashboard.html',
-//       controller:'dashboard.js'
-//     })
