@@ -12,11 +12,20 @@ module.exports = userControls = {
     Users.findOne({'email': email})
       .then(function(user) {
         if (user) {
-          // res that that user already exits 
+          console.log('ERROR: in users_controller signup')
         } else {
-          // add user to db - encrypt password, send back token
+          var newUser = {
+            email: email,
+            password: password
+          };
+          return Users.create(newUser);
         }
-      })
+      }).then(function(user) {
+         var token = jwt.encode(user, 'secret');
+         res.json({token: token});
+      }).fail(function(err) {
+        console.error(err)
+      });
   },
 
   signin: function signin(req, res) {
