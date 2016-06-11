@@ -1,7 +1,7 @@
 var usersModel = require('./users_model.js');
 
 module.exports = userControls = {
-  signup = function signup(req, res) {
+  signup: function signup(req, res) {
     // do something
     console.log('attempting to add user')
     // check if user exists in db
@@ -11,15 +11,15 @@ module.exports = userControls = {
       // if they already exist, res with that info
   },
 
-  signin = function signin(req, res) {
+  signin: function signin(req, res) {
 
   },
 
-  checkAuth = function checkAuth(req, res) {
+  checkAuth: function checkAuth(req, res) {
 
   },
 
-  editUserProfile = function(req, res) {
+  editUserProfile: function(req, res) {
     // authenticate first
 
     // use for adding and updating a users profile?
