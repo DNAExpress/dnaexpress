@@ -1,10 +1,15 @@
 var usersController = require('./users_controller.js');
 
 module.exports = function(app) {
-  app.route('/signup')
-    .post(usersController.signup) ///controller.funtion
+  app.post('/signup', usersController.signup)
 
-  // routing for authentication: sign-in, sign-out
+  app.post('/signin', usersController.signin)
+
+  app.get('/auth', usersController.checkAuth)
+
+  app.route('/profile')
+    .post(usersController.editUserProfile)
+
   // routing for editing profile
-  // handling connections
+  // handling connections with other users
 };

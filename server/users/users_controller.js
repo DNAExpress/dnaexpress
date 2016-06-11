@@ -9,10 +9,13 @@ module.exports = userControls = {
         // add them
         // res with token
       // if they already exist, res with that info
+  },
+
+  signin = function signin(req, res) {
 
   },
 
-  signin = function signin(req, res){
+  checkAuth = function checkAuth(req, res) {
 
   },
 
@@ -21,7 +24,7 @@ module.exports = userControls = {
 
     // use for adding and updating a users profile?
     // or redirect to a function for each
-  },
+  }
 
   // handle connections - requestConnection, acceptConnection, delete connection
 
