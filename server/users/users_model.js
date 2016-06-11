@@ -1,4 +1,3 @@
-// will need mongoose, bycrypt, a promise library
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
