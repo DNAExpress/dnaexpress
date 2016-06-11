@@ -23,4 +23,7 @@ module.exports = function(app, express) {
     fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
   });
 
+  app.get('/*', function(req, res) {
+    fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
+  });
 };
