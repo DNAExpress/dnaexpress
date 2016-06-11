@@ -45,21 +45,5 @@ module.exports = userControls = {
   editUserProfile: function(req, res) {
     console.log('in users_controller.js: attempting to edit profile')
 
-  },
-
-  signin = function signin(req, res){
-
-  },
-
-  editUserProfile = function(req, res) {
-    // authenticate first
-
-    // use for adding and updating a users profile?
-    // or redirect to a function for each
-
-  },
-
-  // handle connections - requestConnection, acceptConnection, delete connection
-
-  // signin, signout / authentication
+  }
 };
