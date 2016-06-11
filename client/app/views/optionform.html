@@ -1,60 +1,26 @@
 
-<div class="container">
-  <div class="card-panel">
-    <form name='userPrefForm' ng-submit="getUserReq(userData)">
-      <label>Location</label>
-      <input type="text" name="location" value="San Francisco" ng-model='user.location'>
-      <label>Option 1</label>
-      <input type="text" name="food-0" value="Sushi" ng-model='user.opt1'>
-      <label>Option 2</label>
-      <input type="text" name="food-1" value="Mexican" ng-model='user.opt2'>
-      <label>Option 3</label>
-      <input type="text" name="food-2" value="Barbeque" ng-model='user.opt3'>
-      <input type="submit" value="Submit">
-    </form>
-      <!-- <label>Vegitarian</label> -->
-      <!-- <select name="preference" ng-model='user.mealtime'>
-<<<<<<< abf688ed43dcdf3dceb6b374574c646bcecc527b
-=======
-      <label>Vegitarian</label>
-      <select name="preference" ng-model='user.mealtime'>
->>>>>>> [feat]added background image. [feat] added styling to dashboard page
-=======
->>>>>>> [feat]added logout button [chore] refining dashboard views and state routing
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-        <option value="dessert">Dessert</option>
-<<<<<<< abf688ed43dcdf3dceb6b374574c646bcecc527b
-<<<<<<< 88e6b8e41e4a7f946505cd860ac11483766f1902
-=======
->>>>>>> [feat]added logout button [chore] refining dashboard views and state routing
-      </select> -->
-      <!-- <label>Vegitarian</label> -->
 
-
-
-      <!-- <select name="preference" ng-model='user.preference'>
-<<<<<<< abf688ed43dcdf3dceb6b374574c646bcecc527b
-=======
-      </select>
-      <label>Vegitarian</label>
-      <select name="preference" ng-model='user.preference'>
->>>>>>> [feat]added background image. [feat] added styling to dashboard page
-=======
->>>>>>> [feat]added logout button [chore] refining dashboard views and state routing
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-      </select>
-      <label>Search By:</label>
-      <select name="searchBy" ng-model='user.searchBy'>
-        <option value="Stars">Stars</option>
-        <option value="price">Price</option>
-<<<<<<< abf688ed43dcdf3dceb6b374574c646bcecc527b
-<<<<<<< 88e6b8e41e4a7f946505cd860ac11483766f1902
-=======
->>>>>>> [feat]added logout button [chore] refining dashboard views and state routing
-      </select> -->
-
-  </div>
+<div>
+  <form name='userPrefForm' ng-submit="getUserReq(userData)">
+    <label>Location</label>
+    <input type="text" name="location" value="San Francisco" ng-model='user.location'>
+    <label>Option 1</label>
+    <input type="text" name="food-0" value="Sushi" ng-model='user.opt1'>
+    <label>Option 2</label>
+    <input type="text" name="food-1" value="Mexican" ng-model='user.opt2'>
+    <label>Option 3</label>
+    <input type="text" name="food-2" value="Barbeque" ng-model='user.opt3'>
+    <label>Meal Time</label>
+    <select name="mealtime" ng-model='user.mealtime'>
+      <option value="breakfast">Breakfast</option>
+      <option value="lunch">Lunch</option>
+      <option value="dinner">Dinner</option>
+      <option value="dessert">Dessert</option>
+    </select>
+    <label>Vegitarian</label>
+    <input type="checkbox" name="vegitarian" ng-model="user.vegitarian">
+    <label>Vegan</label>
+    <input type="checkbox" name="vegan" ng-model='user.vegan'>
+    <input type="submit" value="Submit">
+  </form>
 </div>
