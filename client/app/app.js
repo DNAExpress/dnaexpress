@@ -37,7 +37,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard', {
       url:'/dashboard',
       templateUrl:'app/views/dashboard.html',
-      controller:'DashboardCtrl'
+      controller:'DashboardCtrl',
+      authenticate: true
     })
     .state('dashboard.createevent', {
       url:'/createevent',
@@ -64,7 +65,31 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       templateUrl:'app/views/loading.html',
       controller:'OptionformCtrl'
     });
+
     $locationProvider.html5Mode(true);
+
+    $httpProvider.interceptors.push('AttachTokens');
+})
+
+.factory('AttachTokens', function ($window) {
+  var attach = {
+    request: function (object) {
+      var jwt = $window.localStorage.getItem('com.app');
+      if (jwt) {
+        object.headers['x-access-token'] = jwt;
+      }
+      object.headers['Allow-Control-Allow-Origin'] = '*';
+      return object;
+    }
+  };
+  return attach;
+})
+.run(function ($rootScope, $state, Auth) {
+  $rootScope.$on('$stateChangeStart', function (evt, toState) {
+    if (toState.authenticate && !Auth.isAuth()) {
+      $state.go('main');
+    }
+  });
 });
 
 // app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {

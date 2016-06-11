@@ -16,15 +16,9 @@
       <option value="dessert">Dessert</option>
     </select>
     <label>Vegitarian</label>
-    <select name="preference" ng-model='user.preference'>
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
-<!--     <label>Search By:</label>
-    <select name="searchBy" ng-model='user.searchBy'>
-      <option value="Stars">Stars</option>
-      <option value="price">Price</option>
-    </select> -->
+    <input type="checkbox" name="vegitarian" ng-model="user.vegitarian">
+    <label>Vegan</label>
+    <input type="checkbox" name="vegan" ng-model='user.vegan'>
     <input type="submit" value="Submit">
   </form>
 </div>
