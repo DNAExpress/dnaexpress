@@ -1,0 +1,12 @@
+<div>
+  <h1>Hello World</h1>
+  <div ng-repeat="place in data.restaurants">
+    <img src="{{place.image_url}}" alt="{{place.id}}"/>
+    <p>{{place.name}}</p>
+    <p><span>{{place.location.address[0]}}, </span><span>{{place.location.city}}, </span><span>{{place.location.state_code}}, </span><span>{{place.location.postal_code}}</span></p>
+    <p>Phone: {{place.phone}}</p>
+    <div>
+      <span><img src="{{place.rating_img_url}}" alt="rating{{place.id}}"/></span>
+      <span>{{place.rating}}</span>
+    </div>
+</div>

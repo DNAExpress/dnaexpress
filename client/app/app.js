@@ -7,10 +7,11 @@ var app = angular.module('app', [
   'app.dashboard',
   'app.optionform',
   'app.createevent',
-  'app.showevent'
+  'app.showevent',
+  'app.restaurantresults'
   ]);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
   $urlRouterProvider.otherwise('/');
 
@@ -53,8 +54,17 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
       templateUrl:'app/views/optionform.html',
       controller:'OptionformCtrl'
     })
-
-  $locationProvider.html5Mode(true);
+    .state('dashboard.restaurantResults', {
+      url:'/recommendation',
+      templateUrl:'app/views/restaurantResults.html',
+      controller:'RestaurantResultsCtrl'
+    })
+    .state('dashboard.loading', {
+      url:'/loading',
+      templateUrl:'app/views/loading.html',
+      controller:'OptionformCtrl'
+    });
+    $locationProvider.html5Mode(true);
 });
 
 // app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {

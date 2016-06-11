@@ -1,5 +1,5 @@
 <div>
-  <form name='userPrefForm' ng-submit="userReq(userData)">
+  <form name='userPrefForm' ng-submit="getUserReq(userData)">
     <label>Location</label>
     <input type="text" name="location" value="San Francisco" ng-model='user.location'>
     <label>Option 1</label>
@@ -8,8 +8,8 @@
     <input type="text" name="food-1" value="Mexican" ng-model='user.opt2'>
     <label>Option 3</label>
     <input type="text" name="food-2" value="Barbeque" ng-model='user.opt3'>
-    <label>Vegitarian</label>
-    <select name="preference" ng-model='user.mealtime'>
+    <label>Meal Time</label>
+    <select name="mealtime" ng-model='user.mealtime'>
       <option value="breakfast">Breakfast</option>
       <option value="lunch">Lunch</option>
       <option value="dinner">Dinner</option>
@@ -20,11 +20,11 @@
       <option value="yes">Yes</option>
       <option value="no">No</option>
     </select>
-    <label>Search By:</label>
+<!--     <label>Search By:</label>
     <select name="searchBy" ng-model='user.searchBy'>
       <option value="Stars">Stars</option>
       <option value="price">Price</option>
-    </select>
+    </select> -->
     <input type="submit" value="Submit">
   </form>
 </div>
