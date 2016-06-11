@@ -11,18 +11,4 @@ db.once('open', function() {
   console.log("Connection to localhost:8000/server/data/db is open")
 });
 
-var userSchema = mongoose.Schema({
-  name:String
-});
-
-var User = mongoose.model('User', userSchema);
-
-var nate = new User({name:'Nate'});
-
-nate.save(function(err, nate) {
-  if (err) {
-    console.log("Error inside save", err)
-  }
-  console.log(nate.name)
-});
 module.exports = db;
