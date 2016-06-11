@@ -1,5 +1,6 @@
 var Users = require('./users_model.js');
 var jwt = require('jwt-simple');
+var Q = require('q');
 
 module.exports = userControls = {
 
@@ -9,7 +10,8 @@ module.exports = userControls = {
     var email = req.body.email;
     var password = req.body.password;
 
-    Users.findOne({'email': email})
+    var findUser = Q.nbind(Users.findOne, Users);
+    findUser({'email': email})
       .then(function(user) {
         if (user) {
           console.log('ERROR: in users_controller signup')
@@ -19,10 +21,12 @@ module.exports = userControls = {
             email: email,
             password: password
           };
+          console.log('newUser', newUser)
           return Users.create(newUser);
         }
       }).then(function(user) {
          var token = jwt.encode(user, 'secret');
+         console.log('token', token)
          res.json({token: token});
       }).fail(function(err) {
         console.error(err)

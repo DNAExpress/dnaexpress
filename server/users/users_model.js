@@ -29,13 +29,13 @@ var UserSchema = new mongoose.Schema({
       type: [String]
     },
     vegetarian: {
-      type: Boolean
+      type: String
     },
     vegan: {
-      type: Boolean
+      type: String
     },
     gultenFree: {
-      type: Boolean
+      type: String
     }
   }],
   friends: {
