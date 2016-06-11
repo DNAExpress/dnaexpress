@@ -7,7 +7,8 @@ angular.module('app.services', [])
       method:'POST',
       url: '/api/search',
       data: userdata
-    }).then(function(res){
+    })
+    .then(function(res){
       console.log(res.data[0]);
       return res;
     });
@@ -36,11 +37,10 @@ angular.module('app.services', [])
     })
     .then(function (res) {
       return res.data.token;
+    })
+    .catch(function (error) {
+      console.error(error);
     });
-  };
-
-  var isAuth = function () {
-    return !!$window.localStorage.getItem('com.shortly');
   };
 
   var signup = function (userdata) {
@@ -51,8 +51,16 @@ angular.module('app.services', [])
       data: userdata
     })
     .then(function (res) {
+      console.log('hit');
       return res.data.token;
+    })
+    .catch(function (error) {
+      console.error(error);
     });
+  };
+
+  var isAuth = function () {
+    return !!$window.localStorage.getItem('com.shortly');
   };
 
   var signout = function () {
