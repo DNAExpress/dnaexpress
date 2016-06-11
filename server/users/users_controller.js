@@ -6,8 +6,8 @@ module.exports = userControls = {
   signup: function signup(req, res) {
     console.log('in users_controller.js: attempting to signup user')
 
-    var email: req.body.email;
-    var password: req.body.password;
+    var email = req.body.email;
+    var password = req.body.password;
 
     Users.findOne({'email': email})
       .then(function(user) {
@@ -26,8 +26,8 @@ module.exports = userControls = {
 
   signin: function signin(req, res) {
     console.log('in users_controller.js: attempting to signin user')
-    var email: req.body.email;
-    var password: req.body.password;
+    var email = req.body.email;
+    var password = req.body.password;
     
     Users.findOne({'email': email})
       .then(function(user) {
