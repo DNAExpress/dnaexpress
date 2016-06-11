@@ -19,8 +19,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('main', {
       url: '/',
       abstract:true,
-      templateUrl:'app/views/welcome.html'
-      // controller: 'WelcomeCtrl'
+      templateUrl:'app/views/welcome.html',
+      controller: 'DashboardCtrl'
     })
     .state('main.buttons', {
       url:'',
@@ -42,7 +42,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/views/createevent.html',
+      templateUrl:'app/views/eventform.html',
       controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
@@ -64,6 +64,14 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       url:'/loading',
       templateUrl:'app/views/loading.html',
       controller:'OptionformCtrl'
+    })
+    .state('dashboard.profile', {
+      url:'/profile',
+      templateUrl:'app/views/profile.html'
+    })
+    .state('dashboard.editprofile', {
+      url:'/editprofile',
+      templateUrl:'app/views/editprofile.html'
     });
 
     $locationProvider.html5Mode(true);
