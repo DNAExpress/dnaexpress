@@ -43,8 +43,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.createevent', {
       url:'/createevent',
       templateUrl:'app/views/eventform.html',
-      controller:'CreateEventCtrl',
-      authenticate: true
+      controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
       url:'/events',
