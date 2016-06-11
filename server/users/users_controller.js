@@ -9,6 +9,15 @@ module.exports = userControls = {
     var email = req.body.email;
     var password = req.body.password;
 
+    // check if user exists in db
+      // if the user does not exist
+        // add them
+        // res with token
+      // if they already exist, res with that info
+  },
+
+  signin: function signin(req, res) {
+
     Users.findOne({'email': email})
       .then(function(user) {
         if (user) {
@@ -44,6 +53,6 @@ module.exports = userControls = {
 
   editUserProfile: function(req, res) {
     console.log('in users_controller.js: attempting to edit profile')
-
+    // authenticate first
   }
 };
