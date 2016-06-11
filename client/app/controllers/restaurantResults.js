@@ -12,4 +12,8 @@ angular.module('app.restaurantresults', [])
   }
 >>>>>>> [chore] change server to server root route; implement restaurant results
 
+  $scope.logger = function() {
+    console.log('hit');
+  }
+
 }]);
