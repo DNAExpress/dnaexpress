@@ -23,6 +23,8 @@ module.exports = function(app, express) {
     fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
   });
 
+  require('../users/users_router.js')(usersRouter)
+
   app.get('/*', function(req, res) {
     fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
   });
