@@ -5,7 +5,7 @@ module.exports = userControls = {
 
   signup: function signup(req, res) {
     console.log('in users_controller.js: attempting to signup user')
-
+    var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
 
@@ -15,6 +15,7 @@ module.exports = userControls = {
           console.log('ERROR: in users_controller signup')
         } else {
           var newUser = {
+            username: username,
             email: email,
             password: password
           };
