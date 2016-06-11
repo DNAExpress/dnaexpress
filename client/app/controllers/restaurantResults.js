@@ -5,4 +5,8 @@ angular.module('app.restaurantresults', [])
     restaurants: restaurantFactory.restaurants
   }
 
+  $scope.logger = function() {
+    console.log('hit');
+  }
+
 }]);

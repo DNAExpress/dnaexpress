@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.1",
     "bower": "^1.7.9",
     "express": "^4.13.4",
     "jasmine": "^2.4.1",
+    "jwt-simple": "^0.5.0",
     "mongodb": "^2.1.18",
     "mongoose": "^4.4.20",
     "yelp": "^1.0.1"
