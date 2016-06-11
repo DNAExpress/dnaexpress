@@ -2,3 +2,7 @@ node_modules
 server/db
 client/lib
 .DS_Store
+client/css
+client/font
+client/fonts
+client/js

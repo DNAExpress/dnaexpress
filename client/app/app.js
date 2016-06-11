@@ -17,8 +17,13 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
     .state('main', {
       url: '/',
-      templateUrl:'app/views/welcome.html',
+      abstract:true,
+      templateUrl:'app/views/welcome.html'
       // controller: 'WelcomeCtrl'
+    })
+    .state('main.buttons', {
+      url:'',
+      templateUrl:'app/views/welcomebuttons.html'
     })
     .state('main.signup', {
       templateUrl:'app/views/signup.html',
