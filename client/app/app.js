@@ -11,7 +11,7 @@ var app = angular.module('app', [
   'app.restaurantresults'
   ]);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
   $urlRouterProvider.otherwise('/');
 
@@ -63,8 +63,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
       url:'/loading',
       templateUrl:'app/views/loading.html',
       controller:'OptionformCtrl'
-    })
-  $locationProvider.html5Mode(true);
+    });
+    $locationProvider.html5Mode(true);
 });
 
 // app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {

@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 module.exports = function(app, express) {
   var searchRouter = express.Router();
@@ -15,4 +16,9 @@ module.exports = function(app, express) {
 
   require('../search/search_router.js')(searchRouter);
   require('../users/users_router.js')(usersRouter)
+
+  app.get('/*', function(req, res) {
+    fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
+  });
+
 };
