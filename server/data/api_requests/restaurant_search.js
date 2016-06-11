@@ -14,11 +14,10 @@ module.exports.askYelp = function(searchCriteria, response) {
   var category = 'restaurants';
   var termFilter = searchCriteria.searchTerm;
   var searchLocation = searchCriteria.location;
-  
   yelp.search({category_filter:category, term:termFilter, location:searchLocation})
   .then(function(yelpData){
     response.status(200).json(yelpData.businesses);
-    // re-write to send response back to handle before sending to client 
+    // re-write to send response back to handle before sending to client
   })
   .catch(function(err) {
     console.log("error inside restaurant_search.js askYelp", err)
