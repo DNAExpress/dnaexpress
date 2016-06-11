@@ -27,7 +27,7 @@ angular.module('app.services', [])
   }
 }])
 
-.factory('Auth', ['$http', '$state', function ($http, $state, $window) {
+.factory('Auth', ['$http', '$state', '$window', function ($http, $state, $window) {
 
   var signin = function (userdata) {
     return $http({
