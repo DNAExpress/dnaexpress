@@ -1,40 +1,67 @@
 var Users = require('./users_model.js');
 var jwt = require('jwt-simple');
+var Q = require('q');
 
 module.exports = userControls = {
 
   signup: function signup(req, res) {
     console.log('in users_controller.js: attempting to signup user')
+    var newUser = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password
+    };
 
-    var email = req.body.email;
-    var password = req.body.password;
-
-    Users.findOne({'email': email})
+    var findUser = Q.nbind(Users.findOne, Users);
+    findUser({'email': newUser.email})
       .then(function(user) {
         if (user) {
-          // res that that user already exits 
+          console.log('ERROR: in users_controller signup')
         } else {
-          // add user to db - encrypt password, send back token
+          return Users.create(newUser);
         }
       })
+      .then(function(user) {
+         var token = jwt.encode(user, 'secret');
+         res.json({token: token});
+      })
+      .fail(function(err) {
+        console.error(err)
+      });
   },
 
   signin: function signin(req, res) {
     console.log('in users_controller.js: attempting to signin user')
-    var email = req.body.email;
-    var password = req.body.password;
-    
-    Users.findOne({'email': email})
+    var currUser = {
+      email: req.body.email,
+      password: req.body.password
+    };
+    console.log('currUser attempting login', currUser)    
+    var findUser = Q.nbind(Users.findOne, Users);
+    findUser({'email': currUser.email})
       .then(function(user) {
-        if (user) {
-          // check password...
-            // if passwork checks out
-              // make token
-              // res with success and token
+        if (!user) {
+          console.log('not a user!')
         } else {
-          // res that user does not exist
+          console.log('db resp of user', user);
+          if (user.password === currUser.password) {
+            var token = jwt.encode(user, 'secret');
+            res.json({token: token});
+          }
+          // return user.checkPassword(password)
+          //   .then(function(user) {
+          //     if (user) {
+          //       var token = jwt.encode(user, 'secret');
+          //       res.json({token: token});
+          //     } else {
+          //       console.log("no user")
+          //     }
+          // });
         }
       })
+      .fail(function(err) {
+        console.error(err)
+      });
   },
 
   checkAuth: function checkAuth(req, res) {
