@@ -21,7 +21,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       abstract:true,
       templateUrl:'app/views/welcome.html',
       controller: 'mainCtrl'
-    }
+    })
     .state('main.buttons', {
       url:'',
       templateUrl:'app/views/welcomebuttons.html'
@@ -43,7 +43,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.createevent', {
       url:'/createevent',
       templateUrl:'app/views/eventform.html',
-      controller:'CreateEventCtrl'
+      controller:'CreateEventCtrl',
       authenticate: true
     })
     .state('dashboard.showevent', {
@@ -76,7 +76,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
-      templateUrl:'app/views/editprofile.html'
+      templateUrl:'app/views/editprofile.html',
       authenticate: true
     });
 
