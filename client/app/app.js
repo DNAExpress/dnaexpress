@@ -2,13 +2,19 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
+<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
   'app.main',
+=======
+  'app.editprofile',
+  // 'app.welcome',
+>>>>>>> [feat]added edit profile state view and controller
   'app.auth',
   'app.dashboard',
   'app.optionform',
   'app.createevent',
   'app.showevent',
   'app.restaurantresults'
+
   ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
@@ -42,7 +48,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/views/eventform.html',
+      templateUrl:'app/views/createevent.html',
       controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
@@ -76,8 +82,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.editprofile', {
       url:'/editprofile',
       templateUrl:'app/views/editprofile.html',
+<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
       controller:'OptionformCtrl',
       authenticate: true
+=======
+      controller:'EditProfileCtrl'
+>>>>>>> [feat]added edit profile state view and controller
     });
 
     $locationProvider.html5Mode(true);
