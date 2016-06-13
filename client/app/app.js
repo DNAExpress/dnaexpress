@@ -2,13 +2,15 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
-  'app.welcome',
+  'app.editprofile',
+  // 'app.welcome',
   'app.auth',
   'app.dashboard',
   'app.optionform',
   'app.createevent',
   'app.showevent',
   'app.restaurantresults'
+
   ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
@@ -42,7 +44,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/views/eventform.html',
+      templateUrl:'app/views/createevent.html',
       controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
@@ -71,7 +73,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
-      templateUrl:'app/views/editprofile.html'
+      templateUrl:'app/views/editprofile.html',
+      controller:'EditProfileCtrl'
     });
 
     $locationProvider.html5Mode(true);
