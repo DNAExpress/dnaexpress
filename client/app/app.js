@@ -20,10 +20,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       url: '/',
       abstract:true,
       templateUrl:'app/views/welcome.html',
-      controller: 'mainCtrl'
-    }
+      controller: 'MainCtrl'
+    })
     .state('main.buttons', {
-      url:'',
+      url: '',
       templateUrl:'app/views/welcomebuttons.html'
     })
     .state('main.signup', {
