@@ -76,7 +76,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
-      templateUrl:'app/views/editprofile.html'
+      templateUrl:'app/views/editprofile.html',
       controller:'OptionformCtrl',
       authenticate: true
     });
