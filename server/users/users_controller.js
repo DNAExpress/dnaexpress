@@ -1,4 +1,4 @@
-var Users = require('./users_model.js');
+ var Users = require('./users_model.js');
 var jwt = require('jwt-simple');
 var Q = require('q');
 
@@ -36,7 +36,7 @@ module.exports = userControls = {
       email: req.body.email,
       password: req.body.password
     };
-    console.log('currUser attempting login', currUser)    
+    console.log('currUser attempting login', currUser)
     var findUser = Q.nbind(Users.findOne, Users);
     findUser({'email': currUser.email})
       .then(function(user) {
@@ -66,7 +66,7 @@ module.exports = userControls = {
 
   checkAuth: function checkAuth(req, res) {
     console.log('in users_controller.js: attempting to checkAuth')
-    // 
+    //
   },
 
   editUserProfile: function(req, res) {
