@@ -2,13 +2,26 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
+<<<<<<< HEAD
+<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
   'app.main',
+=======
+  'app.editprofile',
+  'app.createprofile',
+  // 'app.welcome',
+>>>>>>> [feat]added edit profile state view and controller
+=======
+  'app.editprofile',
+  'app.createprofile',
+  // 'app.welcome',
+>>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
   'app.auth',
   'app.dashboard',
   'app.optionform',
   'app.createevent',
   'app.showevent',
   'app.restaurantresults'
+
   ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
@@ -43,8 +56,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.createevent', {
       url:'/createevent',
       templateUrl:'app/views/eventform.html',
-      controller:'CreateEventCtrl',
-      authenticate: true
+      controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
       url:'/events',
@@ -67,18 +79,42 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.loading', {
       url:'/loading',
       templateUrl:'app/views/loading.html',
+<<<<<<< HEAD
       authenticate: true
     })
     .state('dashboard.profile', {
       url:'/profile',
       templateUrl:'app/views/profile.html',
       authenticate: true
+=======
+      controller:'OptionformCtrl'
+    })
+    .state('dashboard.profile', {
+      url:'/profile',
+      templateUrl:'app/views/profile.html'
+>>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
+    })
+    .state('main.createprofile', {
+      url:'/createprofile',
+      templateUrl:'app/views/createprofile.html',
+      controller:'CreateProfileCtrl',
+      params:{
+        user:null
+      }
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
       templateUrl:'app/views/editprofile.html',
+<<<<<<< HEAD
+<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
       controller:'OptionformCtrl',
       authenticate: true
+=======
+      controller:'EditProfileCtrl'
+>>>>>>> [feat]added edit profile state view and controller
+=======
+      controller:'EditProfileCtrl'
+>>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
     });
 
     $locationProvider.html5Mode(true);

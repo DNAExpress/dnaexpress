@@ -27,7 +27,40 @@ angular.module('app.services', [])
   }
 }])
 
-.factory('Auth', ['$http', '$state', '$window', function ($http, $state, $window) {
+.factory('Profile', ['$state', '$http', function($state, $http) {
+  var processData = function(formdata, $state) {
+
+    var data = {
+      firstname:formdata.firstname,
+      lastname:formdata.lastname,
+      email:formdata.email,
+      password:formdata.password,
+      location:formdata.location,
+      restrictions:[],
+      preferences:[]
+    };
+
+    for (var key in formdata) {
+      if (typeof formdata[key] === "boolean") {
+        if (key === "vegetarian" || key === "vegan" || key === "glutenFree" || key === "kosher") {
+          data.restrictions.push(key)
+        }
+        else {
+          data.preferences.push(key)
+        }
+      }
+    };
+
+    return data;
+  };
+
+  return {
+    processData: processData
+  };
+
+}])
+
+.factory('Auth', ['$http', '$state', function ($http, $state, $window) {
 
   var signin = function (userdata) {
     return $http({
@@ -44,7 +77,7 @@ angular.module('app.services', [])
   };
 
   var signup = function (userdata) {
-    console.log(userdata);
+
     return $http({
       method: 'POST',
       url: '/api/users/signup',

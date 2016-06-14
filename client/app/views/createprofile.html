@@ -2,21 +2,12 @@
   <div class="card-panel hoverable">
     <form>
       <div class="row">
-        <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="" placeholder="First name" ng-model="editform.firstname">
-        </div>
-        <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="" placeholder="Last name" ng-model="editform.lastname">
-        </div>
+        <h4>{{user.username}}</h4>
       </div>
       <div class="row">
-        <div class="input-field col s8">
-          <input class="" type="text" placeholder="Email" ng-model="editform.email">
-        </div>
-        <div class="input-field col s4">
-          <input class="" type="text" placeholder="Location" ng-model="editform.location">
-        </div>
-      </div>
+        <div class="col s4"><h5>{{user.email}}</h5></div>
+        <div class="col s4"><h5>{{user.location}}</h5></div>
+        <div class="col s4"><h5>{{user.firstname}} {{user.lastname}}</h5></div>
       <div class="row">
         <div class="col s2"><h6>Dietary Needs:</h6></div>
         <div class="col s2">
@@ -191,7 +182,7 @@
           <label for='creole'>Creole</label>
         </div>
       </div>
-      <input type="submit" ng-click="activate(editform)" class="waves-effect waves-light btn brown darken-4" value="Save Changes" ><h6 class="right right-align"><a ui-sref="dashboard.profile">Back to profile</a></h6>
+      <input type="submit" ng-click="activate(editform)" class="waves-effect waves-light btn brown darken-4" value="Create Account" ><h6 class="right right-align"><a ui-sref="dashboard.profile">Back to profile</a></h6>
     </form>
   </div>
 </div>
