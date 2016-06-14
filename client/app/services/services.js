@@ -51,16 +51,9 @@ angular.module('app.services', [])
       }
     };
 
-    return $http({
-      method:'POST',
-      url:'/api/users/profile',
-      data:data
-    })
-    .then(function(res) {
-      console.log(res);
-    });
-
+    return data;
   };
+
   return {
     processData: processData
   };
@@ -84,7 +77,7 @@ angular.module('app.services', [])
   };
 
   var signup = function (userdata) {
-    console.log(userdata);
+
     return $http({
       method: 'POST',
       url: '/api/users/signup',

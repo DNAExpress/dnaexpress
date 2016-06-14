@@ -3,6 +3,7 @@ var app = angular.module('app', [
   'ui.router',
   'app.services',
   'app.editprofile',
+  'app.createprofile',
   // 'app.welcome',
   'app.auth',
   'app.dashboard',
@@ -70,6 +71,14 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.profile', {
       url:'/profile',
       templateUrl:'app/views/profile.html'
+    })
+    .state('main.createprofile', {
+      url:'/createprofile',
+      templateUrl:'app/views/createprofile.html',
+      controller:'CreateProfileCtrl',
+      params:{
+        user:null
+      }
     })
     .state('dashboard.editprofile', {
       url:'/editprofile',
