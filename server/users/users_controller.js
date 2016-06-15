@@ -1,79 +1,68 @@
- var Users = require('./users_model.js');
 var jwt = require('jwt-simple');
-var Q = require('q');
+var User = require('./../data/models/user');
+var Users = require('./../data/collections/users');
 
 module.exports = userControls = {
 
-  signup: function signup(req, res) {
-    console.log('in users_controller.js: attempting to signup user')
-    console.log("req.body ",req.body)
-    var newUser = {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    };
-
-    var findUser = Q.nbind(Users.findOne, Users);
-    findUser({'email': newUser.email})
+  signup: function signup(req, res, next) {
+    var username = req.body.username;
+    var email = req.body.email;
+    var password = req.body.password;
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var location = req.body.location;
+    console.log('routed to signup')
+    new User({ username: username })
+      .fetch()
       .then(function(user) {
-        console.log("users_controller line 19 ",user)
-        if (user) {
-          console.log('ERROR: in users_controller signup')
+        console.log('looked for user')
+        if (!user) {
+          var newUser = new User({
+            username: username,
+            email: email,
+            password: password,
+            salt: null,
+            firstname: firstname,
+            lastname: lastname,
+            location: location
+          });
+          newUser.save()
+            .then(function(newUser) {
+              console.log('saved user')
+              var token = jwt.encode(newUser, 'secret');
+              res.json({token: token});
+            });
         } else {
-          return Users.create(newUser);
+          return next(new Error('account already exists'));
         }
-      })
-      .then(function(user) {
-        // console.log("users_controller line 26 ",user)
-         var token = jwt.encode(user, 'secret');
-         res.json({token: token});
-      })
-      .fail(function(err) {
-        console.error(err)
       });
   },
+  signin: function signin(req, res, next) {
+    var email = req.body.email;
+    var password = req.body.password;
 
-  signin: function signin(req, res) {
-    console.log('in users_controller.js: attempting to signin user')
-    var currUser = {
-      email: req.body.email,
-      password: req.body.password
-    };
-    console.log('currUser attempting login', currUser)
-    var findUser = Q.nbind(Users.findOne, Users);
-    findUser({'email': currUser.email})
+    new User({ email: email })
+      .fetch()
       .then(function(user) {
         if (!user) {
-          console.log('not a user!')
+          res.status(500).send({error: 'user does not exist'});
         } else {
-          console.log('db resp of user', user);
-          if (user.password === currUser.password) {
-            var token = jwt.encode(user, 'secret');
-            res.json({token: token});
-          }
-          // return user.checkPassword(password)
-          //   .then(function(user) {
-          //     if (user) {
-          //       var token = jwt.encode(user, 'secret');
-          //       res.json({token: token});
-          //     } else {
-          //       console.log("no user")
-          //     }
-          // });
+          user.comparePassword(password, function(match) {
+            if (match) {
+              console.log('making signin token')
+              var token = jwt.encode(user, 'secret');
+              res.json({token: token});
+            } else {
+              return next(new Error('user password does not match'));
+            }
+          });
         }
-      })
-      .fail(function(err) {
-        console.error(err)
-      });
+    });
   },
+  checkAuth: function checkAuth() {
 
-  checkAuth: function checkAuth(req, res) {
-    console.log('in users_controller.js: attempting to checkAuth')
-    //
   },
+  editUserProfile: function editUserProfile() {
 
-  editUserProfile: function(req, res) {
-    console.log('in users_controller.js: attempting to edit profile')
-    // authenticate first
   }
 };

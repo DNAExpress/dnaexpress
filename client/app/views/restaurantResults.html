@@ -1,7 +1,7 @@
 <h2 class="center-align white-text"><a class="white-text">Hello World</a></h2>
 <div class="container">
   <div class="card-panel" style="height:500px;overflow:scroll">
-    <div ng-repeat="place in data.restaurants" id="restaurantdisplay" class="card-panel hoverable col s6">
+    <div ng-repeat="place in data.restaurants" class="card-panel hoverable">
       <img src="{{place.image_url}}" alt="{{place.id}}"/>
       <h5>{{place.name}}</h5>
       <p><span>{{place.location.address[0]}}, </span><span>{{place.location.city}}, </span><span>{{place.location.state_code}}, </span><span>{{place.location.postal_code}}</span></p>
