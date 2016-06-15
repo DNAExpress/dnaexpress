@@ -18,6 +18,8 @@
   "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
   "dependencies": {
     "bcrypt": "^0.8.7",
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.4.0",
     "body-parser": "^1.15.1",
     "bookshelf": "^0.9.5",
     "bower": "^1.7.9",
