@@ -3,7 +3,7 @@ var User = require('./../data/models/user');
 var Users = require('./../data/collections/users');
 
 module.exports = userControls = {
-  signup: function signup(req, res) {
+  signup: function signup(req, res, next) {
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
@@ -28,11 +28,11 @@ module.exports = userControls = {
               res.json({token: token});
             });
         } else {
-          res.status(500).send({error: 'account already exists'});
+          return next(new Error('account already exists'));
         }
       });  
   },
-  signin: function signin(req, res) {
+  signin: function signin(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
 
@@ -48,7 +48,7 @@ module.exports = userControls = {
               var token = jwt.encode(user, 'secret');
               res.json({token: token});
             } else {
-              res.status(500).send({error: 'user password does not match'});
+              return next(new Error('user password does not match'));
             }
           });
         }

@@ -15,7 +15,11 @@ module.exports = function(app, express) {
   app.use('/api/users', usersRouter)
 
   require('../search/search_router.js')(searchRouter);
-  require('../users/users_router.js')(usersRouter)
+  require('../users/users_router.js')(usersRouter);
+
+  app.use(function errorHandler(error, req, res, next) {
+    res.status(500).send({error: error.message});
+  });
 
   app.get('/*', function(req, res) {
     fs.createReadStream(__dirname + '/../../client/index.html').pipe(res);
