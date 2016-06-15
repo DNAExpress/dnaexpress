@@ -1,21 +1,4 @@
-// ********* MONGODB still in use *********** // 
-
-var mongoose = require('mongoose');
-var options = { server: { socketOptions: { connectTimeoutMS: 1000000, maxTimeMS:100000 }}};
-var databaseUrl = 'mongodb://localhost/server/data/db/';
-mongoose.connect('mongodb://localhost/server/data/db/');
-
-var old_db = mongoose.connection;
-
-old_db.on('error', console.error.bind(console, "My own Connection Error"));
-old_db.once('open', function() {
-  console.log("Connection to localhost:8000/server/data/db is open")
-});
-
-module.exports = old_db;
-
-// ********* new SQLite DB - work in progress ********* //
-
+var path = require('path');
 var db = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -24,8 +7,9 @@ var db = require('knex')({
     password: 'password',
     database: 'dnaExpressdb',
     charset: 'utf8',
-    filename: './db/dnaExpress.sqlite'
-  }
+    filename: path.join(__dirname, './db/dna.sqlite')
+  },
+  useNullAsDefault: true
 });
 
 db.schema.hasTable('users').then(function(exists) {
@@ -51,13 +35,13 @@ db.schema.hasTable('events').then(function(exists) {
       event.increments('id').primary();
       event.string('name', 50);
       event.date('date');
-      event.integer('creator');
+      event.integer('creator').references('users.id');
       event.integer('totalUsers');
       event.integer('usersResponded');
       event.string('selectedRestaurant');
       event.timestamps();
-    }).then(function () {
-      console.log('Created events table');
+    }).then(function (table) {
+      console.log('Created events table', table);
     });
   }
 });
@@ -66,8 +50,8 @@ db.schema.hasTable('friends').then(function(exists) {
   if (!exists) {
     db.schema.createTable('friends', function(friendship) {
       friendship.increments('id').primary();
-      friendship.integer('user_id');
-      friendship.integer('friend_id');
+      friendship.integer('user_id').references('users.id');
+      friendship.integer('friend_id').references('users.id');
     }).then(function () {
       console.log('Created friends table');
     });
@@ -78,22 +62,22 @@ db.schema.hasTable('usersEvents').then(function(exists) {
   if (!exists) {
     db.schema.createTable('usersEvents', function(userEvent) {
       userEvent.increments('id').primary();
-      userEvent.integer('user_id');
-      userEvent.integer('event_id');
-    }).then(function () {
-      console.log('Created usersEvents table');
+      userEvent.integer('user_id').references('users.id');
+      userEvent.integer('event_id').references('events.id');
+    }).then(function (table) {
+      console.log('Created usersEvents table', table);
     });
   }
 });
 
 db.schema.hasTable('usersEventFoodPrefs').then(function(exists) {
   if (!exists) {
-    db.schema.createTable('userEventFoodPrefs', function(ueFoodPrefs) {
+    db.schema.createTable('usersEventFoodPrefs', function(ueFoodPrefs) {
       ueFoodPrefs.increments('id').primary();
-      ueFoodPrefs.integer('userEvent_id');
-      ueFoodPrefs.integer('foodOne_id');
-      ueFoodPrefs.integer('foodTwo_id');
-      ueFoodPrefs.integer('foodThree_id');
+      ueFoodPrefs.integer('userEvent_id').references('usersEvents.id');
+      ueFoodPrefs.integer('foodOne_id').references('foodTypes.id');
+      ueFoodPrefs.integer('foodTwo_id').references('foodTypes.id');
+      ueFoodPrefs.integer('foodThree_id').references('foodTypes.id');
     }).then(function () {
       console.log('Created usersEventFoodPrefs table');
     });
@@ -115,8 +99,8 @@ db.schema.hasTable('userProfileFoodPrefs').then(function(exists) {
   if (!exists) {
     db.schema.createTable('userProfileFoodPrefs', function(profFoodPrefs) {
       profFoodPrefs.increments('id').primary();
-      profFoodPrefs.integer('user_id');
-      profFoodPrefs.integer('type_id');
+      profFoodPrefs.integer('user_id').references('users.id');
+      profFoodPrefs.integer('type_id').references('foodTypes.id');
     }).then(function () {
       console.log('Created userProfileFoodPrefs table');
     });
@@ -138,8 +122,8 @@ db.schema.hasTable('userDietRestricts').then(function(exists) {
   if (!exists) {
     db.schema.createTable('userDietRestricts', function(userRestricts) {
       userRestricts.increments('id').primary();
-      userRestricts.integer('user_id');
-      userRestricts.integer('restriction_id');
+      userRestricts.integer('user_id').references('users.id');
+      userRestricts.integer('restriction_id').references('dietRestricts.id');
     }).then(function () {
       console.log('Created userDietRestricts table');
     });
@@ -150,7 +134,7 @@ db.schema.hasTable('eventSuggestions').then(function(exists) {
   if (!exists) {
     db.schema.createTable('eventSuggestions', function(suggestion) {
       suggestion.increments('id').primary();
-      suggestion.integer('event_id');
+      suggestion.integer('event_id').references('events.id');;
       suggestion.string('suggestion', 50);
     }).then(function () {
       console.log('Created eventSuggestions table');
