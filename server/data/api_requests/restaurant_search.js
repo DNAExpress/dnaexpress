@@ -20,7 +20,7 @@ module.exports.askYelp = function(searchCriteria, response) {
     // re-write to send response back to handle before sending to client
   })
   .catch(function(err) {
-    return next(new Error('error inside restaurant_search.js askYelp'));
+    return next(new Error('error inside restaurant_search.js askYelp: ' + err));
   });
 }
 
