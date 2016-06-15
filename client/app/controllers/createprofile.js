@@ -8,8 +8,9 @@ angular.module('app.createprofile', ['app.services'])
   $scope.activate = function(formData) {
     angular.extend($scope.user,formData);
     var profile = Profile.processData($scope.user);
-    Auth.signup(profile)
-    $state.go('dashboard.createevent')
+    Auth.signup(profile);
+    Auth.userData = $scope.user;
+    $state.go('dashboard.createevent');
   };
 
 }])

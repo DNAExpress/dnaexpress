@@ -6,6 +6,7 @@ module.exports = userControls = {
 
   signup: function signup(req, res) {
     console.log('in users_controller.js: attempting to signup user')
+    console.log("req.body ",req.body)
     var newUser = {
       username: req.body.username,
       email: req.body.email,
@@ -15,6 +16,7 @@ module.exports = userControls = {
     var findUser = Q.nbind(Users.findOne, Users);
     findUser({'email': newUser.email})
       .then(function(user) {
+        console.log("users_controller line 19 ",user)
         if (user) {
           console.log('ERROR: in users_controller signup')
         } else {
@@ -22,6 +24,7 @@ module.exports = userControls = {
         }
       })
       .then(function(user) {
+        // console.log("users_controller line 26 ",user)
          var token = jwt.encode(user, 'secret');
          res.json({token: token});
       })

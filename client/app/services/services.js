@@ -9,7 +9,7 @@ angular.module('app.services', [])
       data: userdata
     })
     .then(function(res){
-      console.log(res.data[0]);
+      console.log("inside userFactory ");
       return res;
     });
   };
@@ -31,6 +31,7 @@ angular.module('app.services', [])
   var processData = function(formdata, $state) {
 
     var data = {
+      username:formdata.username,
       firstname:formdata.firstname,
       lastname:formdata.lastname,
       email:formdata.email,
@@ -60,8 +61,9 @@ angular.module('app.services', [])
 
 }])
 
-.factory('Auth', ['$http', '$state', function ($http, $state, $window) {
+.factory('Auth', ['$http', '$state', '$window',function ($http, $state, $window) {
 
+  var userData = {};
   var signin = function (userdata) {
     return $http({
       method: 'POST',
@@ -84,6 +86,7 @@ angular.module('app.services', [])
       data: userdata
     })
     .then(function (res) {
+      $window.localStorage.setItem('com.app', res.data.token);
       return res.data.token;
     })
     .catch(function (error) {
@@ -103,6 +106,7 @@ angular.module('app.services', [])
     signin: signin,
     signup: signup,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    userData:userData
   };
 }]);

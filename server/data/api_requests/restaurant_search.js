@@ -11,9 +11,11 @@ module.exports.askYelp = function(searchCriteria, response) {
   console.log('search criteria', searchCriteria);
   // searchCriteria is an object with filter data
     //will first pass in {searchTerm: 'some food type', location: 'some location'}
-  var category = 'restaurants';
+  var category = 'restaurants,'+ searchCriteria.searchTerm;
+  console.log(category)
   var termFilter = searchCriteria.searchTerm;
   var searchLocation = searchCriteria.location;
+  yelp.search({category_filter:category, location:searchLocation})
   .then(function(yelpData){
     response.status(200).json(yelpData.businesses);
     // re-write to send response back to handle before sending to client

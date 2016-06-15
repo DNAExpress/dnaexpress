@@ -2,19 +2,9 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
-<<<<<<< HEAD
-<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
   'app.main',
-=======
   'app.editprofile',
   'app.createprofile',
-  // 'app.welcome',
->>>>>>> [feat]added edit profile state view and controller
-=======
-  'app.editprofile',
-  'app.createprofile',
-  // 'app.welcome',
->>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
   'app.auth',
   'app.dashboard',
   'app.optionform',
@@ -55,7 +45,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/views/eventform.html',
+      templateUrl:'app/views/createevent.html',
       controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
@@ -79,20 +69,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.loading', {
       url:'/loading',
       templateUrl:'app/views/loading.html',
-<<<<<<< HEAD
       authenticate: true
     })
     .state('dashboard.profile', {
       url:'/profile',
       templateUrl:'app/views/profile.html',
       authenticate: true
-=======
-      controller:'OptionformCtrl'
-    })
-    .state('dashboard.profile', {
-      url:'/profile',
-      templateUrl:'app/views/profile.html'
->>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
     })
     .state('main.createprofile', {
       url:'/createprofile',
@@ -105,16 +87,17 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.editprofile', {
       url:'/editprofile',
       templateUrl:'app/views/editprofile.html',
-<<<<<<< HEAD
-<<<<<<< 177590ab48f82f7a535cd277733940f612c1185c
-      controller:'OptionformCtrl',
-      authenticate: true
-=======
+      authenticate: true,
       controller:'EditProfileCtrl'
->>>>>>> [feat]added edit profile state view and controller
-=======
-      controller:'EditProfileCtrl'
->>>>>>> feb52c9eb2175f367de5dc58013c34490c2a71e0
+    })
+    .state('dashboard.findrestaurant', {
+      url:'/findrestaurant',
+      templateUrl:'app/views/findrestaurant.html',
+      controller:'OptionformCtrl'
+    })
+    .state('dashboard.findfriends', {
+      url:'/findfriends',
+      templateUrl:'app/views/findfriends.html'
     });
 
     $locationProvider.html5Mode(true);

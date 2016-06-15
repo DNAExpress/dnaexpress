@@ -1,7 +1,7 @@
 'use strict'
 angular.module('app.auth', ['app.services'])
 
-.controller('AuthCtrl', ['$scope', '$state', 'Auth', 'Profile',function($scope, $state, Auth, Profile){
+.controller('AuthCtrl', ['$scope', '$state', '$window', 'Auth', 'Profile',function($scope, $state, $window, Auth, Profile){
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (token) {
@@ -18,7 +18,9 @@ angular.module('app.auth', ['app.services'])
   $scope.signup = function () {
     Process.profile($scope.user)
       .then(function (token) {
+
         $window.localStorage.setItem('com.app', token);
+
         $state.go('main.createprofile');
       })
       .catch(function (error) {

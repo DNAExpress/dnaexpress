@@ -1,20 +1,22 @@
-<div class="container">
+<h2 class="center-align white-text"><a class="white-text">Edit Profile</a></h2>
+
+<div class="container" style="opacity:.9">
   <div class="card-panel hoverable">
     <form>
       <div class="row">
         <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="" placeholder="First name" ng-model="editform.firstname">
+          <input class=""type="text" name="nfirst" value="" placeholder="{{user.firstname}}" ng-model="editform.firstname">
         </div>
         <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="" placeholder="Last name" ng-model="editform.lastname">
+          <input class=""type="text" name="nfirst" value="" placeholder="{{user.lastname}}" ng-model="editform.lastname">
         </div>
       </div>
       <div class="row">
         <div class="input-field col s8">
-          <input class="" type="text" placeholder="Email" ng-model="editform.email">
+          <input class="" type="text" placeholder="{{user.email}}" ng-model="editform.email">
         </div>
         <div class="input-field col s4">
-          <input class="" type="text" placeholder="Location" ng-model="editform.location">
+          <input class="" type="text" placeholder="{{user.location}}" ng-model="editform.location">
         </div>
       </div>
       <div class="row">
