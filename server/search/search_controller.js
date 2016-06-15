@@ -9,7 +9,7 @@ module.exports = searchControls = {
   makeRequest: function makeRequest(searchInput, res) {
     var searchCriteria = {
       location: searchInput.location,
-      searchTerm: searchInput.opt1 
+      searchTerm: searchInput.opt1
     };
     api_router.askYelp(searchCriteria, res);
   }

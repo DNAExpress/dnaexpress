@@ -1,39 +1,13 @@
+<h2 class="center-align white-text"><a class="white-text">Options Menu</a></h2>
 
-
-<div class="container">
+<div class="container hoverable" style="opacity:.9">
   <div class="card-panel">
-    <form name='userPrefForm' ng-submit="getUserReq(userData)">
-      <label>Location</label>
-      <input type="text" name="location" value="San Francisco" ng-model='user.location'>
-      <label>Option 1</label>
-      <input type="text" name="food-0" value="Sushi" ng-model='user.opt1'>
-      <label>Option 2</label>
-      <input type="text" name="food-1" value="Mexican" ng-model='user.opt2'>
-      <label>Option 3</label>
-      <input type="text" name="food-2" value="Barbeque" ng-model='user.opt3'>
-      <input type="submit" value="Submit">
-    </form>
-      <!-- <label>Vegitarian</label> -->
-      <!-- <select name="preference" ng-model='user.mealtime'>
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-        <option value="dessert">Dessert</option>
-      </select> -->
-      <!-- <label>Vegitarian</label> -->
-
-
-
-      <!-- <select name="preference" ng-model='user.preference'>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-      </select>
-      <label>Search By:</label>
-      <select name="searchBy" ng-model='user.searchBy'>
-        <option value="Stars">Stars</option>
-        <option value="price">Price</option>
-      </select> -->
-
+    <div class="container">
+      <div class="card-panel hoverable">
+        <h3 class="center-align"><a class="black-text" ui-sref="dashboard.findrestaurant">Find a great place to eat</a></h3>
+      </div>
+      <div class="card-panel hoverable">
+        <h3 class="center-align"><a class="black-text"  ui-sref="dashboard.findfriends">Find friends on WeFeast</a></h3>
+      </div>
   </div>
-
 </div>

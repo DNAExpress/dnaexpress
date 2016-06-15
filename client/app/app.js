@@ -3,12 +3,15 @@ var app = angular.module('app', [
   'ui.router',
   'app.services',
   'app.main',
+  'app.editprofile',
+  'app.createprofile',
   'app.auth',
   'app.dashboard',
   'app.optionform',
   'app.createevent',
   'app.showevent',
   'app.restaurantresults'
+
   ]);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
@@ -42,9 +45,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.createevent', {
       url:'/createevent',
-      templateUrl:'app/views/eventform.html',
-      controller:'CreateEventCtrl',
-      authenticate: true
+      templateUrl:'app/views/createevent.html',
+      controller:'CreateEventCtrl'
     })
     .state('dashboard.showevent', {
       url:'/events',
@@ -74,11 +76,28 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       templateUrl:'app/views/profile.html',
       authenticate: true
     })
+    .state('main.createprofile', {
+      url:'/createprofile',
+      templateUrl:'app/views/createprofile.html',
+      controller:'CreateProfileCtrl',
+      params:{
+        user:null
+      }
+    })
     .state('dashboard.editprofile', {
       url:'/editprofile',
       templateUrl:'app/views/editprofile.html',
-      controller:'OptionformCtrl',
-      authenticate: true
+      authenticate: true,
+      controller:'EditProfileCtrl'
+    })
+    .state('dashboard.findrestaurant', {
+      url:'/findrestaurant',
+      templateUrl:'app/views/findrestaurant.html',
+      controller:'OptionformCtrl'
+    })
+    .state('dashboard.findfriends', {
+      url:'/findfriends',
+      templateUrl:'app/views/findfriends.html'
     });
 
     $locationProvider.html5Mode(true);

@@ -9,7 +9,7 @@ angular.module('app.services', [])
       data: userdata
     })
     .then(function(res){
-      console.log(res.data[0]);
+      console.log("inside userFactory ");
       return res;
     });
   };
@@ -27,8 +27,43 @@ angular.module('app.services', [])
   }
 }])
 
-.factory('Auth', ['$http', '$state', '$window', function ($http, $state, $window) {
+.factory('Profile', ['$state', '$http', function($state, $http) {
+  var processData = function(formdata, $state) {
 
+    var data = {
+      username:formdata.username,
+      firstname:formdata.firstname,
+      lastname:formdata.lastname,
+      email:formdata.email,
+      password:formdata.password,
+      location:formdata.location,
+      restrictions:[],
+      preferences:[]
+    };
+
+    for (var key in formdata) {
+      if (typeof formdata[key] === "boolean") {
+        if (key === "vegetarian" || key === "vegan" || key === "glutenFree" || key === "kosher") {
+          data.restrictions.push(key)
+        }
+        else {
+          data.preferences.push(key)
+        }
+      }
+    };
+
+    return data;
+  };
+
+  return {
+    processData: processData
+  };
+
+}])
+
+.factory('Auth', ['$http', '$state', '$window',function ($http, $state, $window) {
+
+  var userData = {};
   var signin = function (userdata) {
     return $http({
       method: 'POST',
@@ -44,13 +79,14 @@ angular.module('app.services', [])
   };
 
   var signup = function (userdata) {
-    console.log(userdata);
+
     return $http({
       method: 'POST',
       url: '/api/users/signup',
       data: userdata
     })
     .then(function (res) {
+      $window.localStorage.setItem('com.app', res.data.token);
       return res.data.token;
     })
     .catch(function (error) {
@@ -70,6 +106,7 @@ angular.module('app.services', [])
     signin: signin,
     signup: signup,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    userData:userData
   };
 }]);
