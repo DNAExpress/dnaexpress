@@ -11,18 +11,17 @@ module.exports.askYelp = function(searchCriteria, response) {
   console.log('search criteria', searchCriteria);
   // searchCriteria is an object with filter data
     //will first pass in {searchTerm: 'some food type', location: 'some location'}
-  var category = 'restaurants,'+ searchCriteria.searchTerm;
-  console.log(category)
+  var category = 'restaurants';
   var termFilter = searchCriteria.searchTerm;
   var searchLocation = searchCriteria.location;
-  yelp.search({category_filter:category, location:searchLocation})
+  yelp.search({category_filter:category, term: termFilter, location:searchLocation})
   .then(function(yelpData){
     response.status(200).json(yelpData.businesses);
     // re-write to send response back to handle before sending to client
   })
   .catch(function(err) {
-    console.log("error inside restaurant_search.js askYelp", err)
-  })
+    return next(new Error('error inside restaurant_search.js askYelp'));
+  });
 }
 
 
