@@ -3,10 +3,12 @@
   // for each array of arrays
     // for each array
   // individual [[[person1Profile], [person1Current]], [[person1Profile], [person1Current]], [[person1Profile], [person1Current]]]
+  var _ = require('../../client/lib/bower_components/underscore/underscore.js');
+
   'use strict'
   var users = [[['a', 'b', 'c'], ['a', 'd', 'e']], [[['a', 'b', 'y']], ['p', 'y', 'x']], [['a', 'r', 'b'], ['a', 't', 'v']]];
   var numOfPeople = users.length;
-
+module.exports = function () {
   // function to pull each profile and current from schema and add as an array to the results array - this will be passed into parseBestOptions
   function totalUserPrefs(userPrefs) { //expects an array of both profile and current choices
     var result = [];
@@ -132,5 +134,12 @@
   //   }
   //   return
   // }
+return {
+  totalUserPrefs: totalUserPrefs,
+  histogram: histogram,
+  threeHeighest: threeHeighest,
+  percentage: percentage,
+  parseBestOptions: parseBestOptions
+};
 
-
+}();
