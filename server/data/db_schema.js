@@ -22,6 +22,7 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('salt', 100);
       user.string('firstname', 50);
       user.string('lastname', 50);
+      user.string('location', 100);
       user.timestamps();
     }).then(function () {
       console.log('Created users table');

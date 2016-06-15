@@ -7,6 +7,9 @@ module.exports = userControls = {
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
+    var firstname = req.body.firstname;
+    var lastname = req.body.lastname;
+    var location = req.body.location;
     console.log('routed to signup')
     new User({ username: username })
       .fetch()
@@ -18,8 +21,9 @@ module.exports = userControls = {
             email: email,
             password: password,
             salt: null,
-            firstname: null,
-            lastname: null
+            firstname: firstname,
+            lastname: lastname,
+            location: location
           });
           newUser.save()
             .then(function(newUser) {
