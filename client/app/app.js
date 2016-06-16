@@ -98,12 +98,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.findfriends', {
       url:'/findfriends',
-<<<<<<< HEAD
       templateUrl:'app/views/findfriends.html',
       authenticate:true
-=======
-      templateUrl:'app/views/findfriends.html'
->>>>>>> 350722c07de0ddda1c6ff240a97d6b0fc1d8f9d9
     });
 
     $locationProvider.html5Mode(true);

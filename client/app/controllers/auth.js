@@ -5,8 +5,13 @@ angular.module('app.auth', ['app.services'])
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (token) {
-        $window.localStorage.setItem('com.app', token);
-        $state.go('dashboard');
+        if (token) {
+          $window.localStorage.setItem('com.app', token);
+          $state.go('dashboard');
+        }
+        else {
+          $state.go('main.buttons');
+        }
       })
       .catch(function (error) {
         console.error(error);
