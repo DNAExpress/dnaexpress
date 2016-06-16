@@ -21,14 +21,14 @@ var gulp = require('gulp'),
 
   gulp.task('client-scripts', function () {
 
-    var options = {
-        name: "ng-inject", // The name of the module to use in your main Angular.js
-        modules: ['ui.router'] // Any extra modules that you want to include.
-    };
+    // var options = {
+    //     name: "ng-inject", // The name of the module to use in your main Angular.js
+    //     modules: ['ui.router'] // Any extra modules that you want to include.
+    // };
 
-    return gulp.src(['client/app/**/*.js', 'client/app.js'])
+    return gulp.src(['client/services/services.js', 'client/app/controllers/*.js', 'client/app.js'])
       .pipe(jshint())
-      .pipe(ngInject("client-main.js", options))
+      .pipe(concat("client-main.js"))
       .pipe(rename({suffix: '.min'}))
       .pipe(uglify())
       .pipe(gulp.dest('client/dist'))

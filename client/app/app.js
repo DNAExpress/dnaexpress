@@ -14,7 +14,7 @@ var app = angular.module('app', [
 
   ]);
 
-app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
   $urlRouterProvider.otherwise('/');
 
@@ -105,9 +105,9 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     $locationProvider.html5Mode(true);
 
     $httpProvider.interceptors.push('AttachTokens');
-})
+}])
 
-.factory('AttachTokens', function ($window) {
+.factory('AttachTokens', ['$window', function ($window) {
   var attach = {
     request: function (object) {
       var jwt = $window.localStorage.getItem('com.app');
@@ -119,12 +119,12 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     }
   };
   return attach;
-})
-.run(function ($rootScope, $state, Auth) {
+}])
+.run(['$rootScope', '$state', 'Auth', function ($rootScope, $state, Auth) {
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
     if (toState.authenticate && !Auth.isAuth()) {
       $state.go('main.buttons');
       event.preventDefault();
     }
   });
-});
+}]);
