@@ -112,7 +112,7 @@ module.exports = userControls = {
     // fetch users pre-existing food preferences
       // if a preference has been removed, remove their connection with it from the db
       // if one has been added, add their connection with it to the db
-  }
+  },
   editFoodRestrictions: function editFoodRestrictions(user, userRestrictions) {
     //for each restriction
       // if restriction does not exist in restriction table, add
