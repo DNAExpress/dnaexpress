@@ -17,7 +17,6 @@ var User = db.Model.extend({
       callback(isMatch);
     });
   },
-
   hashPassword: function(currUser) {
     //console.log('in hashPassword');
     var cipher = Promise.promisify(bcrypt.hash);
@@ -37,6 +36,17 @@ var User = db.Model.extend({
       .catch(function(error) {
         res.status(500).send('Error hashing password');
       });
+  },
+  editUserInfo: function(newInfo, callback) {
+     for (var key in newInfo) {
+      var storedData = this.get(key);
+
+      if (storedData !== newInfo[key]) {
+        this.set(key, newInfo[key]);
+      }
+
+      callback();
+     }
   }
   // friends: function() {
   //   return this.belongsToMany(User);
