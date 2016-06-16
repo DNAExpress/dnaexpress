@@ -17,14 +17,27 @@ var User = db.Model.extend({
       callback(isMatch);
     });
   },
-  hashPassword: function(){
-    console.log('in hashPassword')
+
+  hashPassword: function(currUser) {
+    //console.log('in hashPassword');
     var cipher = Promise.promisify(bcrypt.hash);
-    return cipher(this.get('password'), null, null).bind(this)
-      .then(function(hash) {
-        this.set('password', hash);
+    var salt;
+    var getSalt = function() {
+      bcrypt.genSalt(10, function(error, newSalt) {
+        salt = newSalt;
+        return salt;
       });
-  },
+    };
+
+    return cipher(this.get('password'), getSalt(), null).bind(this)
+      .then(function(hash) {
+        this.set('salt', salt);
+        this.set('password', hash);
+      })
+      .catch(function(error) {
+        res.status(500).send('Error hashing password');
+      });
+  }
   // friends: function() {
   //   return this.belongsToMany(User);
   // },
