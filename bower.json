@@ -18,8 +18,8 @@
   "dependencies": {
     "angular": "^1.5.6",
     "angular-ui-router": "^0.3.1",
-    "jquery": "^3.0.0",
     "Materialize": "materialize#^0.97.6",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "jquery": "^3.0.0"
   }
 }
