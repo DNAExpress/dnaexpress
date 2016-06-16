@@ -12,6 +12,7 @@ var db = require('knex')({
   useNullAsDefault: true
 });
 
+
 db.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     db.schema.createTable('users', function (user) {
@@ -91,7 +92,9 @@ db.schema.hasTable('foodTypes').then(function(exists) {
       food.increments('id').primary();
       food.string('type', 50);
     }).then(function () {
-      console.log('Created foodTypes table');
+      var autoPop = require('./presets/auto_pop_tables');
+      autoPop.addFoodTypes();
+      console.log('Created foodTypes table and populated preset data');
     });
   }
 });
@@ -114,7 +117,9 @@ db.schema.hasTable('dietRestricts').then(function(exists) {
       restricts.increments('id').primary();
       restricts.string('type', 50);
     }).then(function () {
-      console.log('Created dietRestricts table');
+      var autoPop = require('./presets/auto_pop_tables');
+      autoPop.addDietRestrictions();
+      console.log('Created dietRestricts table and populated preset data');
     });
   }
 });
@@ -145,4 +150,3 @@ db.schema.hasTable('eventSuggestions').then(function(exists) {
 
 var bookshelf = require('bookshelf')(db);
 module.exports = bookshelf;
-
