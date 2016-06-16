@@ -3,6 +3,7 @@ var User = require('./../data/models/user');
 var Users = require('./../data/collections/users');
 
 module.exports = userControls = {
+
   signup: function signup(req, res, next) {
     var username = req.body.username;
     var email = req.body.email;
@@ -34,7 +35,7 @@ module.exports = userControls = {
         } else {
           return next(new Error('account already exists'));
         }
-      });  
+      });
   },
   signin: function signin(req, res, next) {
     var email = req.body.email;

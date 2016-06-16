@@ -46,7 +46,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.createevent', {
       url:'/createevent',
       templateUrl:'app/views/createevent.html',
-      controller:'CreateEventCtrl'
+      controller:'CreateEventCtrl',
+      authenticate: true
     })
     .state('dashboard.showevent', {
       url:'/events',
@@ -66,7 +67,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
       controller:'RestaurantResultsCtrl',
       authenticate: true
     })
-    .state('dashboard.loading', {
+    .state('loading', {
       url:'/loading',
       templateUrl:'app/views/loading.html',
       authenticate: true
@@ -97,7 +98,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     })
     .state('dashboard.findfriends', {
       url:'/findfriends',
-      templateUrl:'app/views/findfriends.html'
+      templateUrl:'app/views/findfriends.html',
+      authenticate:true
     });
 
     $locationProvider.html5Mode(true);

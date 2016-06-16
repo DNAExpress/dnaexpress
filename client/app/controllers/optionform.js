@@ -13,7 +13,7 @@ angular.module('app.optionform', ['app.services'])
       opt1:foodtype,
       location:data.location
     }
-    $state.go('dashboard.loading');
+    $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
       restaurantFactory.restaurants = res.data.slice(0, 11);

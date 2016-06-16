@@ -4,6 +4,7 @@ angular.module('app.restaurantresults', [])
   $scope.data = {
     restaurants: restaurantFactory.restaurants
   }
+  
 
   $scope.logger = function() {
     console.log('hit');
