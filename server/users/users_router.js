@@ -6,8 +6,6 @@ module.exports = function(app) {
 
   app.post('/signin', usersController.signin)
 
-  app.get('/auth', usersController.checkAuth)
-
   app.route('/profile')
     .post(usersController.editUserProfile)
 

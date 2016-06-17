@@ -5,7 +5,7 @@ angular.module('app.auth', ['app.services'])
   $scope.reset = function(form) {
     if (form) {
       form.$setPristine();
-      form.$setUntouched(); 
+      form.$setUntouched();
     }
   }
   $scope.signin = function () {
