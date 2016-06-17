@@ -2,6 +2,12 @@
 angular.module('app.auth', ['app.services'])
 
 .controller('AuthCtrl', ['$scope', '$state', '$window', 'Auth', 'Profile',function($scope, $state, $window, Auth, Profile){
+  $scope.reset = function(form) {
+    if (form) {
+      form.$setPristine();
+      form.$setUntouched(); 
+    }
+  }
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (token) {
@@ -10,26 +16,32 @@ angular.module('app.auth', ['app.services'])
           $state.go('dashboard');
         }
         else {
-          $state.go('main.buttons');
+          alert("email / password not recognized")
+          $scope.reset();
+          $state.go('main.signin');
         }
       })
       .catch(function (error) {
         console.error(error);
       });
   };
+
   $scope.advanceToFoodPrefs = function() {
     $state.go('main.createprofile', {user:$scope.user})
-  }
+  };
+
   $scope.signup = function () {
-    Process.profile($scope.user)
+    var data = Profile.processData($scope.user);
+    console.log(data)
+    Auth.signup(data)
       .then(function (token) {
-
+        console.log("token received ",token)
         $window.localStorage.setItem('com.app', token);
-
-        $state.go('main.createprofile');
+        $state.go('main.createprofile', {user:$scope.user});
       })
       .catch(function (error) {
         console.error(error);
       });
   };
+
 }])

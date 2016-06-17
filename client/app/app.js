@@ -2,9 +2,12 @@
 var app = angular.module('app', [
   'ui.router',
   'app.services',
+  'app.eventfactory',
+  'app.friend',
   'app.main',
   'app.editprofile',
   'app.createprofile',
+  'app.profile',
   'app.auth',
   'app.dashboard',
   'app.optionform',
@@ -75,6 +78,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.profile', {
       url:'/profile',
       templateUrl:'app/views/profile.html',
+      controller:'ProfileCtrl',
       authenticate: true
     })
     .state('main.createprofile', {
@@ -99,6 +103,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider, $http
     .state('dashboard.findfriends', {
       url:'/findfriends',
       templateUrl:'app/views/findfriends.html',
+      controller:'FriendCtrl',
       authenticate:true
     });
 

@@ -21,14 +21,18 @@ angular.module('app.services', [])
 
 .factory('restaurantFactory', [function () {
   var restaurants;
-
+  var databinLeft = [];
+  var databinRight = [];
   return {
-    restaurants: restaurants
+    restaurants: restaurants,
+    databinLeft: databinLeft,
+    databinRight: databinRight
   }
 }])
 
-.factory('Profile', ['$state', '$http', function($state, $http) {
-  var processData = function(formdata, $state) {
+.factory('Profile', ['$state', '$http', function ($state, $http) {
+
+  var processData = function (formdata, $state) {
 
     var data = {
       username:formdata.username,
@@ -51,12 +55,14 @@ angular.module('app.services', [])
         }
       }
     };
-
     return data;
   };
 
+  var sendEditProfile = function () {
+
+  }
   return {
-    processData: processData
+    processData: processData,
   };
 
 }])
@@ -79,7 +85,7 @@ angular.module('app.services', [])
   };
 
   var signup = function (userdata) {
-
+    console.log("inside Auth.signup, before http call",userdata)
     return $http({
       method: 'POST',
       url: '/api/users/signup',
@@ -87,6 +93,11 @@ angular.module('app.services', [])
     })
     .then(function (res) {
       $window.localStorage.setItem('com.app', res.data.token);
+      $window.sessionStorage.setItem('wefeast.user.username', userdata.username);
+      $window.sessionStorage.setItem('wefeast.user.first', userdata.firstname);
+      $window.sessionStorage.setItem('wefeast.user.last', userdata.lastname);
+      $window.sessionStorage.setItem('wefeast.user.location', userdata.location);
+      $window.sessionStorage.setItem('wefeast.user.email', userdata.email);
       return res.data.token;
     })
     .catch(function (error) {
