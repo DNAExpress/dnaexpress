@@ -52,6 +52,7 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
+
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               res.json({token: token});
