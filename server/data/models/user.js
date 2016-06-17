@@ -1,6 +1,8 @@
 var db = require('./../db_schema.js');
 var Event = require('./event');
 var Food = require('./food');
+var UserEvent = require('./user_event');
+var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 // var Promise = require('bluebird');
 
@@ -22,8 +24,14 @@ var User = db.Model.extend({
   events: function() {
     return this.belongsToMany(Event, 'usersEvents');
   },
+  userEvents: function() {
+    return this.hasMany(UserEvent);
+  },
   foodtypes: function(){
     return this.belongsToMany(Food, 'userProfileFoodPrefs');
+  },
+  dietRestrictions: function () {
+    return this.belongsToMany(DietRestriction, 'userDietRestricts');
   },
   initialize: function() {
     return this.on('creating', this.hashPassword);

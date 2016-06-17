@@ -52,6 +52,7 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
+
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               res.json({token: token});
@@ -101,7 +102,7 @@ module.exports = userControls = {
         }
       })
 
-    // look up user 
+    // look up user
       // if user does not exist throw error
       // otherwise - change user data in:
         // 'users', userdietrestrictions, userprofileprefs

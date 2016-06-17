@@ -1,6 +1,6 @@
 var db = require('./../db_schema.js');
 var User = require('./user');
-var Suggestions = require('./event_suggestions')
+// var Suggestions = require('./event_suggestions')
 var Event = db.Model.extend({
   tableName: 'events',
   hasTimestamp: true,
@@ -8,9 +8,9 @@ var Event = db.Model.extend({
     return this.belongsToMany(User, 'usersEvents');
     //through usersEvents
   },
-  suggestions: function() {
-    return this.hasMany('Suggestions');
-  },
+  // suggestions: function() {
+  //   return this.hasMany('Suggestions');
+  // },
 
   creator: function() {
     return this.hasOne('User');

@@ -24,6 +24,7 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('firstname', 50);
       user.string('lastname', 50);
       user.string('location', 100);
+      user.integer('frontFacingId').unique();
       user.timestamps();
     }).then(function () {
       console.log('Created users table');
@@ -41,6 +42,7 @@ db.schema.hasTable('events').then(function(exists) {
       event.integer('totalUsers');
       event.integer('usersResponded');
       event.string('selectedRestaurant');
+      event.string('url').unique();
       event.timestamps();
     }).then(function (table) {
       console.log('Created events table', table);
@@ -60,28 +62,27 @@ db.schema.hasTable('friends').then(function(exists) {
   }
 });
 
-db.schema.hasTable('usersEvents').then(function(exists) {
+db.schema.hasTable('userEvents').then(function(exists) {
   if (!exists) {
-    db.schema.createTable('usersEvents', function(userEvent) {
+    db.schema.createTable('userEvents', function(userEvent) {
       userEvent.increments('id').primary();
       userEvent.integer('user_id').references('users.id');
       userEvent.integer('event_id').references('events.id');
+      userEvent.boolean('responseStatus');
     }).then(function (table) {
-      console.log('Created usersEvents table', table);
+      console.log('Created userEvents table', table);
     });
   }
 });
 
-db.schema.hasTable('usersEventFoodPrefs').then(function(exists) {
+db.schema.hasTable('userEventsFood').then(function(exists){
   if (!exists) {
-    db.schema.createTable('usersEventFoodPrefs', function(ueFoodPrefs) {
-      ueFoodPrefs.increments('id').primary();
-      ueFoodPrefs.integer('userEvent_id').references('usersEvents.id');
-      ueFoodPrefs.integer('foodOne_id').references('foodTypes.id');
-      ueFoodPrefs.integer('foodTwo_id').references('foodTypes.id');
-      ueFoodPrefs.integer('foodThree_id').references('foodTypes.id');
-    }).then(function () {
-      console.log('Created usersEventFoodPrefs table');
+    db.schema.createTable('userEventsFood', function(userEventFood){
+      userEventFood.increments('id').primary();
+      userEventFood.integer('userEvent_id').references('userEvents.id');
+      userEventFood.integer('foodType_id').references('foodTypes.id');
+    }).then(function (table) {
+      console.log('Created userEventsFood table', table);
     });
   }
 });
