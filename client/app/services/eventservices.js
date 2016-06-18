@@ -5,10 +5,6 @@ angular.module('app.eventfactory',[])
 
     var guestList = [];
 
-    var ping = function() {
-      console.log("ping");
-    }
-    var grita = "Grita!!!!";
     var createEvent = function(data) {
         console.log("inside create event factory",data);
         return $http({

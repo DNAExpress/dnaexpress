@@ -20,6 +20,7 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
     }
     console.log("guestlist", $scope.guestList);
     eventFactory.guestList = $scope.guestList;
+    $state.go('dashboard.createevent')
   };
 
   $scope.submitEvent = function() {
@@ -31,9 +32,6 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
       guests:eventFactory.guestList
     };
 
-    console.log(eventData);
-    console.log(eventFactory.grita);
-    eventFactory.ping();
     eventFactory.createEvent(eventData)
     .then(function(response) {
       console.log("inside CreateEventCtrl, response received", response);
