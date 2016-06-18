@@ -116,7 +116,7 @@ db.schema.hasTable('userProfileFoodPrefs').then(function(exists) {
     db.schema.createTable('userProfileFoodPrefs', function(profFoodPrefs) {
       profFoodPrefs.increments('id').primary();
       profFoodPrefs.integer('user_id').references('users.id');
-      profFoodPrefs.integer('type_id').references('foodTypes.id');
+      profFoodPrefs.integer('foodType_id').references('foodTypes.id');
     }).then(function () {
       console.log('Created userProfileFoodPrefs table');
     });
