@@ -28,8 +28,8 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
     var eventData =  {
       date:$scope.event.date,
       creator:$scope.event.creator,
-      description:$scope.event.name,
-      guests:eventFactory.guestList
+      name:$scope.event.name,
+      attendees:eventFactory.guestList
     };
 
     eventFactory.createEvent(eventData)
