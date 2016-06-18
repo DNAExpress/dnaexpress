@@ -1,0 +1,41 @@
+module.exports = {
+
+  foodTypes: [
+    'burgers',
+    'thai',
+    'indian',
+    'korean bbq',
+    'barbecue',
+    'french',
+    'pub grub',
+    'szechuan',
+    'jamaican',
+    'soul',
+    'sushi',
+    'steakhouse',
+    'vietnamese',
+    'mexican',
+    'cantonese',
+    'irish',
+    'greek',
+    'italian',
+    'sandwhiches',
+    'bagels',
+    'pakistani',
+    'ethiopian',
+    'salad',
+    'ramen',
+    'coffee',
+    'dougnuts',
+    'german',
+    'russian',
+    'delicatessan',
+    'seafood',
+    'singaporean',
+    'lebanese',
+    'fusion',
+    'afghan',
+    'creole'
+  ]
+
+};

@@ -1,8 +1,8 @@
 var jwt = require('jwt-simple');
 var User = require('./../data/models/user');
 var Users = require('./../data/collections/users');
-var Food = require('./../data/models/food');
-var Foods = require('./../data/collections/foods');
+var foodServices = require('./../services/food_services');
+var dietServices = require('./../services/diet_services');
 
 module.exports = userControls = {
 
@@ -52,6 +52,7 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
+
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               res.json({token: token});
@@ -105,19 +106,5 @@ module.exports = userControls = {
       // if user does not exist throw error
       // otherwise - change user data in:
         // 'users', userdietrestrictions, userprofileprefs
-  },
-  editFoodPrefs: function editFoodPrefs(user, foodPrefs) {
-    //for each food pref
-      // if food does not exist in food table, add
-    // fetch users pre-existing food preferences
-      // if a preference has been removed, remove their connection with it from the db
-      // if one has been added, add their connection with it to the db
-  },
-  editFoodRestrictions: function editFoodRestrictions(user, userRestrictions) {
-    //for each restriction
-      // if restriction does not exist in restriction table, add
-    // fetch users pre-existing restrictions
-      // if a restriction has been removed, remove their connection with it from the db
-      // if one has been added, add their connection with it to the db
   }
 };
