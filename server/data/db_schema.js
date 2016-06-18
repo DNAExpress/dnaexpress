@@ -24,7 +24,6 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('firstname', 50);
       user.string('lastname', 50);
       user.string('location', 100);
-      user.integer('frontFacingId').unique();
       user.timestamps();
     }).then(function () {
       console.log('Created users table');
