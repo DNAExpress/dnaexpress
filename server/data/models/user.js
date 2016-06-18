@@ -1,13 +1,38 @@
 var db = require('./../db_schema.js');
+var Event = require('./event');
+var Food = require('./food');
+var UserEvent = require('./user_event');
+var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
+
+var cipher = function (password, salt) {
+  return new Promise(function (resolve, reject) {
+    bcrypt.hash(password, salt, null, function (err, hash) {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(hash);
+      }
+    });
+  });
+};
 
 var User = db.Model.extend({
   tableName: 'users',
   hasTimestamp: true,
-  // events: function() {
-  //   return this.belongsToMany(Event, 'usersEvents', 'user_id', 'event_id');
-  // },
+  events: function() {
+    return this.belongsToMany(Event, 'usersEvents');
+  },
+  userEvents: function() {
+    return this.hasMany(UserEvent);
+  },
+  foodtypes: function(){
+    return this.belongsToMany(Food, 'userProfileFoodPrefs');
+  },
+  dietRestrictions: function () {
+    return this.belongsToMany(DietRestriction, 'userDietRestricts');
+  },
   initialize: function() {
     return this.on('creating', this.hashPassword);
   },
@@ -19,7 +44,7 @@ var User = db.Model.extend({
   },
   hashPassword: function(currUser) {
     //console.log('in hashPassword');
-    var cipher = Promise.promisify(bcrypt.hash);
+    // var cipher = Promise.promisify(bcrypt.hash);
     var salt;
     var getSalt = function() {
       bcrypt.genSalt(10, function(error, newSalt) {
@@ -28,7 +53,7 @@ var User = db.Model.extend({
       });
     };
 
-    return cipher(this.get('password'), getSalt(), null).bind(this)
+    return cipher(this.get('password'), getSalt()).bind(this)
       .then(function(hash) {
         this.set('salt', salt);
         this.set('password', hash);
@@ -48,12 +73,6 @@ var User = db.Model.extend({
       callback();
      }
   }
-  // friends: function() {
-  //   return this.belongsToMany(User);
-  // },
-  // dietRestricts: function() {
-  //   return this.hasMany(DietRestricts);
-  // }
 });
 
 module.exports = User;
