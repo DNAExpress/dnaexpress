@@ -61,7 +61,6 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
-
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               res.status(200).send({
@@ -81,22 +80,8 @@ module.exports = userControls = {
         }
     });
   },
-  getProfile: function getProfile(req, res, next) {
-
-  },
   editUserProfile: function editUserProfile(req, res, next) {
     console.log('editProfileReqBody', req.body);
-    // sample req.body:
-      // var data = {
-      //   username: username,
-      //   firstname: firstname,
-      //   lastname: lastname,
-      //   email: email,
-      //   password: password,
-      //   location: location,
-      //   restrictions: [],
-      //   preferences: []
-      // };
     var userInfo = {
       username: req.body.username,
       firstname: req.body.firstname,
@@ -114,15 +99,37 @@ module.exports = userControls = {
         if (!user) {
           return next(new Error('user does not exist'));
         } else {
-          user.editUserInfo(userInfo, function() {
-            res.status(200).send();
+          user.editUserInfo(userInfo, next, function() {
+            // foodServices.editProfileFoodPrefs(user, preferences, next);
+            // dietServices.editDietRestrictions(user, restrictions, next);
           });
         }
-      })
+      }).then(function() {
+        res.status(200).send(user = req.body);
+        // temporary placeholder
+      });
+  },
+  getProfile: function getProfile(req, res, next) {
 
-    // look up user
-      // if user does not exist throw error
-      // otherwise - change user data in:
-        // 'users', userdietrestrictions, userprofileprefs
+  },
+  getAllUsers: function getAllUsers(req, res, next) {
+    console.log('in getAllUsers')
+    return User.fetchAll()
+      .then(function(users) {
+        var allUsers = [];
+        var userModels = users.models
+        
+        for (var i = 0; i < userModels.length; i++) {
+          var userAttributes = userModels[i].attributes;
+          allUsers[userAttributes.username] = {
+            username: userAttributes.username,
+            location: userAttributes.location,
+            firstname: userAttributes.firstname,
+            lastname: userAttributes.lastname
+          };
+        }
+        return allUsers;
+      });
   }
 };
+
