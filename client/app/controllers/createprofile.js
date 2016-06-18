@@ -10,7 +10,7 @@ angular.module('app.createprofile', ['app.services'])
     // var profile = Profile.processData($scope.user);
     // Auth.signup(profile);
     // Auth.userData = $scope.user;
-    $state.go('dashboard');
+    $state.go('dashboard.createevent');
   };
 
 }])

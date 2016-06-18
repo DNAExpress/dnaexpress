@@ -10,10 +10,10 @@ angular.module('app.auth', ['app.services'])
   }
   $scope.signin = function () {
     Auth.signin($scope.user)
-      .then(function (token) {
-        if (token) {
-          $window.localStorage.setItem('com.app', token);
-          $state.go('dashboard');
+      .then(function (response) {
+        if (response.token) {
+          $window.localStorage.setItem('com.app', response.token);
+          $state.go('dashboard.showevent');
         }
         else {
           alert("email / password not recognized")
