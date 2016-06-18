@@ -105,6 +105,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       templateUrl:'app/views/findfriends.html',
       controller:'FriendCtrl',
       authenticate:true
+    })
+    .state('dashboard.guestlist', {
+      url:'/guestlist',
+      templateUrl:'app/views/guestlist.html',
+      controller:'CreateEventCtrl',
+      authenticate:true
     });
 
     $locationProvider.html5Mode(true);

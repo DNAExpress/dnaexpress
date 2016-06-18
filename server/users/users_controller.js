@@ -101,7 +101,7 @@ module.exports = userControls = {
         }
       })
 
-    // look up user 
+    // look up user
       // if user does not exist throw error
       // otherwise - change user data in:
         // 'users', userdietrestrictions, userprofileprefs

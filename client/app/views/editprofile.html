@@ -5,10 +5,10 @@
     <form>
       <div class="row">
         <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="{{user.firstname}}" placeholder="" ng-model="editform.firstname">
+          <input class="" type="text" name="nfirst" value="" placeholder="{{user.firstname}}" ng-model="editform.firstname">
         </div>
         <div class="input-field col s6">
-          <input class=""type="text" name="nfirst" value="{{user.lastname}}" placeholder="" ng-model="editform.lastname">
+          <input class="" type="text" name="nlast" value="" placeholder="{{user.lastname}}" ng-model="editform.lastname">
         </div>
       </div>
       <div class="row">
@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col s2"><h6>Dietary Needs:</h6></div>
         <div class="col s2">
-          <input type='checkbox' id='vegetarian' ng-model="editform.vegetarian" />
+          <input checked type='checkbox' id='vegetarian' ng-model="editform.vegetarian" />
           <label for='vegetarian'>Vegetarian</label>
         </div>
         <div class="col s2">
@@ -43,7 +43,7 @@
           <h6>Favorite Foods:</h6>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='burgers' ng-model="editform.burgers" />
+          <input type='checkbox' id='burgers' ng-model="editform.burgers" checked >
           <label for='burgers'>Burgers</label>
         </div>
         <div class="col s2">
