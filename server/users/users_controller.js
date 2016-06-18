@@ -32,7 +32,16 @@ module.exports = userControls = {
             .then(function(newUser) {
               console.log('saved user')
               var token = jwt.encode(newUser, 'secret');
-              res.json({token: token});
+              res.status(200).send({
+                token: token,
+                user: {
+                  username: username,
+                  firstname: firstname,
+                  lastname: lastname,
+                  email: email,
+                  location: location
+                }
+              });
             });
         } else {
           return next(new Error('account already exists'));
@@ -55,7 +64,16 @@ module.exports = userControls = {
 
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
-              res.json({token: token});
+              res.status(200).send({
+                token: token,
+                user: {
+                  username: user.attributes.username,
+                  firstname: user.attributes.firstname,
+                  lastname: user.attributes.lastname,
+                  email: email,
+                  location: user.attributes.location
+                }
+              });
             } else {
               return next(new Error('user password does not match'));
             }
