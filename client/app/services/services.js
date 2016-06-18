@@ -21,14 +21,18 @@ angular.module('app.services', [])
 
 .factory('restaurantFactory', [function () {
   var restaurants;
-
+  var databinLeft = [];
+  var databinRight = [];
   return {
-    restaurants: restaurants
+    restaurants: restaurants,
+    databinLeft: databinLeft,
+    databinRight: databinRight
   }
 }])
 
-.factory('Profile', ['$state', '$http', function($state, $http) {
-  var processData = function(formdata, $state) {
+.factory('Profile', ['$state', '$http', function ($state, $http) {
+
+  var processData = function (formdata, $state) {
 
     var data = {
       username:formdata.username,
@@ -51,12 +55,14 @@ angular.module('app.services', [])
         }
       }
     };
-
     return data;
   };
 
+  var sendEditProfile = function () {
+
+  }
   return {
-    processData: processData
+    processData: processData,
   };
 
 }])
@@ -71,7 +77,14 @@ angular.module('app.services', [])
       data: userdata
     })
     .then(function (res) {
-      return res.data.token;
+      console.log("inside signin, response received", res);
+      $window.localStorage.setItem('com.app', res.data.token);
+      $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
+      $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
+      $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
+      $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
+      $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
+      return res.data
     })
     .catch(function (error) {
       console.error(error);
@@ -79,14 +92,20 @@ angular.module('app.services', [])
   };
 
   var signup = function (userdata) {
-
+    console.log("inside Auth.signup, before http call",userdata)
     return $http({
       method: 'POST',
       url: '/api/users/signup',
       data: userdata
     })
     .then(function (res) {
+      console.log("inside signup, response received",res)
       $window.localStorage.setItem('com.app', res.data.token);
+      $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
+      $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
+      $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
+      $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
+      $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
       return res.data.token;
     })
     .catch(function (error) {

@@ -73,12 +73,6 @@ var User = db.Model.extend({
       callback();
      }
   }
-  // friends: function() {
-  //   return this.belongsToMany(User);
-  // },
-  // dietRestricts: function() {
-  //   return this.hasMany(DietRestricts);
-  // }
 });
 
 module.exports = User;

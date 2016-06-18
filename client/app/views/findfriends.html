@@ -1,6 +1,48 @@
 <h2 class="center-align white-text"><a class="white-text">Find friends</a></h2>
 
 <div class="container hoverable" style="opacity:.9">
+  <div class="card-panel hoverable">
+    <form class="col s12" ng-submit="lookup()">
+      <div class="row">
+        <h5 class="col s2">Enter name: </h5>
+        <div class="input-field col s8">
+          <input type="text" placeholder="name" ng-model="search.target">
+        </div>
+        <div class="input-field col s2">
+          <input type="submit" class="waves-effect waves-light btn brown darken-4" value="Find">
+        </div>
+      </div>
+    </form>
+    <div>
+      <div class="container" style="height:400px;overflow:scroll">
+        <div class="row">
+          <ul class="col s6 m6 l6">
+            <li ng-repeat="people in databinLeft">
+              <div class="card-panel hoverable">
+                <div class="row">
+                  <div>
+                    <input type="checkbox" id="{{people}}">
+                    <label for='{{people}}' class="black-text" style="font-size:18pt">{{people}}</label>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="col s6 m6 l6">
+            <li ng-repeat="people in databinRight">
+              <div class="card-panel hoverable">
+                <div class="row">
+                  <div>
+                    <input type="checkbox" id="{{people}}">
+                    <label for='{{people}}' class="black-text" style="font-size:18pt">{{people}}</label>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
 
 </div>

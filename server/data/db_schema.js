@@ -39,10 +39,10 @@ db.schema.hasTable('events').then(function(exists) {
       event.string('name', 50);
       event.date('date');
       event.integer('creator').references('users.id');
-      event.integer('totalUsers');
-      event.integer('usersResponded');
+      event.integer('attendeesNum');
+      event.integer('responded');
       event.string('selectedRestaurant');
-      event.string('url').unique();
+      event.string('publicEventId').unique();
       event.timestamps();
     }).then(function (table) {
       console.log('Created events table', table);
@@ -81,6 +81,18 @@ db.schema.hasTable('userEventsFood').then(function(exists){
       userEventFood.increments('id').primary();
       userEventFood.integer('userEvent_id').references('userEvents.id');
       userEventFood.integer('foodType_id').references('foodTypes.id');
+    }).then(function (table) {
+      console.log('Created userEventsFood table', table);
+    });
+  }
+});
+
+db.schema.hasTable('recommendations').then(function(exists){
+  if (!exists) {
+    db.schema.createTable('recommendations', function(recommendation){
+      recommendation.increments('id').primary();
+      recommendation.integer('event_id').references('events.id');
+      recommendation.string('recommendation');
     }).then(function (table) {
       console.log('Created userEventsFood table', table);
     });

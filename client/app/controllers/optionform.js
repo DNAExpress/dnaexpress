@@ -16,7 +16,16 @@ angular.module('app.optionform', ['app.services'])
     $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
-      restaurantFactory.restaurants = res.data.slice(0, 11);
+      for (var i = 0; i < res.data.slice(0, 16).length; i++) {
+        if ( i % 2 === 0 ) {
+          restaurantFactory.databinLeft.push(res.data[i]);
+        }
+        else {
+          restaurantFactory.databinRight.push(res.data[i]);
+        }
+      }
+      // restaurantFactory.restaurants = res.data.slice(0, 14);
+
       console.log("inside restaurantFactory ",restaurantFactory.restaurants);
       $state.go('dashboard.restaurantResults');
   })
