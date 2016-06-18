@@ -5,11 +5,14 @@ angular.module('app.eventfactory',[])
 
     var guestList = [];
 
+    var eventData = {};
+
     var createEvent = function(data) {
+        $state.go('loading');
         console.log("inside create event factory",data);
         return $http({
           method:'POST',
-          url: '/api/events/create',
+          url: 'api/events/create',
           data: data
         })
         .then(function(res){
@@ -23,7 +26,8 @@ angular.module('app.eventfactory',[])
 
     return {
       guestList: guestList,
-      createEvent: createEvent
+      createEvent: createEvent,
+      eventData: eventData
     };
 
 }])

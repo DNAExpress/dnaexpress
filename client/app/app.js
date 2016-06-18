@@ -111,6 +111,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       templateUrl:'app/views/guestlist.html',
       controller:'CreateEventCtrl',
       authenticate:true
+    })
+    .state('dashboard.createeventreview', {
+      url:'/revieweventdetails',
+      templateUrl:'app/views/createeventreview.html',
+      controller:'CreateEventCtrl',
+      authenticate:true
     });
 
     $locationProvider.html5Mode(true);

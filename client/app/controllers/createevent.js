@@ -3,14 +3,14 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
 .controller('CreateEventCtrl', ['$scope', '$state', 'userFactory', 'eventFactory', function($scope, $state, userFactory, eventFactory) {
 
-  $scope.databinLeft = [{name:"Harry Rosenberg", location:"San Francisco"}, {name:"Cheryl Sherman", location:"Sacramento"}, {name:"Linda Burgess", location:"Oakland"}];
-  $scope.databinRight = [{name:"Eliot Khuner", location:"Berkeley"}, {name:"Wes Carroll", location:"Berkeley"}, {name:"Mike Josepher", location:"Pacifica"}];
+  $scope.databinLeft = [{name:"Harry Rosenberg", location:"San Francisco"}, {name:"Cheryl Sherman", location:"Sacramento"}, {name:"Linda Burgess", location:"Oakland"}, {name:"Jessica Hedrick", location:"Chicago"}];
+  $scope.databinRight = [{name:"Eliot Khuner", location:"Berkeley"}, {name:"Wes Carroll", location:"Berkeley"}, {name:"Mike Josepher", location:"Pacifica"}, {name:"Gerry O'Halloran", location:"Philadelphia"}];
 
   $scope.guests = {};
 
   $scope.guestList = [];
 
-  $scope.invited = eventFactory.guestList;
+  $scope.eventData = eventFactory.eventData;
 
   $scope.getGuests = function() {
     for (var name in $scope.guests) {
@@ -18,21 +18,20 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
           $scope.guestList.push(name)
       }
     }
-    console.log("guestlist", $scope.guestList);
-    eventFactory.guestList = $scope.guestList;
-    $state.go('dashboard.createevent')
+    eventFactory.eventData["attendees"] = $scope.guestList;
+    $state.go('dashboard.createeventreview');
   };
 
+  $scope.collectEventData = function() {
+    eventFactory.eventData["eventName"] = $scope.event.name;
+    eventFactory.eventData["creator"] = $scope.event.creator;
+    eventFactory.eventData["date"] = $scope.event.date;
+    $state.go('dashboard.guestlist');
+  }
+
   $scope.submitEvent = function() {
-
-    var eventData =  {
-      date:$scope.event.date,
-      creator:$scope.event.creator,
-      name:$scope.event.name,
-      attendees:eventFactory.guestList
-    };
-
-    eventFactory.createEvent(eventData)
+    console.log("inside submitEvent",eventFactory.eventData);
+    eventFactory.createEvent(eventFactory.eventData)
     .then(function(response) {
       console.log("inside CreateEventCtrl, response received", response);
     })
