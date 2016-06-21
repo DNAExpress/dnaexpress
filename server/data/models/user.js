@@ -73,6 +73,32 @@ var User = db.Model.extend({
 
       callback();
      }
+  },
+  getProfileFoodPrefs: function(req, res, next) {
+    var user = this;
+    return Food
+        .forge()
+        .fetch()
+        .then(function(food) {
+            //send both references down the promise chain
+            return {foodModel: food, userModel: user};
+        })
+        .then(function(references) {
+            return references
+                .userModel
+                //get the belongsToMany relation specified in the first definition, which returns a collection
+                .foodtypes()
+                //attach the target to the collection, not the model instance
+                .fetch();
+        })
+        .then(function(relation) {
+            //console.log('got userProfileFoodPrefs table', relation.models)
+            return relation.models.map(function(model) {
+
+              console.log('model atts.type', model.attributes.type)
+              return model.attributes.type
+            })
+        })
   }
 });
 
