@@ -1,36 +1,41 @@
-<h2 class="center-align white-text"><a class="white-text">Invite Guests</a></h2>
+<h2 class="center-align white-text"><a class="white-text">Step 2: Create A Guest List</a></h2>
 
   <div class="container">
-    <div class="card-panel" style="overflow-x:hidden;overflow-y:scroll;opacity:.9">
-      <form  ng-submit="getGuests()">
-      <div class="row">
-        <ul class="col s6 m6 l6">
-          <li ng-repeat="people in databinLeft">
-            <div class="card-panel hoverable">
-              <div class="row">
-                <div>
-                  <input type="checkbox" id="{{people.name}}" ng-model="guests[people.name]" >
-                  <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+    <div class="card-panel" style="opacity:.9;">
+      <form ng-submit="getGuests()">
+        <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;">
+          <div class="row">
+            <ul class="col s6 m6 l6">
+              <li ng-repeat="people in databinLeft">
+                <div class="card-panel hoverable">
+                  <div class="row">
+                    <div>
+                      <input type="checkbox" checked="checked" id="{{people.name}}" ng-model="guests[people.name]" />
+                      <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <ul class="col s6 m6 l6">
-          <li ng-repeat="people in databinRight">
-            <div class="card-panel hoverable">
-              <div class="row">
-                <div>
-                  <input type="checkbox" id="{{people.name}}"  ng-model="guests[people.name]" >
-                  <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+              </li>
+            </ul>
+            <ul class="col s6 m6 l6">
+              <li ng-repeat="people in databinRight">
+                <div class="card-panel hoverable">
+                  <div class="row">
+                    <div>
+                      <input type="checkbox" id="{{people.name}}" ng-model="guests[people.name]" >
+                      <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <input type="submit" value="Guests">
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Create Event</a></h6>
+          <input class="right brown darken-3 waves-effect waves-light btn" type="submit" value="Add guests">
+        </div>
     </form>
-    <h6 class="right" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Create Event</a></h6>
+
   </div>
 </div>
