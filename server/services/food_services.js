@@ -5,6 +5,7 @@ var User = require('./../data/models/user');
 
 module.exports = foodServices = {
     getProfileFoodPrefs: function(user) {
+        //console.log('inside getProfileFoodPrefs')
         return Food
             .forge()
             .fetch()
@@ -29,10 +30,10 @@ module.exports = foodServices = {
             })
     },
     addProfileFoodPrefs: function(user, submittedPrefs) {
-        var user = this;
+        //console.log('inside addProfileFoodPrefs', submittedPrefs)
 
         submittedPrefs.forEach(function(pref) {
-          user.addPref(pref);
+          addPref(pref);
         })
 
         function addPref(pref) {
@@ -58,10 +59,10 @@ module.exports = foodServices = {
         }
     },
     removeProfileFoodPrefs: function(user, prefsToRemove) {
-        var user = this;
+        //console.log('inside removeProfileFoodPrefs, ', prefsToRemove);
 
         prefsToRemove.forEach(function(pref) {
-          user.removePref(pref);
+          removePref(pref);
         })
 
         function removePref(pref) {
@@ -86,77 +87,37 @@ module.exports = foodServices = {
               })
         }
     },
-    editProfileFoodPrefs: function(req, res, next, user) {
-        var updatedFoodPrefs = req.body.prefs;
+    editProfileFoodPrefs: function(next, user, updatedFoodPrefs) {
+        console.log('inside editProfileFoodPrefs')
         var toRemove = [];
         var toAdd = [];
 
-        foodServices.getProfileFoodPrefs(user)
+        return foodServices.getProfileFoodPrefs(user)
           .then(function(savedFoodPrefs) {
             for (var i = 0; i < updatedFoodPrefs.length; i++) {
-              if (!savedFoodPrefs.includes(updatedFoodPrefs[i])) {
+              if (!isInArray(savedFoodPrefs, updatedFoodPrefs[i])) {
                 toAdd.push(updatedFoodPrefs[i]);
               }
             }
             for (var j = 0; j < savedFoodPrefs.length; j++) {
-              if (!updatedFoodPrefs.includes(savedFoodPrefs[j])) {
+              if (!isInArray(updatedFoodPrefs,savedFoodPrefs[j])) {
                 toRemove.push(savedFoodPrefs[j]);
               }
-            }
+            }   
           })
           .then(function() {
             foodServices.removeProfileFoodPrefs(user, toRemove);
           }).then(function() {
             foodServices.addProfileFoodPrefs(user, toAdd);
           }).then(function() {
-            foodServices.getProfileFoodPrefs(user);
+            return foodServices.getProfileFoodPrefs(user);
           })
           .catch(function(error) {
-            console.log('Error in editing Profile Food prefs', error)
+            return next(new Error(error));
           });
     }
-  // old
-        // getFoodPrefs: function () {
-
-        // },
-        // editProfileFoodPrefs: function editFoodPrefs(user, foodPrefs, next) {
-        //   var userId = user.attributes.id;
-
-        //   // fetch users pre-existing food preferences
-        //     // if a preference has been removed, remove their connection with it from the db
-        //     // if one has been added, add their connection with it to the db
-        // },
-        // addUserFoodPrefs: function(userId, foodPrefs) {
-        //   // should just pass in the user model, rather than just the ID
-
-        //   //get the first model
-        //   var userId = 1;
-        //     User
-        //       .forge({id: userId})
-        //       .fetch()
-        //       .then(function(user) {
-        //           //get the other model to add to the join table
-        //           return Food
-        //                   .forge({type: 'greek'})
-        //                   .fetch()
-        //                   .then(function(food) {
-        //                       //send both references down the promise chain
-        //                       return {foodModel: food, userModel: user};
-        //                   });
-
-        //       })
-        //       .then(function(references) {
-        //         console.log('references', references)
-        //           return references
-        //                   .userModel
-        //                   //get the belongsToMany relation specified in the first definition, which returns a collection
-        //                   .foodtypes()
-        //                   //attach the target to the collection, not the model instance
-        //                   .attach(references.foodModel);
-        //       })
-        //       .then(function(relation) {
-        //           console.log('added user-food connection to userProfileFoodPrefs table')
-        //       })
-        // }
 }
-//foodServices.addUserFoodPrefs()
+
+function isInArray(array, value) {
+  return array.indexOf(value) > -1;
+}

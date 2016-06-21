@@ -13,11 +13,11 @@ module.exports = userControls = {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var location = req.body.location;
-    console.log('routed to signup')
+    //console.log('routed to signup')
     new User({ username: username })
       .fetch()
       .then(function(user) {
-        console.log('looked for user')
+        //console.log('looked for user')
         if (!user) {
           var newUser = new User({
             username: username,
@@ -30,7 +30,7 @@ module.exports = userControls = {
           });
           newUser.save()
             .then(function(newUser) {
-              console.log('saved user')
+              //console.log('saved user')
               var token = jwt.encode(newUser, 'secret');
               res.status(200).send({
                 token: token,
@@ -62,7 +62,7 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
-              console.log('making signin token')
+              //console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               resData.token = token;
               resData.user = {
@@ -76,7 +76,7 @@ module.exports = userControls = {
               return next(new Error('user password does not match'));
             }
           })
-          userControls.getAllData(res, req, next, user).then(function(allData) {
+          userControls.getAllUserData(res, req, next, user).then(function(allData) {
               resData.allUsers = allData.allUsers;
               resData.user.preferences = allData.preferences;
               //resData.user.dietRestrictions = [];
@@ -86,27 +86,16 @@ module.exports = userControls = {
     });
   },
   editUserProfile: function editUserProfile(req, res, next) {
-    console.log('editProfileReqBody', req.body);
-    var userInfo = {
-      username: req.body.username,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      password: req.body.password,
-      location: req.body.location
-    };
-    var preferences = req.body.preferences;
-    var restrictions = req.body.restrictions;
+    //console.log('editProfileReqBody', req.body);
 
-    new User({ email: email })
+    new User({ email: req.body.email })
       .fetch()
       .then(function(user) {
         if (!user) {
           return next(new Error('user does not exist'));
         } else {
-          user.editUserInfo(userInfo, preferences, restrictions, next)
-          .then(function() {
-            res.status(200).send('askdlfj')
+          user.editUserInfo(req, res, next, function(resData) {
+            res.status(200).send(resData)
           });
         }
       });
