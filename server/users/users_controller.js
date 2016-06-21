@@ -51,6 +51,7 @@ module.exports = userControls = {
   signin: function signin(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
+    var resData = {};
 
     new User({ email: email })
       .fetch()
@@ -63,19 +64,23 @@ module.exports = userControls = {
             if (match) {
               console.log('making signin token')
               var token = jwt.encode(user, 'secret');
-              res.status(200).send({
-                token: token,
-                user: {
+              resData.token = token;
+              resData.user = {
                   username: user.attributes.username,
                   firstname: user.attributes.firstname,
                   lastname: user.attributes.lastname,
                   email: email,
-                  location: user.attributes.location
-                }
-              });
+                  location: user.attributes.location,
+              }
             } else {
               return next(new Error('user password does not match'));
             }
+          })
+          userControls.getAllData(res, req, next, user).then(function(allData) {
+              resData.allUsers = allData.allUsers;
+              resData.user.preferences = allData.preferences;
+              //resData.user.dietRestrictions = [];
+              res.status(200).send(resData);
           });
         }
     });
@@ -109,26 +114,44 @@ module.exports = userControls = {
         // temporary placeholder
       });
   },
-  getProfile: function getProfile(req, res, next) {
-
+  getAllData: function(req, res, next, user) {
+    console.log('getting all data with user: ', user.attributes.username)
+    var allData = {};
+    return userControls.getAllUsers()
+      .then(function(allUsers) {
+        //console.log(allUsers)
+        allData.allUsers = allUsers;
+      })
+      .then(function() {
+        return user.getProfileFoodPrefs()
+          .then(function(prefs) {
+            allData.preferences = prefs;
+            return allData;
+          });
+          // add get diet restrictions and get events
+      })
+      .catch(function(error) {
+        return next(new Error('failed getting all data'));
+      });
   },
   getAllUsers: function getAllUsers(req, res, next) {
     console.log('in getAllUsers')
+    
     return User.fetchAll()
       .then(function(users) {
-        var allUsers = [];
+        var currUsers = {};
         var userModels = users.models
-        
         for (var i = 0; i < userModels.length; i++) {
           var userAttributes = userModels[i].attributes;
-          allUsers[userAttributes.username] = {
+          currUsers[userAttributes.username] = {
             username: userAttributes.username,
             location: userAttributes.location,
             firstname: userAttributes.firstname,
             lastname: userAttributes.lastname
           };
+
         }
-        return allUsers;
+        return currUsers;
       });
   }
 };
