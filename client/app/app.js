@@ -84,7 +84,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
     .state('main.createprofile', {
       url:'/createprofile',
       templateUrl:'app/views/createprofile.html',
-      controller:'CreateProfileCtrl',
+      controller:'EditProfileCtrl',
       params:{
         user:null
       }

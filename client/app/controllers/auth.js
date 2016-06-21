@@ -33,7 +33,7 @@ angular.module('app.auth', ['app.services'])
 
   $scope.signup = function () {
     var data = Profile.processData($scope.user);
-    console.log(data)
+    console.log("inside $scope.signup", data)
     Auth.signup(data)
       .then(function (token) {
         console.log("token received ",token)
