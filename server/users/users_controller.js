@@ -104,17 +104,14 @@ module.exports = userControls = {
         if (!user) {
           return next(new Error('user does not exist'));
         } else {
-          user.editUserInfo(userInfo, next, function() {
-            // foodServices.editProfileFoodPrefs(user, preferences, next);
-            // dietServices.editDietRestrictions(user, restrictions, next);
+          user.editUserInfo(userInfo, preferences, restrictions, next)
+          .then(function() {
+            res.status(200).send('askdlfj')
           });
         }
-      }).then(function() {
-        res.status(200).send(user = req.body);
-        // temporary placeholder
       });
   },
-  getAllData: function(req, res, next, user) {
+  getAllUserData: function(req, res, next, user) {
     console.log('getting all data with user: ', user.attributes.username)
     var allData = {};
     return userControls.getAllUsers()
@@ -123,12 +120,12 @@ module.exports = userControls = {
         allData.allUsers = allUsers;
       })
       .then(function() {
-        return user.getProfileFoodPrefs()
+        return foodServices.getProfileFoodPrefs(user)
           .then(function(prefs) {
             allData.preferences = prefs;
             return allData;
           });
-          // add get diet restrictions and get events
+          // add get diet restrictions and get events - dietServices
       })
       .catch(function(error) {
         return next(new Error('failed getting all data'));
