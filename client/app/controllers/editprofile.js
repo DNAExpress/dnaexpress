@@ -12,7 +12,8 @@ angular.module('app.editprofile', ['app.services'])
   console.log($scope.user);
 
   $scope.activate = function(formdata) {
-    Profile.processData(formdata);
-    $state.go('dashboard')
+    var profileData = Profile.processData($scope.user, formdata);
+    console.log(profileData);
+    Profile.sendEditProfile(profileData);
   }
 }])

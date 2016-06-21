@@ -32,15 +32,15 @@ angular.module('app.services', [])
 
 .factory('Profile', ['$state', '$http', function ($state, $http) {
 
-  var processData = function (formdata, $state) {
+  var processData = function (userdata, formdata) {
 
     var data = {
-      username:formdata.username,
-      firstname:formdata.firstname,
-      lastname:formdata.lastname,
-      email:formdata.email,
-      password:formdata.password,
-      location:formdata.location,
+      username:userdata.username,
+      firstname:userdata.firstname,
+      lastname:userdata.lastname,
+      email:userdata.email,
+      password:userdata.password,
+      location:userdata.location,
       restrictions:[],
       preferences:[]
     };
@@ -58,11 +58,21 @@ angular.module('app.services', [])
     return data;
   };
 
-  var sendEditProfile = function () {
+  var sendEditProfile = function (userdata) {
+    return $http({
+      method:'POST',
+      url:'/api/users/profile',
+      data: userdata
+    })
+    .then(function(res){
+      console.log("Inside Profile.sendEditProfile, response received", res);
+      $state.go('dashboard.showevent');
+    })
 
   }
   return {
     processData: processData,
+    sendEditProfile: sendEditProfile
   };
 
 }])
