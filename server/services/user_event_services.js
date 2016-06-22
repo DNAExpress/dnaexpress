@@ -11,15 +11,15 @@ module.exports = UserEventServices = {
 
   },
 
-  getUserEvents: function (user) {
-    return UserEvent
-      .forge({user_id: user.attributes.id})
-      .fetchAll();
-      .then(function (user) {
-        return Event
-          .forge({})
-      }
-  },
+  // getUserEvents: function (user) {
+  //   return UserEvent
+  //     .forge({user_id: user.attributes.id})
+  //     .fetchAll();
+  //     .then(function (user) {
+  //       return Event
+  //         .forge({})
+  //     }
+  // },
 
   getRecommendations: function () {
 
