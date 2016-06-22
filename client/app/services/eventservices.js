@@ -8,6 +8,7 @@ angular.module('app.eventfactory',[])
     var eventData = {};
 
     var createEvent = function(data) {
+        console.log("inside eventFactory.createEvent", data);
         $state.go('loading');
         console.log("inside create event factory",data);
         return $http({

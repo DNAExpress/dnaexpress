@@ -3,7 +3,7 @@
   <div class="container">
     <div class="card-panel" style="opacity:.9;">
       <form ng-submit="getGuests()">
-        <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;">
+        <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;border:1px solid brown;">
           <div class="row">
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinLeft">
@@ -11,7 +11,7 @@
                   <div class="row">
                     <div>
                       <input type="checkbox" checked="checked" id="{{people.name}}" ng-model="guests[people.name]" />
-                      <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+                      <label for='{{people.name}}' class="black-text" style="font-size:18pt;">{{people.name}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
                     </div>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
                   <div class="row">
                     <div>
                       <input type="checkbox" id="{{people.name}}" ng-model="guests[people.name]" >
-                      <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}</label>
+                      <label for='{{people.name}}' class="black-text" style="font-size:18pt">{{people.name}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
                     </div>
                   </div>
                 </div>
@@ -31,9 +31,12 @@
             </ul>
           </div>
         </div>
-        <div class="row">
-          <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Create Event</a></h6>
-          <input class="right brown darken-3 waves-effect waves-light btn" type="submit" value="Add guests">
+        <br>
+        <div class="card-panel hoverable" style="border:1px solid brown">
+          <div class="row">
+            <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Step 1</a></h6>
+            <input class="right brown darken-3 waves-effect waves-light btn" type="submit" value="Add guests">
+          </div>
         </div>
     </form>
 

@@ -34,6 +34,7 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
     eventFactory.createEvent(eventFactory.eventData)
     .then(function(response) {
       console.log("inside CreateEventCtrl, response received", response);
+      $state.go('dashboard.showevent');
     })
   };
 
