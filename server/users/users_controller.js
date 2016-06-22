@@ -13,11 +13,11 @@ module.exports = userControls = {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var location = req.body.location;
-    console.log('routed to signup')
+    var resData = {};
+
     new User({ username: username })
       .fetch()
       .then(function(user) {
-        console.log('looked for user')
         if (!user) {
           var newUser = new User({
             username: username,
@@ -30,17 +30,18 @@ module.exports = userControls = {
           });
           newUser.save()
             .then(function(newUser) {
-              console.log('saved user')
-              var token = jwt.encode(newUser, 'secret');
-              res.status(200).send({
-                token: token,
-                user: {
-                  username: username,
-                  firstname: firstname,
-                  lastname: lastname,
-                  email: email,
-                  location: location
-                }
+              resData.token = jwt.encode(newUser, 'secret');
+              resData.user = {
+                username: username,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                location: location
+              };
+              userControls.getAllUsers(req, res, next)
+                .then(function(allUsers) {
+                  resData.allUsers = allUsers;
+                  res.status(200).send(resData);
               });
             });
         } else {
@@ -51,6 +52,7 @@ module.exports = userControls = {
   signin: function signin(req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
+    var resData = {};
 
     new User({ email: email })
       .fetch()
@@ -61,68 +63,84 @@ module.exports = userControls = {
           console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
-
-              console.log('making signin token')
+              //console.log('making signin token')
               var token = jwt.encode(user, 'secret');
-              res.status(200).send({
-                token: token,
-                user: {
+              resData.token = token;
+              resData.user = {
                   username: user.attributes.username,
                   firstname: user.attributes.firstname,
                   lastname: user.attributes.lastname,
                   email: email,
-                  location: user.attributes.location
-                }
-              });
+                  location: user.attributes.location,
+              }
             } else {
               return next(new Error('user password does not match'));
             }
+          })
+          userControls.getAllUserData(res, req, next, user).then(function(allData) {
+              resData.allUsers = allData.allUsers;
+              resData.user.preferences = allData.preferences;
+              resData.user.dietRestrictions = allData.restrictions;
+              res.status(200).send(resData);
           });
         }
     });
   },
-  getProfile: function getProfile(req, res, next) {
-
-  },
   editUserProfile: function editUserProfile(req, res, next) {
-    console.log('editProfileReqBody', req.body);
-    // sample req.body:
-      // var data = {
-      //   username: username,
-      //   firstname: firstname,
-      //   lastname: lastname,
-      //   email: email,
-      //   password: password,
-      //   location: location,
-      //   restrictions: [],
-      //   preferences: []
-      // };
-    var userInfo = {
-      username: req.body.username,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      password: req.body.password,
-      location: req.body.location
-    };
-    var preferences = req.body.preferences;
-    var restrictions = req.body.restrictions;
-
-    new User({ email: email })
+    new User({ email: req.body.email })
       .fetch()
       .then(function(user) {
         if (!user) {
           return next(new Error('user does not exist'));
         } else {
-          user.editUserInfo(userInfo, function() {
-            res.status(200).send();
+          user.editUserInfo(req, res, next, function(resData) {
+            res.status(200).send(resData)
           });
         }
+      });
+  },
+  getAllUserData: function(req, res, next, user) {
+    console.log('getting all data with user: ', user.attributes.username)
+    var allData = {};
+    return userControls.getAllUsers()
+      .then(function(allUsers) {
+        allData.allUsers = allUsers;
       })
+      .then(function() {
+        return foodServices.getProfileFoodPrefs(user)
+          .then(function(prefs) {
+            allData.preferences = prefs;
+          })
+          .then(function(){
+            return dietServices.getDietRestrictions(user)
+              .then(function(restrictions) {
+                allData.restrictions = restrictions;
+                return allData;
+              })
+          });
+          // add get events
+      })
+      .catch(function(error) {
+        return next(new Error('failed getting all data'));
+      });
+  },
+  getAllUsers: function getAllUsers(req, res, next) {
+    return User.fetchAll()
+      .then(function(users) {
+        var currUsers = {};
+        var userModels = users.models;
+        for (var i = 0; i < userModels.length; i++) {
+          var userAttributes = userModels[i].attributes;
+          currUsers[userAttributes.username] = {
+            username: userAttributes.username,
+            location: userAttributes.location,
+            firstname: userAttributes.firstname,
+            lastname: userAttributes.lastname
+          };
 
-    // look up user
-      // if user does not exist throw error
-      // otherwise - change user data in:
-        // 'users', userdietrestrictions, userprofileprefs
+        }
+        return currUsers;
+      });
   }
 };
+
