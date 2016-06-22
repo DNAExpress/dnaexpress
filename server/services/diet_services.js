@@ -20,7 +20,6 @@ module.exports = dietServices = {
     })
    .then(function(relation) {
       return relation.models.map(function(model) {
-        console.log('model atts.type', model.attributes.type);
         return model.attributes.type;
        });
    });
@@ -29,7 +28,7 @@ module.exports = dietServices = {
   editDietRestrictions: function (next, user, newRestrictions) {
     var toAdd = [];
     var toRemove = [];
-    dietServices.getDietRestrictions(user)
+    return dietServices.getDietRestrictions(user)
       .then(function(storedRestrictions) {
         newRestrictions.forEach(function (current) {
           if (storedRestrictions.indexOf(current) === -1) {
@@ -43,14 +42,14 @@ module.exports = dietServices = {
         });
     })
     .then(function(){
-      console.log(toAdd, toRemove);
+      //console.log(toAdd, toRemove);
       dietServices.removeDietRestrictions(user, toRemove);
     })
     .then(function() {
       dietServices.addDietRestrictions(user, toAdd);
     })
     .then(function () {
-      dietServices.getDietRestrictions(user);
+      return dietServices.getDietRestrictions(user);
     })
     .catch(function(error) {
       console.log('Error in editing Diet Restrictions', error);
@@ -75,7 +74,7 @@ module.exports = dietServices = {
             .attach(references.dietRestrictionModel);
       })
       .then(function(relation) {
-          console.log('Successfully created relationship in addDietRestrictions function', relation);
+          console.log('Successfully created relationship in addDietRestrictions function');
       }).catch(function(error){
           return next(new Error('Failed to create relationship in addDietRestrictions function'))
       });
@@ -102,7 +101,7 @@ module.exports = dietServices = {
             .detach(references.dietRestrictionModel);
         })
         .then(function(relation) {
-          console.log('Successfully removed relationship in removeDietRestrictions function', relation);
+          console.log('Successfully removed relationship in removeDietRestrictions function');
         }).catch(function(error){
           return next(new Error('Failed to remove relationship in removeDietRestrictions function' + error));
         });

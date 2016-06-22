@@ -13,11 +13,11 @@ module.exports = userControls = {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var location = req.body.location;
-    //console.log('routed to signup')
+    var resData = {};
+
     new User({ username: username })
       .fetch()
       .then(function(user) {
-        //console.log('looked for user')
         if (!user) {
           var newUser = new User({
             username: username,
@@ -30,17 +30,18 @@ module.exports = userControls = {
           });
           newUser.save()
             .then(function(newUser) {
-              //console.log('saved user')
-              var token = jwt.encode(newUser, 'secret');
-              res.status(200).send({
-                token: token,
-                user: {
-                  username: username,
-                  firstname: firstname,
-                  lastname: lastname,
-                  email: email,
-                  location: location
-                }
+              resData.token = jwt.encode(newUser, 'secret');
+              resData.user = {
+                username: username,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                location: location
+              };
+              userControls.getAllUsers(req, res, next)
+                .then(function(allUsers) {
+                  resData.allUsers = allUsers;
+                  res.status(200).send(resData);
               });
             });
         } else {
@@ -79,15 +80,13 @@ module.exports = userControls = {
           userControls.getAllUserData(res, req, next, user).then(function(allData) {
               resData.allUsers = allData.allUsers;
               resData.user.preferences = allData.preferences;
-              //resData.user.dietRestrictions = [];
+              resData.user.dietRestrictions = allData.restrictions;
               res.status(200).send(resData);
           });
         }
     });
   },
   editUserProfile: function editUserProfile(req, res, next) {
-    //console.log('editProfileReqBody', req.body);
-
     new User({ email: req.body.email })
       .fetch()
       .then(function(user) {
@@ -105,28 +104,31 @@ module.exports = userControls = {
     var allData = {};
     return userControls.getAllUsers()
       .then(function(allUsers) {
-        //console.log(allUsers)
         allData.allUsers = allUsers;
       })
       .then(function() {
         return foodServices.getProfileFoodPrefs(user)
           .then(function(prefs) {
             allData.preferences = prefs;
-            return allData;
+          })
+          .then(function(){
+            return dietServices.getDietRestrictions(user)
+              .then(function(restrictions) {
+                allData.restrictions = restrictions;
+                return allData;
+              })
           });
-          // add get diet restrictions and get events - dietServices
+          // add get events
       })
       .catch(function(error) {
         return next(new Error('failed getting all data'));
       });
   },
   getAllUsers: function getAllUsers(req, res, next) {
-    console.log('in getAllUsers')
-    
     return User.fetchAll()
       .then(function(users) {
         var currUsers = {};
-        var userModels = users.models
+        var userModels = users.models;
         for (var i = 0; i < userModels.length; i++) {
           var userAttributes = userModels[i].attributes;
           currUsers[userAttributes.username] = {

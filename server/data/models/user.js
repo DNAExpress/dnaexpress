@@ -98,23 +98,23 @@ var User = db.Model.extend({
       }
     };
 
-    foodServices.editProfileFoodPrefs(next, self, preferences).then(function(prefs) {
+    foodServices.editProfileFoodPrefs(next, self, preferences)
+    .then(function(prefs) {
       resData.user.preferences = prefs;
-      callback(resData)
     })
-      // .then(function() {
-      //   dietServices.editDietRestrictions(next, self, restrictions)
-      //   .then(function(restrictions) {
-      //     resData.user.restrictions = restrictions;
-      //     console.log(resData)
-      //     callback(resData);
-      //   });
-
-      // })
+    .then(function() {
+      console.log('restrictions', restrictions)
+      dietServices.editDietRestrictions(next, self, restrictions)
+      .then(function(restrictions) {
+        resData.user.restrictions = restrictions;
+        console.log('resData', resData)
+        callback(resData);
+      });
+    })
+  }
     // user interaction with diet restrictions is stored in ../../services/diet_services.js
     // user interaction with food types is stored in ../../services/food_services.js
     //callback();
-  }
 
 });
 
