@@ -1,23 +1,24 @@
 <h2 class="center-align white-text"><a class="white-text">Step 3: Review and Submit</a></h2>
 
 <div class="container">
-  <div class="card-panel hoverable">
+  <div class="card-panel hoverable" style="opacity:.9;">
     <div class="container">
       <div class="row">
-        <h5 class="black-text left">Event Name: </h5> <h5 class="black-text left">{{eventData.name}}</h5>
+        <h5 class="black-text left">Event Name: </h5> <h5 class="black-text left">&nbsp;{{eventData.eventName}}</h5>
       </div>
       <div class="row">
-        <h5 class="black-text left">Date: </h5> <h5 class="black-text left">{{eventData.date | date:'fullDate'}}</h5>
+        <h5 class="black-text left">Date: </h5> <h5 class="black-text left">&nbsp;{{eventData.date | date:'fullDate'}}</h5>
       </div>
       <div class="row">
-        <h5 class="black-text left">Host: </h5> <h5 class="black-text left">{{eventData.creator}}</h5>
+        <h5 class="black-text left">Host: </h5> <h5 class="black-text left">&nbsp;{{eventData.creator}}</h5>
       </div>
       <div class="row">
-        <h5 class="black-text left">Guest list: </h5>
-        <p>
-          <span ng-repeat="invitee in eventData.guestList">{{invitee}}</span>
-        </p>
+        <h5 class="black-text left">Guest list:&nbsp;</h5>
       </div>
+      <p>
+        <span style="font-size:20pt;" ng-repeat="invitee in eventData.attendees">{{invitee}},&nbsp;&nbsp;</span>
+      </p>
+
       <div class="row">
         <a ng-click="submitEvent()" class=" right signin brown darken-3 waves-effect waves-light btn">Create It!</a>
       </div>

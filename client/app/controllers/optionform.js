@@ -16,6 +16,8 @@ angular.module('app.optionform', ['app.services'])
     $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
+      restaurantFactory.databinLeft = [];
+      restaurantFactory.databinRight = [];
       for (var i = 0; i < res.data.slice(0, 16).length; i++) {
         if ( i % 2 === 0 ) {
           restaurantFactory.databinLeft.push(res.data[i]);

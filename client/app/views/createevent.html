@@ -2,7 +2,7 @@
 
 <div class='container' style="opacity:.9">
   <div class='card-panel'>
-    <form ng-submit="collectEventData()">
+    <form ng-submit="collectEventData()"  style="border:1px solid brown">
       <div class="container">
         <div class="row">
           <div class="col s3">
@@ -24,13 +24,7 @@
         </div>
       </div>
       <div class="row">
-        <a ui-sref="dashboard.guestlist" ui-sref-active="hide" class="signup brown darken-3 waves-effect waves-light btn">Create A Guestlist</a>
-        <input type="submit" class="signup brown darken-3 waves-effect waves-light btn" value="Create Event!">
-      </div>
-      <div class="row">
-        <div>Invited Guests:
-          <span ng-repeat="name in invited">{{name}}, </span>
-        </div>
+        <input type="submit" class="right signup brown darken-3 waves-effect waves-light btn" value="Invite Guests!">
       </div>
       </div>
     </form>
