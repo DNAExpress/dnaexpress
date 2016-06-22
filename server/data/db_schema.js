@@ -116,7 +116,7 @@ db.schema.hasTable('userProfileFoodPrefs').then(function(exists) {
     db.schema.createTable('userProfileFoodPrefs', function(profFoodPrefs) {
       profFoodPrefs.increments('id').primary();
       profFoodPrefs.integer('user_id').references('users.id');
-      profFoodPrefs.integer('type_id').references('foodTypes.id');
+      profFoodPrefs.integer('foodType_id').references('foodTypes.id');
     }).then(function () {
       console.log('Created userProfileFoodPrefs table');
     });
@@ -141,7 +141,7 @@ db.schema.hasTable('userDietRestricts').then(function(exists) {
     db.schema.createTable('userDietRestricts', function(userRestricts) {
       userRestricts.increments('id').primary();
       userRestricts.integer('user_id').references('users.id');
-      userRestricts.integer('restriction_id').references('dietRestricts.id');
+      userRestricts.integer('dietRestrict_id').references('dietRestricts.id');
     }).then(function () {
       console.log('Created userDietRestricts table');
     });

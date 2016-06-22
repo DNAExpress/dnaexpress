@@ -8,20 +8,16 @@ angular.module('app.eventfactory',[])
     var eventData = {};
 
     var createEvent = function(data) {
-        console.log("inside eventFactory.createEvent", data);
         $state.go('loading');
-        console.log("inside create event factory",data);
         return $http({
           method:'POST',
           url: 'api/events/create',
           data: data
         })
         .then(function(res){
-          console.log("inside eventFactory, response received ");
           return res;
         })
         .catch(function(error) {
-          console.log("Error received", error);
         })
       };
 

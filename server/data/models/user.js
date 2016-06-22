@@ -4,7 +4,8 @@ var Food = require('./food');
 var UserEvent = require('./user_event');
 var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
-// var Promise = require('bluebird');
+var foodServices = require('../../services/food_services.js');
+var dietServices = require('../../services/diet_services.js');
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -63,17 +64,58 @@ var User = db.Model.extend({
       });
     };
   },
-  editUserInfo: function(newInfo, callback) {
-     for (var key in newInfo) {
+  editUserInfo: function(req, res, next, callback) {
+    console.log('inside editUserInfo');
+
+    var newInfo = {
+      username: req.body.username,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      // password: req.body.password,
+      location: req.body.location
+    };
+    var preferences = req.body.preferences;
+    var restrictions = req.body.restrictions;
+
+    for (var key in newInfo) {
       var storedData = this.get(key);
 
       if (storedData !== newInfo[key]) {
         this.set(key, newInfo[key]);
       }
+    }
 
-      callback();
-     }
+    var self = this;
+
+    var resData = {
+      user: {
+        username: self.attributes.username,
+        firstname: self.attributes.firstname,
+        lastname: self.attributes.lastname,
+        email: self.attributes.email,
+        location: self.attributes.location
+      }
+    };
+
+    foodServices.editProfileFoodPrefs(next, self, preferences)
+    .then(function(prefs) {
+      resData.user.preferences = prefs;
+    })
+    .then(function() {
+      console.log('restrictions', restrictions)
+      dietServices.editDietRestrictions(next, self, restrictions)
+      .then(function(restrictions) {
+        resData.user.restrictions = restrictions;
+        console.log('resData', resData)
+        callback(resData);
+      });
+    })
   }
+    // user interaction with diet restrictions is stored in ../../services/diet_services.js
+    // user interaction with food types is stored in ../../services/food_services.js
+    //callback();
+
 });
 
 module.exports = User;

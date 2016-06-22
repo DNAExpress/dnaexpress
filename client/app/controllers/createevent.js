@@ -30,10 +30,8 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
   }
 
   $scope.submitEvent = function() {
-    console.log("inside submitEvent",eventFactory.eventData);
     eventFactory.createEvent(eventFactory.eventData)
     .then(function(response) {
-      console.log("inside CreateEventCtrl, response received", response);
       $state.go('dashboard.showevent');
     })
   };
