@@ -31,10 +31,12 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
     eventFactory.eventData["date"] = $scope.event.date;
     $state.go('dashboard.guestlist')
     .then(function() {
-      $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
-      $scope.databinLeft = [];
-      $scope.databinRight = [];
-      eventFactory.distributeGuestList($scope.allUsersList);
+      if (eventFactory.databinLeft.length === 0 && eventFactory.databinRight.length === 0) {
+        $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
+        $scope.databinLeft = [];
+        $scope.databinRight = [];
+        eventFactory.distributeGuestList($scope.allUsersList);
+      }
     })
   };
 

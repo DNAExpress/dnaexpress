@@ -33,6 +33,7 @@ angular.module('app.eventfactory',[])
           data: data
         })
         .then(function(res){
+          console.log(res);
           return res;
         })
         .catch(function(error) {
