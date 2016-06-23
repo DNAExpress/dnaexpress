@@ -42,6 +42,7 @@ db.schema.hasTable('events').then(function(exists) {
       event.integer('responded');
       event.string('selectedRestaurant');
       event.string('publicEventId').unique();
+      event.string('status');
       event.timestamps();
     }).then(function (table) {
       console.log('Created events table', table);
