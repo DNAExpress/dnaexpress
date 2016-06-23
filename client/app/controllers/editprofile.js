@@ -13,7 +13,6 @@ angular.module('app.editprofile', ['app.services'])
 
   $scope.activate = function(formdata) {
     var profileData = Profile.processData($scope.user, formdata);
-    console.log(profileData);
     Profile.sendEditProfile(profileData);
   }
 }])

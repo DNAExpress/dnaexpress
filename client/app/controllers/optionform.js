@@ -20,10 +20,14 @@ angular.module('app.optionform', ['app.services'])
       restaurantFactory.databinRight = [];
       for (var i = 0; i < res.data.slice(0, 16).length; i++) {
         if ( i % 2 === 0 ) {
-          restaurantFactory.databinLeft.push(res.data[i]);
+          if (res.data[i].image_url) {
+            restaurantFactory.databinLeft.push(res.data[i]);
+          }
         }
         else {
-          restaurantFactory.databinRight.push(res.data[i]);
+          if (res.data[i].image_url) {
+            restaurantFactory.databinRight.push(res.data[i]);
+          }
         }
       }
       // restaurantFactory.restaurants = res.data.slice(0, 14);

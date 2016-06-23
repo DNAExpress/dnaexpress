@@ -7,6 +7,24 @@ angular.module('app.eventfactory',[])
 
     var eventData = {};
 
+    var databinLeft = [];
+
+    var databinRight = [];
+
+    var distributeGuestList = function(data) {
+      var flag = "L";
+      for(var user in data) {
+        if (flag === "L") {
+          databinLeft.push(data[user]);
+          flag = "R";
+        }
+        else {
+          databinRight.push(data[user]);
+          flag = "L";
+        }
+      }
+    };
+
     var createEvent = function(data) {
         $state.go('loading');
         return $http({
@@ -24,7 +42,10 @@ angular.module('app.eventfactory',[])
     return {
       guestList: guestList,
       createEvent: createEvent,
-      eventData: eventData
+      eventData: eventData,
+      distributeGuestList: distributeGuestList,
+      databinLeft: databinLeft,
+      databinRight: databinRight
     };
 
 }])
