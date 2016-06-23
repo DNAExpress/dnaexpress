@@ -7,28 +7,45 @@ angular.module('app.eventfactory',[])
 
     var eventData = {};
 
+    var databinLeft = [];
+
+    var databinRight = [];
+
+    var distributeGuestList = function(data) {
+      var flag = "L";
+      for(var user in data) {
+        if (flag === "L") {
+          databinLeft.push(data[user]);
+          flag = "R";
+        }
+        else {
+          databinRight.push(data[user]);
+          flag = "L";
+        }
+      }
+    };
+
     var createEvent = function(data) {
-        console.log("inside eventFactory.createEvent", data);
         $state.go('loading');
-        console.log("inside create event factory",data);
         return $http({
           method:'POST',
           url: 'api/events/create',
           data: data
         })
         .then(function(res){
-          console.log("inside eventFactory, response received ");
           return res;
         })
         .catch(function(error) {
-          console.log("Error received", error);
         })
       };
 
     return {
       guestList: guestList,
       createEvent: createEvent,
-      eventData: eventData
+      eventData: eventData,
+      distributeGuestList: distributeGuestList,
+      databinLeft: databinLeft,
+      databinRight: databinRight
     };
 
 }])

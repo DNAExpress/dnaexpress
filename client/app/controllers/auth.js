@@ -1,7 +1,7 @@
 'use strict'
-angular.module('app.auth', ['app.services'])
+angular.module('app.auth', ['app.services', 'app.eventfactory'])
 
-.controller('AuthCtrl', ['$scope', '$state', '$window', 'Auth', 'Profile',function($scope, $state, $window, Auth, Profile){
+.controller('AuthCtrl', ['$scope', '$state', '$window', 'Auth', 'Profile', 'eventFactory',function($scope, $state, $window, Auth, Profile, eventFactory){
   $scope.reset = function(form) {
     if (form) {
       form.$setPristine();
@@ -11,9 +11,8 @@ angular.module('app.auth', ['app.services'])
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (response) {
-        console.log("sign in response", response)
-        if (response.token) {
-          $window.localStorage.setItem('com.app', response.token);
+        if (response.data.token) {
+          $window.localStorage.setItem('com.app', response.data.token);
           $state.go('dashboard.showevent');
         }
         else {
@@ -33,10 +32,8 @@ angular.module('app.auth', ['app.services'])
 
   $scope.signup = function () {
     var data = Profile.processData($scope.user);
-    console.log("inside $scope.signup", data)
     Auth.signup(data)
       .then(function (token) {
-        console.log("token received ",token)
         $window.localStorage.setItem('com.app', token);
         $state.go('main.createprofile', {user:$scope.user});
       })
