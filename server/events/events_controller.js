@@ -12,7 +12,7 @@ module.exports = eventControls = {
     var name = req.body.eventName;
     var date = req.body.date;
     var creator = req.body.creator;
-    var attendees = ['travis', 'linda'].concat(creator);  /// dummy data
+    var attendees = (req.body.attendees).concat(creator);
     // var user = new User({username: creator});
     var event = new Event({
       name: name,
@@ -55,9 +55,6 @@ module.exports = eventControls = {
     // console.log(attendees)
     var result = attendees.map(function (username) {
       return new User({username: username}).fetch()
-      .then(function(user) {
-        return user.fetch();
-      })
       .then(function(user){
         if (user) {
           return new UserEvent({
