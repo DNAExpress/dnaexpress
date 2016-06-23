@@ -10,6 +10,10 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
   $scope.guests = {};
 
+  $scope.event = {};
+
+  $scope.event.creator = $window.sessionStorage.getItem('wefeast.user.username');
+
   $scope.eventData = eventFactory.eventData;
 
   $scope.getGuests = function() {

@@ -26,6 +26,7 @@ angular.module('app.eventfactory',[])
     };
 
     var createEvent = function(data) {
+        console.log("event data in createEvent http", data)
         $state.go('loading');
         return $http({
           method:'POST',

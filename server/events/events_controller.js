@@ -55,9 +55,9 @@ module.exports = eventControls = {
     // console.log(attendees)
     var result = attendees.map(function (username) {
       return new User({username: username}).fetch()
-      .then(function(user) {
-        return user.fetch();
-      })
+      // .then(function(user) {
+      //   return user.fetch();
+      // })
       .then(function(user){
         if (user) {
           return new UserEvent({
