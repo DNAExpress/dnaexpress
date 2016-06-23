@@ -4,14 +4,14 @@ var Recommendation = require('./recommendation');
 
 var Event = db.Model.extend({
   tableName: 'events',
-  hasTimestamp: true,
+  hasTimestamps: true,
   attendees: function() {
     return this.belongsToMany(User, 'usersEvents');
     //through usersEvents
   },
   createCustomId: function () {
     var num = [1,2,3,4,5,6,7,8,9,'a', 'b', 'c', 'd', 'e'];
-
+    var self = this;
     return function(){
       var i = 0
         , j = 0
@@ -23,9 +23,10 @@ var Event = db.Model.extend({
         num[i] = num[j];
         num[j] = temp;
       }
-      this.set('publicEventId', num.join(''));
+      self.set('publicEventId', num.join(''));
       console.log('initializing event');
-    }().bind(this);
+      return self;
+    }();
   },
   recommendation: function() {
     return this.hasMany(Recommendation);
@@ -36,7 +37,7 @@ var Event = db.Model.extend({
   },
 
   initialize: function() {
-    return this.on('creating', this.createCustomId());
+    return this.on('creating', this.createCustomId);
   },
 });
 
