@@ -9,7 +9,7 @@ var dietServices = require('../../services/diet_services.js');
 
 var User = db.Model.extend({
   tableName: 'users',
-  hasTimestamp: true,
+  hasTimestamps: true,
   events: function() {
     return this.belongsToMany(Event, 'usersEvents');
   },
