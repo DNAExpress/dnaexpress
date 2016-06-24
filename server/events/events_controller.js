@@ -1,5 +1,7 @@
 var Events = require('./../data/collections/events');
 var Event = require('./../data/models/event');
+var Foods = require('./../data/collections/foods');
+var Food = require('./../data/models/food');
 var Users = require('./../data/collections/users');
 var User = require('./../data/models/user');
 var UserEvents = require('./../data/collections/user_events');
@@ -51,6 +53,84 @@ module.exports = eventControls = {
 
   },
 
+  formSubmission: function (req, res, next) {
+    var pubEventId = req.body.pubEventId;
+    var username  = req.body.username;
+    var prefs = req.body.preferences;
+
+    Event
+      .forge({publicEventId: pubEventId})
+      .fetch()
+      .then(function(event){
+        event.attributes.id
+      });
+  },
+
+  // getSingleUserEvent: function (username) {
+
+  // },
+
+  addEventUserFoodPrefs: function (userEvent, foodPrefs /*array of foodPrefs*/) {
+
+    foodPrefs.forEach(function (foodPref) {
+      add(foodPref);
+    });
+
+    function add(type) {
+      return Food
+        .forge({type: type})
+        .fetch()
+        .then(function(food) {
+          return {foodTypesModel: food, userEventModel: userEvent};
+        })
+        .then(function(references) {
+          return references
+            .userEventModel
+            .foods()
+            .attach(references.foodTypesModel);
+        })
+        .then(function(relation) {
+          console.log('Successfully created relationship in addEventUserFoodPrefs function');
+        }).catch(function(error){
+          // return next(new Error('Failed to create relationship in addEventUserFoodPrefs function'))
+        });
+    };
+  },
+
+  // getEventUserFoodPrefs: function () {
+
+  // },
+
+  getUserEventId: function (userId, eventId) {
+    return UserEvent
+      .forge()
+      .query(function(qb){
+        qb.where('user_id', '=', userId).andWhere('event_id', '=', eventId);
+      })
+      .fetch()
+      .then(function (userevent) {
+        return userevent.attributes.id;
+      });
+  },
+
+  getUserByUsername: function (username) {
+    return User
+      .forge({username: username})
+      .fetch()
+      .then(function (user) {
+        return user;
+    });
+  },
+
+  getEventByPubId: function (pubEventId) {
+    return Event
+      .forge({id: pubEventId})
+      .fetch()
+      .then(function (event) {
+        return event.attributes;
+      });
+  },
+
   connectEventUsers: function (attendees, event, res, next) {
     // console.log(attendees)
     var result = attendees.map(function (username) {
@@ -79,4 +159,9 @@ module.exports = eventControls = {
   }
 };
 
-// console.log(eventControls.createEvent(object, res, next));
+// eventControls.getUserByUsername('nate')
+//   .then(function (user) {
+//     console.log(eventControls.addEventUserFoodPrefs(user, ['burgers', 'thai', 'sushi']));
+//   });
+
+
