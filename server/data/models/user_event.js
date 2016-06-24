@@ -14,7 +14,7 @@ var UserEvent = db.Model.extend({
     return this.belongsTo(Event);
   },
   foods: function() {
-    return this.hasMany(Food);
+    return this.belongsToMany(Food, 'userEventsFood');
   },
   initialize: function () {
     this.set('responseStatus', 0);
