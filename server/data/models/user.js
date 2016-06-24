@@ -6,6 +6,7 @@ var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 var foodServices = require('../../services/food_services.js');
 var dietServices = require('../../services/diet_services.js');
+var userEventServices = require('../../services/user_event_services'); 
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -111,10 +112,54 @@ var User = db.Model.extend({
         callback(resData);
       });
     })
+  },
+  getEvents: function(req, res, next) {
+    var self = this;
+
+    return userEventServices.getSingleUsersEventConnections(self.attributes.id)
+      // get user-event joins for the specified user
+      .then(function(eventConnections){ 
+        // get events from the event_id in the userevent joins
+        return userEventServices.getSingleUsersEvents(eventConnections)
+      })
+      .then(function(usersEvents) {
+        // after getting all of the events, filter them by status
+        var activeEvents = [];
+        for (var i in usersEvents) {
+          if (usersEvents[i].status === 'active') {
+            activeEvents.push(usersEvents[i]);
+          }
+        }
+        return activeEvents;
+      })
+      .then(function(activeEvents) {
+        // find event recommondations, return promisified version of the mapped events
+        var allEvents = activeEvents.map(function(event) {
+          return Event.forge({id: event.id})
+          .fetch() 
+          .then(function(eventModel) {
+            return eventModel.getRecommendations()
+            // recommendation table accessed through each spacific event instance
+            .then(function(recommendations) {
+              // include event details and recommendations
+              return {
+                name: event.name,
+                creator: event.creator,
+                date: event.date,
+                numAttendees: event.attendeesNum,
+                attendeesResponded: event.responded,
+                publicEventId: event.publicEventId,
+                recommendations: recommendations
+              }
+          }); 
+          }) 
+
+        });
+        return Promise.all(allEvents);
+
+      });
+
   }
-    // user interaction with diet restrictions is stored in ../../services/diet_services.js
-    // user interaction with food types is stored in ../../services/food_services.js
-    //callback();
 
 });
 

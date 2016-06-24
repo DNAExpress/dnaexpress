@@ -1,6 +1,7 @@
 var db = require('./../db_schema.js');
 var User = require('./user');
 var Recommendation = require('./recommendation');
+var UserEvent = require('./user_event');
 
 var Event = db.Model.extend({
   tableName: 'events',
@@ -39,6 +40,19 @@ var Event = db.Model.extend({
   initialize: function() {
     return this.on('creating', this.createCustomId);
   },
+
+  getRecommendations: function() {
+    var eventId = this.attributes.id;
+    return Recommendation
+      .forge()
+      .query('where', 'event_id', '=', eventId)
+      .fetchAll()
+      .then(function (userEvents) {
+        return userEvents.models.map(function(model) {
+          return model.attributes.recommendation;
+        });
+      });
+  }
 });
 
 module.exports = Event;
