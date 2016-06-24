@@ -81,6 +81,7 @@ module.exports = userControls = {
               resData.allUsers = allData.allUsers;
               resData.user.preferences = allData.preferences;
               resData.user.dietRestrictions = allData.restrictions;
+              resData.user.events = allData.events;
               res.status(200).send(resData);
           });
         }
@@ -107,6 +108,13 @@ module.exports = userControls = {
         allData.allUsers = allUsers;
       })
       .then(function() {
+        // get users events AND recommendations for events
+        return user.getEvents()
+      })
+      .then(function(events) {
+          allData.events = events;
+      })
+      .then(function() {
         return foodServices.getProfileFoodPrefs(user)
           .then(function(prefs) {
             allData.preferences = prefs;
@@ -117,12 +125,11 @@ module.exports = userControls = {
                 allData.restrictions = restrictions;
                 return allData;
               })
-          });
-          // add get events
-      })
+          })
       .catch(function(error) {
         return next(new Error('failed getting all data'));
       });
+    })
   },
   getAllUsers: function getAllUsers(req, res, next) {
     return User.fetchAll()
