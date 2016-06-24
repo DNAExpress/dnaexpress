@@ -6,7 +6,7 @@ var dietServices = require('./../services/diet_services');
 
 module.exports = userControls = {
 
-  signup: function signup(req, res, next) {
+  signup: function (req, res, next) {
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
@@ -49,7 +49,7 @@ module.exports = userControls = {
         }
       });
   },
-  signin: function signin(req, res, next) {
+  signin: function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
     var resData = {};
@@ -87,7 +87,7 @@ module.exports = userControls = {
         }
     });
   },
-  editUserProfile: function editUserProfile(req, res, next) {
+  editUserProfile: function (req, res, next) {
     new User({ email: req.body.email })
       .fetch()
       .then(function(user) {
@@ -100,7 +100,7 @@ module.exports = userControls = {
         }
       });
   },
-  getAllUserData: function(req, res, next, user) {
+  getAllUserData: function (req, res, next, user) {
     console.log('getting all data with user: ', user.attributes.username)
     var allData = {};
     return userControls.getAllUsers()
@@ -131,7 +131,7 @@ module.exports = userControls = {
       });
     })
   },
-  getAllUsers: function getAllUsers(req, res, next) {
+  getAllUsers: function (req, res, next) {
     return User.fetchAll()
       .then(function(users) {
         var currUsers = {};
