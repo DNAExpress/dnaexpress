@@ -1,0 +1,13 @@
+<h2 class="center-align white-text"><a class="white-text">Your Profile</a></h2>
+
+<div class="container" style="opacity:.9">
+  <div class="card-panel hoverable">
+    <p>Name: {{user.firstname}} {{user.lastname}} </p>
+    <p>Email: {{user.email}}</p>
+    <p>Location: {{user.location}}</p>
+    <p>Friends: </p>
+    <p>Food preferences: {{user.preferences}}</p>
+    <p>Dietary restrictions: {{user.dietrestrictions}} </p>
+    <a ui-sref="dashboard.editprofile" ui-sref-active="hide" class="signup brown darken-3 waves-effect waves-light btn">Edit Profile</a>
+  </div>
+</div>

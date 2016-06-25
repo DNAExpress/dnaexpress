@@ -1,0 +1,32 @@
+<h2 class="center-align white-text"><a class="white-text">Create An Event Step 1</a></h2>
+
+<div class='container' style="opacity:.9">
+  <div class='card-panel'>
+    <form ng-submit="collectEventData()"  style="border:1px solid brown">
+      <div class="container">
+        <div class="row">
+          <div class="col s3">
+            <div class='input-field'>
+              <input type="date" class="datepicker" placeholder="date" ng-model="event.date">
+            </div>
+          </div>
+        </div>
+      <div class="row">
+        <div>
+          <div class='input-field'>
+            <input type="text" placeholder="event name" ng-model="event.name">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field">
+          <input type="text" placeholder="host" ng-model="event.creator">
+        </div>
+      </div>
+      <div class="row">
+        <input type="submit" class="right signup brown darken-3 waves-effect waves-light btn" value="Invite Guests!">
+      </div>
+      </div>
+    </form>
+  </div>
+</div>

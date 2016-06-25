@@ -1,0 +1,44 @@
+{
+  "name": "dnaexpress",
+  "version": "1.0.0",
+  "description": "travel app",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint && jasmine",
+    "start": "node index.js",
+    "postinstall": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnaexpress/dnaexpress.git"
+  },
+  "author": "dnaexpress",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dnaexpress/dnaexpress/issues"
+  },
+  "homepage": "https://github.com/dnaexpress/dnaexpress#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "bookshelf": "^0.9.5",
+    "bower": "^1.7.9",
+    "express": "^4.13.4",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jasmine": "^2.3.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-ng-inject": "^0.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "jasmine": "^2.4.1",
+    "jwt-simple": "^0.5.0",
+    "knex": "^0.11.5",
+    "sqlite3": "^3.1.4",
+    "yelp": "^1.0.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.2"
+  }
+}
