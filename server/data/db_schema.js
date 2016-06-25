@@ -9,7 +9,7 @@ var db = require('knex')({
     charset: 'utf8',
     filename: path.join(__dirname, './db/dna.sqlite')
   },
-  useNullAsDefault: true
+  useNullAsDefault: true,
 });
 
 
@@ -94,7 +94,7 @@ db.schema.hasTable('recommendations').then(function(exists){
       recommendation.integer('event_id').references('events.id');
       recommendation.string('recommendation');
     }).then(function (table) {
-      console.log('Created userEventsFood table', table);
+      console.log('Created recommendations table', table);
     });
   }
 });
