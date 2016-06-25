@@ -117,6 +117,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       templateUrl:'app/views/createeventreview.html',
       controller:'CreateEventCtrl',
       authenticate:true
+    })
+    .state('dashboard.singleeventview', {
+      url:'/singleeventview',
+      templateUrl:'app/views/singleeventview.html',
+      controller:'ShowEventCtrl',
+      params:{
+        singleevent:null
+      },
+      authenticate:true
     });
 
     $locationProvider.html5Mode(true);

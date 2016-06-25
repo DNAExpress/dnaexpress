@@ -7,11 +7,5 @@ angular.module('app.restaurantresults', [])
   $scope.databinLeft = restaurantFactory.databinLeft;
   $scope.databinRight = restaurantFactory.databinRight;
 
-  console.log($scope.databinLeft);
-  console.log($scope.databinRight);
-
-  $scope.logger = function() {
-    console.log('hit');
-  }
 
 }]);

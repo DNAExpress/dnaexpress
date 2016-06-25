@@ -11,6 +11,13 @@ angular.module('app.eventfactory',[])
 
     var databinRight = [];
 
+    var eventBinLeft = [];
+
+    var eventBinCenter = [];
+
+    var eventBinRight = [];
+
+
     var distributeGuestList = function(data) {
       var flag = "L";
       for(var user in data) {
@@ -26,7 +33,6 @@ angular.module('app.eventfactory',[])
     };
 
     var createEvent = function(data) {
-        console.log("event data in createEvent http", data)
         $state.go('loading');
         return $http({
           method:'POST',
@@ -35,11 +41,19 @@ angular.module('app.eventfactory',[])
         })
         .then(function(res){
           console.log(res);
+          liveEventDataHandler(res);
           return res;
+        }).then(function() {
+          $state.go('dashboard.showevent');
         })
         .catch(function(error) {
         })
       };
+
+    var liveEventDataHandler = function(data) {
+      $window.sessionStorage.removeItem('wefeast.user.events');
+      $window.sessionStorage.setItem('wefeast.user.events', JSON.stringify(data.data));
+    };
 
     return {
       guestList: guestList,
@@ -47,7 +61,8 @@ angular.module('app.eventfactory',[])
       eventData: eventData,
       distributeGuestList: distributeGuestList,
       databinLeft: databinLeft,
-      databinRight: databinRight
+      databinRight: databinRight,
+      liveEventDataHandler: liveEventDataHandler
     };
 
 }])
