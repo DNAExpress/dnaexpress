@@ -67,118 +67,63 @@ module.exports = eventControls = {
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.preferences;
+    var eventId;
     eventControls.getUserModelByUsername(username)
       .then(function (user) {
+        // set users resp status for event to true, 
+          // so that sever and client know they have completed form
         user.set('responseStatus', 1);
         eventControls.getEventModelByPubId(pubEventId)
           .then(function (event) {
+            eventId = event.attributes.id;
+            // update the number of responded attendees ; 
+              // will be used below to check if all attendees have completed foodPref forms
             var attendeesNum = event.get('attendeesNum');
             var responded = event.get('responded') + 1;
             event.save('responded', responded);
+
             eventControls.getUserEventModel(user.attributes.id, event.attributes.id)
-          }).then(function (userEvent) {
+          })
+          .then(function (userEvent) {
+            // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
             eventControls.addEventUserFoodPrefs(userEvent, prefs);
-          }).then(function () {
-            [attendees]
-            eventControls.getEventUserFoodPrefs()
-            // user.getEvents();
+          })
+          .then(function () {
+            // if all users have responded, collect all of their pref data and generate list of recommendations!
             if (attendeesNum === responded) {
-              var userPrefs = {};
-              eventControls.getAllEventAttendees(event.attributes.id)
-              .then(function (attendees) {
-                var attendeeProfileAndEventFoodPrefs = [];
-                return attendees.forEach(function(attendee) {
-                  User
-                  .forge({id: attendee.attributes.user_id})
-                  .fetch()
-                  .then(function (userModel) {
-                      FoodServices.getProfileFoodPrefs(userModel)
-                      .then(function (profileFoodArray){
-                        eventControls.getEventFoodPrefs(attendees);
-                      }).then(function(eventFoodArray) {
-                        attendeeProfileAndEventFoodPrefs.push([profileFoodArray, eventFoodArray]);
-                      }); // dietary restrictions
-                  })
-                });
-              });
+              return eventControls.getPrefsForAllAttendees(eventId)
+                .then(function(allUserPrefs) {
+                  // spit through algorithm
+                })
+                .then(function() {
+                  // fetch all of users events and res
 
-              // get all attendee profile food pref data and user event food prefs and diet restrictions
-              // pipe result to algorithm
-              // make yelp api call
-              // add recommendations to recommendation table
+                    // .then(function(usersEvents) {
+                    //   //respnd
+                    // })
+                })
             } else {
-
+              // fetch all of users events and res
             }
-
-
-          // get all events, recommendations, and response status for current user and send back to user
-        });
+          })
+          .catch(function(error) {
+            return next(new Error('failure in form submission handling: ' + error));
+          });
       })
   },
 
-  getAllEventAttendees: function (eventId) {
-    UserEvent
-      .forge()
-      .query('where', 'event_id', '=', eventId)
-      .fetchAll()
-      .then(function (userEvent) {
-        return userEvent.models;
-      });
-  },
-// for each attendee
-  // get user profile food prefs (getProfileFoodPrefs) and user event food prefs (getEventUserFoodPrefs)
-  addEventUserFoodPrefs: function (userEvent, foodPrefs /*array of foodPrefs*/) {
-    console.log(userEvent);
-    foodPrefs.forEach(function (foodPref) {
-      add(foodPref);
-    });
-
-    function add(type) {
-      Food.forge({type: type})
-        .fetch()
-        .then(function(food) {
-          UserEventsFood.forge({
-            userEvent_id: userEvent.attributes.id,
-            foodType_id: food.attributes.id
-          }).save()
-          .then(function(newUserEventsFoodJoin) {
-              console.log('Success!')
-          }).catch(function (error) {
-            console.log(error);
-          });
+  getPrefsForAllAttendees: function(eventId) {
+    eventControls.getAllUserEventsForEvent(eventId)
+      .then(function(eventsUserEvents) {
+        var allUserPrefs = eventsUserEvents.map(function(currUserEvent) {
+          return eventControls.getDataForGeneratingRecs(currUserEvent)
+            .then(function(userPrefs) {
+              console.log('individual Users TOTAL Prefs', userPrefs)
+              return userPrefs;
+            });
         });
-    }
+      })
   },
-
-  getUserEventsFoodPrefs: function (userEvent) {
-    // return Food
-    //     .forge()
-    //     .query(function(qb){
-    //       qb.where('userEvent_id', '=', userEvent.attributes.id);
-    //     })
-    //     .fetch()
-    //     .then(function(food) {
-    //         //send both references down the promise chain
-    //         return {foodModel: food, userEventModel: userEvent};
-    //     })
-        // .then(function(references) {
-        //     return references
-        //         .userModel
-        //         //get the belongsToMany relation specified in the first definition, which returns a collection
-        //         .foodtypes()
-        //         .fetch();
-        // })
-        // .then(function(relation) {
-        //     //console.log('got userProfileFoodPrefs table', relation.models)
-        //     return relation.models.map(function(model) {
-
-        //       console.log('model atts.type', model.attributes.type)
-        //       return model.attributes.type
-        //     })
-        // })
-  },
-
-  // changeUserResponseNum
 
   getUserEventModel: function (userId, eventId) {
     return UserEvent
@@ -209,6 +154,43 @@ module.exports = eventControls = {
         return event;
       });
   },
+
+  getAllUserEventsForEvent: function (eventId) {
+    return UserEvent
+      .forge()
+      .query('where', 'event_id', '=', eventId)
+      .fetchAll()
+      .then(function (userEvent) {
+        return userEvent.models;
+      });
+  },
+
+  getDataForGeneratingRecs: function (userEvent) {
+    var allUserPrefs = {};
+    console.log('user id', userEvent.attributes.user_id);
+    return User.forge({id: userEvent.attributes.user_id})
+      .fetch()
+      .then(function (user) {
+          return foodServices.getProfileFoodPrefs(user)
+          .then(function (profileFoodArray) {
+            allUserPrefs.profileFoodPrefs = profileFoodArray;
+          })
+          .then(function(){
+            return dietServices.getDietRestrictions(user)
+              .then(function(restrictions) {
+                allUserPrefs.restrictions = restrictions;
+              })
+              .then(function() {
+                return UserEventServices.getUserEventsFoodPrefs(userEvent)
+                  .then(function(eventFoodArray) {
+                    allUserPrefs.eventFoodPrefs = eventFoodArray;
+                    return allUserPrefs;
+                  });
+              });
+          });
+      });
+
+    },
 
   connectEventUsers: function (attendees, event, res, next) {
     var result = attendees.map(function (username) {
@@ -258,25 +240,44 @@ module.exports = eventControls = {
 //     eventControls.addEventUserFoodPrefs(userEvent, ['burgers', 'sushi', 'koreanbbq']);
 //   });
 
+};
 
-    //   return Food
-    //     .forge({type: type})
-    //     .fetch()
-    //     .then(function(food) {
-    //       return {foodTypesModel: food, userEventModel: userEvent};
-    //     })
-    //     .then(function(references) {
-    //       console.log(references);
-    //       return references
-    //         .userEventModel
-    //         .foods()
-    //         .attach(references.foodTypesModel);
-    //     })
-    //     .then(function(relation) {
-    //       console.log(relation);
-    //       console.log('Successfully created relationship in addEventUserFoodPrefs function');
-    //     }).catch(function(error){
-    //       console.log(error);
-    //       // return next(new Error('Failed to create relationship in addEventUserFoodPrefs function'))
-    //     });
-    // };
+// old
+      // eventControls.getAllEventAttendees(2);
+      // eventControls.getUserEventModel(1, 1)
+      //   .then(function (userEvent) {
+      //     eventControls.addEventUserFoodPrefs(userEvent, ['burgers', 'sushi', 'koreanbbq']);
+      //   });
+
+
+          //   return Food
+          //     .forge({type: type})
+          //     .fetch()
+          //     .then(function(food) {
+          //       return {foodTypesModel: food, userEventModel: userEvent};
+          //     })
+          //     .then(function(references) {
+          //       console.log(references);
+          //       return references
+          //         .userEventModel
+          //         .foods()
+          //         .attach(references.foodTypesModel);
+          //     })
+          //     .then(function(relation) {
+          //       console.log(relation);
+          //       console.log('Successfully created relationship in addEventUserFoodPrefs function');
+          //     }).catch(function(error){
+          //       console.log(error);
+          //       // return next(new Error('Failed to create relationship in addEventUserFoodPrefs function'))
+          //     });
+          // };
+//eventControls.getAllUserEventsForEvent(2)
+eventControls.getPrefsForAllAttendees(1);
+
+
+new Event({id: 1})
+      .fetch()
+      .then(function (event) {
+        console.log(event)
+        return event.attributes;
+      });
