@@ -10,8 +10,11 @@
                 <div class="card-panel hoverable">
                   <div class="row">
                     <div>
-                      <input type="checkbox" id="{{people.username}}" ng-model="guests[people.username]" />
-                      <label for='{{people.username}}' class="black-text" style="font-size:18pt;">{{people.firstname}}&nbsp;{{people.lastname}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
+                      <a ng-click="addToGuestList(people.username)">
+                        <span style="font-size:18pt;padding-left:20px;">{{people.firstname}}&nbsp;{{people.lastname}}</span>
+                      </a>
+                      <br>
+                      <span style="padding-left:25px;">{{people.location}}</span>
                     </div>
                   </div>
                 </div>
@@ -22,8 +25,11 @@
                 <div class="card-panel hoverable">
                   <div class="row">
                     <div>
-                      <input type="checkbox" id="{{people.username}}" ng-model="guests[people.username]" />
-                      <label for='{{people.username}}' class="black-text" style="font-size:18pt">{{people.firstname}}&nbsp;{{people.lastname}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
+                      <a ng-click="addToGuestList(people.username)">
+                        <span style="font-size:18pt;padding-left:20px">{{people.firstname}}&nbsp;{{people.lastname}}</span>
+                      </a>
+                      <br>
+                      <span  style="padding-left:25px;">{{people.location}}</span>
                     </div>
                   </div>
                 </div>
@@ -32,6 +38,10 @@
           </div>
         </div>
         <br>
+        <div class="card-panel hoverable" style="border:1px solid brown">
+            <h6 style="padding:10px;">Currently on the Guest List: {{possible}}</h6>
+            <p></p>
+        </div>
         <div class="card-panel hoverable" style="border:1px solid brown">
           <div class="row">
             <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Step 1</a></h6>
@@ -42,3 +52,15 @@
 
   </div>
 </div>
+<!-- <script>
+  var handleIt = function(e) {
+    e.stopPropagation();
+    // e.preventDefault();
+    console.log(e);
+  }
+  $(document).ready(function(){
+    $('input').on('change', function(e) {
+      console.log(e);
+    })
+  });
+</script> -->

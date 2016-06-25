@@ -72,7 +72,7 @@ angular.module('app.services', ['app.eventfactory'])
       $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
       $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences))
       $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.restrictions))
-      $state.go('dashboard.showevent');
+      $state.go('dashboard.profile');
     })
 
   }
@@ -122,8 +122,8 @@ angular.module('app.services', ['app.eventfactory'])
       $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
       $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
       $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
-      // $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences))
-      // $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.dietRestrictions))
+      $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences))
+      $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.dietRestrictions))
       $window.sessionStorage.setItem('wefeast.userList', JSON.stringify(res.data.allUsers));
       return res.data.token;
     })
@@ -145,6 +145,9 @@ angular.module('app.services', ['app.eventfactory'])
     $window.sessionStorage.removeItem('wefeast.user.email');
     $window.sessionStorage.removeItem('userList');
     $window.sessionStorage.removeItem('wefeast.userList');
+    $window.sessionStorage.removeItem('wefeast.user.dietrestrictions');
+    $window.sessionStorage.removeItem('wefeast.user.preferences');
+    $window.sessionStorage.removeItem('wefeast.user.events');
   };
 
   return {
