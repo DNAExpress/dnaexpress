@@ -29,6 +29,7 @@ var Event = db.Model.extend({
       return self;
     }();
   },
+
   recommendation: function() {
     return this.hasMany(Recommendation);
   },
