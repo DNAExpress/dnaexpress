@@ -1,13 +1,16 @@
 <h2 class="center-align white-text"><a class="white-text">Events Dashboard</a></h2>
 
 <div class="container hoverable" style="opacity:.9">
-  <div class="card-panel hoverable" style="height:500px;overflow:scroll;">
+  <div ng-if="allEventList" class="card-panel hoverable" style="height:500px;overflow:scroll;">
     <div class="row">
       <ul class="col s4">
         <li ng-repeat="events in eventBinLeft">
           <div class="card-panel hoverable" style="height:200px;">
             <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
-            <h6>{{events.date | date:'medium'}}</h6>
+            <h6>{{events.date | date:'fullDate'}}</h6>
+            <h6>{{events.date | date:'shortTime'}}</h6>
+            <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
+            <h6 ng-if="!events.responded"><a ui-sref="dashboard.eventresponseform({eventData:events})">RSVP Now</a></h6>
           </div>
         </li>
       </ul>
@@ -15,7 +18,10 @@
         <li ng-repeat="events in eventBinCenter">
           <div class="card-panel hoverable" style="height:200px;">
             <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
-            <h6>{{events.date | date:'medium'}}</h6>
+            <h6>{{events.date | date:'fullDate'}}</h6>
+            <h6>{{events.date | date:'shortTime'}}</h6>
+            <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
+            <h6 ng-if="!events.responded"><a ui-sref="dashboard.eventresponseform({eventData:events})">RSVP Now</a></h6>
           </div>
         </li>
       </ul>
@@ -23,10 +29,16 @@
         <li ng-repeat="events in eventBinRight">
           <div class="card-panel hoverable" style="height:200px;">
             <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
-            <h6>{{events.date | date:'medium'}}</h6>
+            <h6>{{events.date | date:'fullDate'}}</h6>
+            <h6>{{events.date | date:'shortTime'}}</h6>
+            <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
+            <h6 ng-if="!events.responded"><a ui-sref="dashboard.eventresponseform({eventData:events})">RSVP Now</a></h6>
           </div>
         </li>
       </ul>
     </div>
+  </div>
+  <div ng-if="!allEventList" class="card-panel hoverable" style="height:500px;">
+    <h2 class="black-text center-align">{{noEventsNotice}}</h2>
   </div>
 </div>

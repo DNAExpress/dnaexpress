@@ -18,24 +18,25 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
   $scope.possible = "";
 
+  $scope.guestbin = [];
+
   $scope.addToGuestList = function(username) {
-    $scope.possible += username + ", ";
-    console.log("Boo");
+
+    if ($scope.guestbin.indexOf(username) < 0) {
+      $scope.possible = "";
+      $scope.guestbin.push(username);
+      $scope.guestbin.forEach(function(name) {
+        $scope.possible += name +", ";
+      })
+    }
   };
 
-  $scope.getGuests = function() {
-    eventFactory.eventData["attendees"] = $scope.possible;
-    // $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
-    // eventFactory.eventData["attendees"] = [];
-    // for (var guest in $scope.guests) {
-    //   for (var users in $scope.allUsersList) {
-    //     if (users === guest) {
-    //       eventFactory.eventData["attendees"].push($scope.allUsersList[users]);
-    //     }
-    //   }
-    // }
-    // console.log($scope.possible);
+  $scope.addGuestsToEventData = function() {
+    eventFactory.eventData["attendees"] = $scope.guestbin;
     $state.go('dashboard.createeventreview')
+    .then(function(){
+      console.log($scope.guestbin);
+    })
   };
 
   $scope.collectEventData = function() {
@@ -55,9 +56,6 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
   $scope.submitEvent = function() {
     eventFactory.createEvent(eventFactory.eventData)
-    .then(function(response) {
-      $state.go('dashboard.showevent');
-    })
   };
 
 }]);

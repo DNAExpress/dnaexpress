@@ -47,6 +47,7 @@ angular.module('app.eventfactory',[])
           $state.go('dashboard.showevent');
         })
         .catch(function(error) {
+          console.error("Error received in createEvent", error);
         })
       };
 
@@ -55,6 +56,26 @@ angular.module('app.eventfactory',[])
       $window.sessionStorage.setItem('wefeast.user.events', JSON.stringify(data.data));
     };
 
+    var sendEventResponse = function(data) {
+      $state.go('loading');
+      return $http({
+        method:'POST',
+        url: 'api/events/formsubmission',
+        data: data
+      })
+      .then(function(res) {
+        console.log(res);
+        liveEventDataHandler(res);
+        return res;
+      })
+      .then(function(){
+        $state.go('dashboard.showevent');
+      })
+      .catch(function(error) {
+        console.error("Error received in sendEventResponse", error);
+      })
+    }
+
     return {
       guestList: guestList,
       createEvent: createEvent,
@@ -62,7 +83,8 @@ angular.module('app.eventfactory',[])
       distributeGuestList: distributeGuestList,
       databinLeft: databinLeft,
       databinRight: databinRight,
-      liveEventDataHandler: liveEventDataHandler
+      liveEventDataHandler: liveEventDataHandler,
+      sendEventResponse: sendEventResponse
     };
 
 }])
