@@ -75,6 +75,7 @@ module.exports = eventControls = {
         user.set('responseStatus', 1);
         eventControls.getEventModelByPubId(pubEventId)
           .then(function (event) {
+            console.log('event in formSubmission', event)
             eventId = event.attributes.id;
             // update the number of responded attendees ; 
               // will be used below to check if all attendees have completed foodPref forms
@@ -83,45 +84,64 @@ module.exports = eventControls = {
             event.save('responded', responded);
 
             eventControls.getUserEventModel(user.attributes.id, event.attributes.id)
-          })
-          .then(function (userEvent) {
+            .then(function (userEvent) {
             // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
-            eventControls.addEventUserFoodPrefs(userEvent, prefs);
+            UserEventServices.addEventUserFoodPrefs(userEvent, prefs);
+            })
+            .then(function () {
+              // if all users have responded, collect all of their pref data and generate list of recommendations!
+              if (attendeesNum === responded) {
+                return eventControls.getPrefsForAllAttendees(eventId)
+                  .then(function(allUserPrefs) {
+                    // format food Prefs into and array of arrays for the algorithm
+                    return AllFoodPrefs.map(function(userPrefs) {
+                      return [userPrefs['profileFoodPrefs'], userPrefs['eventFoodPrefs']];
+                    })
+                  })
+                  .then(function (foodPrefsArray) {
+                     // spit through alg
+                     return [];
+                    console.log('foodPrefsArray', foodPrefsArray);
+                    //searchAlgorithm.parseBestOptions(foodPrefsArray);
+                  })
+                  .then(function() {
+                    // fetch all of users events and res
+                    return user.getEvents()
+                      .then(function(events) {
+                        console.log('all users have submitted form and events have been pulled!')
+                        //res.status(200).send(events);
+                      })
+                  }).catch(function(error) {
+                    console.log('error line 110 events controller', error)
+                    //return next(new Error('failure in form submission handling: ' + error));
+                  });
+              } else {
+                return user.getEvents()
+                  .then(function(events) {
+                    console.log('more forms to submit')
+                    //res.status(200).send(events);
+                  });
+              }
+            })
+            .catch(function(error) {
+              console.log('error line 122 events controller', error)
+              //return next(new Error('failure in form submission handling: ' + error));
+            });
           })
-          .then(function () {
-            // if all users have responded, collect all of their pref data and generate list of recommendations!
-            if (attendeesNum === responded) {
-              return eventControls.getPrefsForAllAttendees(eventId)
-                .then(function(allUserPrefs) {
-                  // spit through algorithm
-                })
-                .then(function() {
-                  // fetch all of users events and res
-
-                    // .then(function(usersEvents) {
-                    //   //respnd
-                    // })
-                })
-            } else {
-              // fetch all of users events and res
-            }
-          })
-          .catch(function(error) {
-            return next(new Error('failure in form submission handling: ' + error));
-          });
+          
       })
   },
 
   getPrefsForAllAttendees: function(eventId) {
-    eventControls.getAllUserEventsForEvent(eventId)
+    return eventControls.getAllUserEventsForEvent(eventId)
       .then(function(eventsUserEvents) {
-        var allUserPrefs = eventsUserEvents.map(function(currUserEvent) {
+        var result = eventsUserEvents.map(function(currUserEvent) {
           return eventControls.getDataForGeneratingRecs(currUserEvent)
             .then(function(userPrefs) {
-              console.log('individual Users TOTAL Prefs', userPrefs)
               return userPrefs;
             });
         });
+        return Promise.all(result)
       })
   },
 
@@ -148,7 +168,7 @@ module.exports = eventControls = {
 
   getEventModelByPubId: function (pubEventId) {
     return Event
-      .forge({id: pubEventId})
+      .forge({publicEventId: pubEventId})
       .fetch()
       .then(function (event) {
         return event;
@@ -167,7 +187,6 @@ module.exports = eventControls = {
 
   getDataForGeneratingRecs: function (userEvent) {
     var allUserPrefs = {};
-    console.log('user id', userEvent.attributes.user_id);
     return User.forge({id: userEvent.attributes.user_id})
       .fetch()
       .then(function (user) {
@@ -189,8 +208,7 @@ module.exports = eventControls = {
               });
           });
       });
-
-    },
+  },
 
   connectEventUsers: function (attendees, event, res, next) {
     var result = attendees.map(function (username) {
@@ -271,13 +289,22 @@ module.exports = eventControls = {
           //       // return next(new Error('Failed to create relationship in addEventUserFoodPrefs function'))
           //     });
           // };
-//eventControls.getAllUserEventsForEvent(2)
-eventControls.getPrefsForAllAttendees(1);
+
+var fakeReq = {body : {
+  pubEventId: '98513d7e6b2c4a',
+  username: 'linda',
+  preferences: ['sushi', 'french']
+}}
+eventControls.formSubmission(fakeReq);
+
+// eventControls.getPrefsForAllAttendees(1).then(function(AllFoodPrefs) {
+//   return AllFoodPrefs.map(function(userPrefs) {
+//     return [userPrefs['profileFoodPrefs'], userPrefs['eventFoodPrefs']]
+//   });
+// })
 
 
-new Event({id: 1})
-      .fetch()
-      .then(function (event) {
-        console.log(event)
-        return event.attributes;
-      });
+
+
+
+

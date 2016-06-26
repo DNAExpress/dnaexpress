@@ -65,6 +65,7 @@ module.exports = UserEventServices = {
   },
 
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
+    console.log('userEvent in addEventUserFoodPrefs', userEvent)
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
     });
