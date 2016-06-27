@@ -11,6 +11,7 @@ var UserEventsFood = require('../data/models/user_events_food');
 var userEventServices = require('../services/user_event_services');
 var FoodServices = require('../services/food_services');
 var MailServer = require('../mail_server/mail_server');
+var searchControls = require('./../search/search_controller');
 
 module.exports = eventControls = {
   createEvent: function(req, res, next) {
@@ -67,16 +68,16 @@ module.exports = eventControls = {
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.preferences;
-    var eventId;
+    var searchDetails = {location:'', restrictions: [], userFoodPrefs: [], eventId: null};
     eventControls.getUserModelByUsername(username)
       .then(function (user) {
         // set users resp status for event to true, 
           // so that sever and client know they have completed form
-        user.set('responseStatus', 1);
+        user.save('responseStatus', 1);
         eventControls.getEventModelByPubId(pubEventId)
           .then(function (event) {
-            console.log('event in formSubmission', event)
-            eventId = event.attributes.id;
+            searchDetails.eventId = event.attributes.id;
+            searchDetails.location = event.attributes.location;
             // update the number of responded attendees ; 
               // will be used below to check if all attendees have completed foodPref forms
             var attendeesNum = event.get('attendeesNum');
@@ -91,24 +92,25 @@ module.exports = eventControls = {
             .then(function () {
               // if all users have responded, collect all of their pref data and generate list of recommendations!
               if (attendeesNum === responded) {
-                return eventControls.getPrefsForAllAttendees(eventId)
+                return eventControls.getPrefsForAllAttendees(searchDetails.eventId)
                   .then(function(allUserPrefs) {
                     // format food Prefs into and array of arrays for the algorithm
-                    return AllFoodPrefs.map(function(userPrefs) {
-                      return [userPrefs['profileFoodPrefs'], userPrefs['eventFoodPrefs']];
-                    })
+                    allUserPrefs.forEach(function(userPrefs) {
+                      searchDetails.restrictions.push(userPrefs.restrictions)
+                      searchDetails.userFoodPrefs.push([userPrefs.profileFoodPrefs, userPrefs.eventFoodPrefs]);
+                    });
                   })
-                  .then(function (foodPrefsArray) {
+                  .then(function () {
                      // spit through alg
-                     return [];
-                    console.log('foodPrefsArray', foodPrefsArray);
-                    //searchAlgorithm.parseBestOptions(foodPrefsArray);
+                    console.log('searchDetails', searchDetails);
+                    return searchDetails;
+                    //searchControls.getEventRecommendations(searchDetails);
                   })
                   .then(function() {
                     // fetch all of users events and res
                     return user.getEvents()
                       .then(function(events) {
-                        console.log('all users have submitted form and events have been pulled!')
+                        console.log('all users have submitted form and events have been pulled!', events)
                         //res.status(200).send(events);
                       })
                   }).catch(function(error) {
@@ -290,12 +292,31 @@ module.exports = eventControls = {
           //     });
           // };
 
-var fakeReq = {body : {
-  pubEventId: '98513d7e6b2c4a',
-  username: 'linda',
-  preferences: ['sushi', 'french']
-}}
-eventControls.formSubmission(fakeReq);
+// var lindaReq = {body : {
+//   pubEventId: '76d18a2345c9be',
+//   username: 'linda',
+//   preferences: ['french', 'burgers', 'greek']
+// }}
+// var normReq = {body : {
+//   pubEventId: '76d18a2345c9be',
+//   username: 'norm',
+//   preferences: ['italian', 'greek']
+// }}
+// var dianaReq = {body : {
+//   pubEventId: '76d18a2345c9be',
+//   username: 'diana',
+//   preferences: ['coffee', 'greek']
+// }}
+
+// setTimeout(function() {
+//   eventControls.formSubmission(lindaReq);
+// }, 200)
+// setTimeout(function() {
+//   eventControls.formSubmission(normReq);
+// }, 500)
+// setTimeout(function() {
+//   eventControls.formSubmission(dianaReq);
+// }, 600)
 
 // eventControls.getPrefsForAllAttendees(1).then(function(AllFoodPrefs) {
 //   return AllFoodPrefs.map(function(userPrefs) {
