@@ -65,7 +65,6 @@ module.exports = UserEventServices = {
   },
 
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
-    console.log('userEvent in addEventUserFoodPrefs', userEvent)
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
     });
@@ -74,13 +73,12 @@ module.exports = UserEventServices = {
       Food.forge({type: type})
         .fetch()
         .then(function(food) {
-          console.log('food', food)
           UserEventsFood.forge({
             userEvent_id: userEvent.attributes.id,
             foodType_id: food.attributes.id
           }).save()
           .then(function(newUserEventsFoodJoin) {
-              console.log('Success!')
+              console.log('add food type to userEventsFood!')
           }).catch(function (error) {
             console.log(error);
           });
