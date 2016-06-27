@@ -1,9 +1,6 @@
 var Handlebars = require('handlebars');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var EmailTemplate = require('email-templates').EmailTemplate;
-var hbs = require('nodemailer-express-handlebars');
-var htmlToText = require('nodemailer-html-to-text').htmlToText;
 
 module.exports = {
 
