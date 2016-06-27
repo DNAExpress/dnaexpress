@@ -13,6 +13,7 @@ var app = angular.module('app', [
   'app.optionform',
   'app.createevent',
   'app.showevent',
+  'app.responseform',
   'app.restaurantresults'
 
   ]);
@@ -124,6 +125,15 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       controller:'ShowEventCtrl',
       params:{
         singleevent:null
+      },
+      authenticate:true
+    })
+    .state('dashboard.eventresponseform', {
+      url:'/eventresponseform',
+      templateUrl:'app/views/eventresponseform.html',
+      controller:'ResponseFormCtrl',
+      params:{
+        eventData:null
       },
       authenticate:true
     });

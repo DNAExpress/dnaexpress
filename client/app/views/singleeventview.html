@@ -6,7 +6,9 @@
       <h4>{{singleEvent.name}}</h4>
       <h4>{{singleEvent.date | date: 'fullDate'}}</h4>
       <h5>{{singleEvent.date | date: 'shortTime'}}</h4>
-      <h5>Number of Guests Confirmed -&nbsp;{{singleEvent.responded}}</h5>
+      <h5 ng-if="!singleEvent.responded">You have not responded to this invitation</h5>
+      <h6 ng-if="!singleEvent.responded"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">Respond Now!</a></h6>
+      <h5 ng-if="singleEvent.responded">You have responded to this invitation</h5>
       <br>
       <h6 class="left" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
       <br>
