@@ -10,7 +10,7 @@ angular.module('app.showevent', [])
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
   var flag = "L";
-  if ($scope.allEventList.length > 0) {
+  if ($scope.allEventList) {
 
     for (var i = 0; i < $scope.allEventList.length; i++) {
       if (flag === "L") {
