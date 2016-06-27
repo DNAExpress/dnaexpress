@@ -59,12 +59,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       controller:'ShowEventCtrl',
       authenticate: true
     })
-    .state('dashboard.optionform', {
-      url:'/optionform',
-      templateUrl:'app/views/optionform.html',
-      controller:'OptionformCtrl',
-      authenticate: true
-    })
     .state('dashboard.restaurantResults', {
       url:'/recommendation',
       templateUrl:'app/views/restaurantResults.html',

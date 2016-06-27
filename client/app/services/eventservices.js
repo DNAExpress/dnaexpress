@@ -74,6 +74,17 @@ angular.module('app.eventfactory',[])
       .catch(function(error) {
         console.error("Error received in sendEventResponse", error);
       })
+    };
+
+    var fetchEvents = function() {
+      return $http({
+        method:'POST',
+        url:'api/events/getevents',
+        data:$window.sessionStorage.getItem('wefeast.user.username')
+      })
+      .then(function(res){
+        liveEventDataHandler(data);
+      });
     }
 
     return {
