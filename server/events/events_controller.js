@@ -220,6 +220,25 @@ module.exports = eventControls = {
       });
   },
 
+  getUsersEvents: function(req, res, next) {
+    console.log('events req', req.body)
+    User.forge({username: req.body})
+      .fetch()
+      .then(function(user) {
+        if (!user) {
+          next(new Error('user not foundd'));
+        } else {
+          user.getEvents()
+            .then(function(events) {
+              res.status(200).send(events);
+            })
+        }
+      })
+      .catch(function(error) {
+        next(new Error('error in getUsersEvents in events controller' + error));
+      })
+  },
+
   connectEventUsers: function (attendees, event, res, next) {
     var result = attendees.map(function (username) {
       return new User({username: username})
