@@ -2,14 +2,12 @@ var usersController = require('./users_controller.js');
 
 module.exports = function(app) {
 
-  app.post('/signup', usersController.signup)
+  app.post('/signup', usersController.signup);
 
-  app.post('/signin', usersController.signin)
+  app.post('/signin', usersController.signin);
 
-  app.route('/profile')
-    .post(usersController.editUserProfile)
+  app.post('/profile', usersController.editUserProfile); // edit profile
 
-  // routing for editing profile
-  // handling connections with other users
+  app.post('/deactivate', usersController.deactivateAccount);
 
 };
