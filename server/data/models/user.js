@@ -67,8 +67,6 @@ var User = db.Model.extend({
     };
   },
   editUserInfo: function(req, res, next, callback) {
-    console.log('inside editUserInfo');
-
     var newInfo = {
       username: req.body.username,
       firstname: req.body.firstname,
@@ -105,11 +103,9 @@ var User = db.Model.extend({
       resData.user.preferences = prefs;
     })
     .then(function() {
-      console.log('restrictions', restrictions)
       dietServices.editDietRestrictions(next, self, restrictions)
       .then(function(restrictions) {
         resData.user.restrictions = restrictions;
-        console.log('resData', resData)
         callback(resData);
       });
     })

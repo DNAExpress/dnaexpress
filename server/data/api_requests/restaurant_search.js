@@ -8,7 +8,6 @@ var yelp = new Yelp({
 });
 
 module.exports.askYelp = function(searchCriteria, callback) {
-  console.log('search criteria', searchCriteria);
   // searchCriteria is an object with filter data
     //will first pass in {searchTerm: 'some food type', location: 'some location'}
   var category = 'restaurants';

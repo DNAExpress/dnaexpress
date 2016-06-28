@@ -60,7 +60,6 @@ module.exports = eventControls = {
   },
 
   formSubmission: function (req, res, next) {
-    console.log('form data', req.body)
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.prefs;
@@ -167,7 +166,6 @@ module.exports = eventControls = {
       .forge({publicEventId: pubEventId})
       .fetch()
       .then(function (event) {
-        console.log('got event in getEventModelByPubId', event)
         return event;
       });
   },
@@ -276,11 +274,5 @@ module.exports = eventControls = {
      MailServer.mail(creator, 'http://localhost:8000', '/mail_Templates/eventAlert.html', emailList);
    });
  }
-};
-// eventControls.getAllEventAttendees(2);
-// eventControls.getUserEventModel(1, 1)
-//   .then(function (userEvent) {
-//     eventControls.addEventUserFoodPrefs(userEvent, ['burgers', 'sushi', 'koreanbbq']);
-//   });
 
 };

@@ -50,7 +50,6 @@ module.exports = UserEventServices = {
   },
 
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
-    console.log('in addEventUserFoodPrefs, UserEvent', UserEvent, 'foodPrefs', foodPrefs)
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
     });

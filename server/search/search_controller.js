@@ -5,7 +5,6 @@ var Recommendation = require('./../data/models/recommendation');
 module.exports = searchControls = {
 
   handleSingleSearch: function (req, res) {
-    console.log('single search request', req.body)
     var searchInput = {
       location: req.body.location,
       term: req.body.opt1
@@ -31,11 +30,8 @@ module.exports = searchControls = {
     var searchInput = {};
 
     searchInput.location = userAndEventDetails.location;
-    console.log('userAndEventDetails.userFoodPrefs', userAndEventDetails.userFoodPrefs)
     var searchCriteria = searchAlgorithm.parseBestOptions(userAndEventDetails.userFoodPrefs);
     var dietRestriction = getUnique(userAndEventDetails.restrictions);
-    console.log('searchCriteria', searchCriteria)
-    console.log('dietRestriction', dietRestriction)
     // make three calls to makeRequest with request details, (a food pref, diet restrictions, and location) 
     // pass in a callback to add the result to recommendations (this will need userAndEventDetails.eventId)
     searchCriteria.forEach(function(criteria) {
@@ -43,7 +39,7 @@ module.exports = searchControls = {
         location: userAndEventDetails.location,
         term: dietRestriction.concat(criteria[0]).join(',')  // yelp search term requires a comma seperated / stringed list
       };
-      //console.log('searchInput', searchInput)
+
       searchControls.makeRequest(searchInput, function(searchResults) {
         var topRecommendations = searchResults.slice(0, 4);
 
@@ -59,7 +55,6 @@ module.exports = searchControls = {
             snippet_image_url: recommendation.snippet_image_url,
             url: recommendation.url
           };
-          console.log('newRecommendation', newRecommendation)
           new Recommendation(newRecommendation).save().then(function(recom) {
             console.log('new recommendation saved!')
           })
