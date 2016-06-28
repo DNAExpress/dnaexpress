@@ -116,19 +116,23 @@ var User = db.Model.extend({
   },
   getEvents: function(req, res, next) {
     var self = this;
+    var eventUserRespMap = {};
 
     return userEventServices.getSingleUsersEventConnections(self.attributes.id)
       // get user-event joins for the specified user
       .then(function(eventConnections){ 
+        eventConnections.forEach(function(connection) {
+          eventUserRespMap[connection.attributes.event_id] = connection.attributes.responseStatus;
+        });
         // get events from the event_id in the userevent joins
         return userEventServices.getSingleUsersEvents(eventConnections)
       })
-      .then(function(usersEvents) {
+      .then(function(events) {
         // after getting all of the events, filter them by status
         var activeEvents = [];
-        for (var i in usersEvents) {
-          if (usersEvents[i].status === 'active') {
-            activeEvents.push(usersEvents[i]);
+        for (var i in events) {
+          if (events[i].status === 'active') {
+            activeEvents.push(events[i]);
           }
         }
         return activeEvents;
@@ -150,7 +154,8 @@ var User = db.Model.extend({
                 numAttendees: event.attendeesNum,
                 attendeesResponded: event.responded,
                 publicEventId: event.publicEventId,
-                recommendations: recommendations
+                recommendations: recommendations,
+                userResponseStatus: eventUserRespMap[event.id]
               }
           }); 
           }) 
