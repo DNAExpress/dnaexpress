@@ -5,8 +5,8 @@
     <div class="row">
       <ul class="col s4">
         <li ng-repeat="events in eventBinLeft">
-          <div class="card-panel hoverable" style="height:200px;">
-            <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
+            <h6>{{events.name}}</h6>
             <h6>{{events.date | date:'fullDate'}}</h6>
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
@@ -16,8 +16,8 @@
       </ul>
       <ul class="col s4">
         <li ng-repeat="events in eventBinCenter">
-          <div class="card-panel hoverable" style="height:200px;">
-            <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})" >
+            <h6>{{events.name}}</h6></a>
             <h6>{{events.date | date:'fullDate'}}</h6>
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
@@ -27,12 +27,12 @@
       </ul>
       <ul class="col s4">
         <li ng-repeat="events in eventBinRight">
-          <div class="card-panel hoverable" style="height:200px;">
-            <a ui-sref="dashboard.singleeventview({singleevent:{{events}}})"><h6>{{events.name}}</h6></a>
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
+            <h6>{{events.name}}</h6>
             <h6>{{events.date | date:'fullDate'}}</h6>
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.responded">You haven't responded to this invitation</h6>
-            <h6 ng-if="!events.responded"><a ui-sref="dashboard.eventresponseform({eventData:events})">RSVP Now</a></h6>
+            <h6 ng-if="!events.responded">
           </div>
         </li>
       </ul>

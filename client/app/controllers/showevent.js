@@ -5,12 +5,12 @@ angular.module('app.showevent', [])
   $scope.eventBinCenter = [];
   $scope.eventBinRight = [];
   $scope.singleEvent = $stateParams.singleevent;
-  $scope.noEventsNotice;
+  $scope.noEventsNotice = "No Events To Display";
 
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
   var flag = "L";
-  if ($scope.allEventList.length > 0) {
+  if ($scope.allEventList && $scope.allEventList.length > 0) {
 
     for (var i = 0; i < $scope.allEventList.length; i++) {
       if (flag === "L") {
@@ -28,7 +28,7 @@ angular.module('app.showevent', [])
     }
   }
   else {
-    $scope.noEventsNotice = "No Events To Display";
+    $scope.allEventList = null;
   }
 
 

@@ -7,12 +7,10 @@
           <div class="row">
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinLeft">
-                <div class="card-panel hoverable">
+                <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer">
                   <div class="row">
                     <div>
-                      <a ng-click="addToGuestList(people.username)">
-                        <span style="font-size:18pt;padding-left:20px;">{{people.firstname}}&nbsp;{{people.lastname}}</span>
-                      </a>
+                      <span style="font-size:18pt;padding-left:20px;">{{people.firstname}}&nbsp;{{people.lastname}}</span>
                       <br>
                       <span style="padding-left:25px;">{{people.location}}</span>
                     </div>
@@ -22,12 +20,10 @@
             </ul>
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinRight">
-                <div class="card-panel hoverable">
+                <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer">
                   <div class="row">
                     <div>
-                      <a ng-click="addToGuestList(people.username)">
-                        <span style="font-size:18pt;padding-left:20px">{{people.firstname}}&nbsp;{{people.lastname}}</span>
-                      </a>
+                      <span style="font-size:18pt;padding-left:20px">{{people.firstname}}&nbsp;{{people.lastname}}</span>
                       <br>
                       <span  style="padding-left:25px;">{{people.location}}</span>
                     </div>
