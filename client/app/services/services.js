@@ -32,17 +32,25 @@ angular.module('app.services', ['app.eventfactory'])
 .factory('Profile', ['$state', '$http', '$window',function ($state, $http,$window) {
 
   var processData = function (userdata, formdata) {
+    console.log("userdata", userdata);
+    console.log("formdata", formdata);
+    var username = formdata.username || userdata.username;
+    var firstname = formdata.firstname || userdata.firstname;
+    var lastname = formdata.lastname || userdata.lastname;
+    var email = formdata.email || userdata.email;
+    var location = formdata.location || userdata.location;
 
     var data = {
-      username:userdata.username,
-      firstname:userdata.firstname,
-      lastname:userdata.lastname,
-      email:userdata.email,
+      username:username,
+      firstname:firstname,
+      lastname:lastname,
+      email:email,
       password:userdata.password,
       location:userdata.location,
       restrictions:[],
       preferences:[]
     };
+    console.log("editprofile data",data)
 
     for (var key in formdata) {
       if (typeof formdata[key] === "boolean") {

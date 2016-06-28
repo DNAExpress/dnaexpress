@@ -1,12 +1,14 @@
-angular.module('app.showevent', [])
+angular.module('app.showevent', ['app.eventfactory'])
 
-.controller('ShowEventCtrl', ['$scope', '$window', '$stateParams', function($scope, $window, $stateParams) {
+.controller('ShowEventCtrl', ['$scope', '$window', '$stateParams', 'eventFactory',function($scope, $window, $stateParams, eventFactory) {
+
+  eventFactory.fetchEvents();
+
   $scope.eventBinLeft = [];
   $scope.eventBinCenter = [];
   $scope.eventBinRight = [];
   $scope.singleEvent = $stateParams.singleevent;
   $scope.noEventsNotice = "No Events To Display";
-
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
   var flag = "L";

@@ -26,39 +26,32 @@ angular.module('app.optionform', ['app.services'])
     var searchParams = {
       opt1:foodtype,
       location:data.location
-    }
-    console.log("searchParams",searchParams)
+    };
     $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
-      console.log("inside optionform.js", res)
-      restaurantFactory.databinLeft = [];
-      restaurantFactory.databinRight = [];
-      for (var i = 0; i < res.data.slice(0, 16).length; i++) {
-        if ( i % 2 === 0 ) {
-          if (res.data[i].image_url) {
-            restaurantFactory.databinLeft.push(res.data[i]);
+      console.log(res);
+      if (res.status === 200) {
+        restaurantFactory.databinLeft = [];
+        restaurantFactory.databinRight = [];
+        for (var i = 0; i < res.data.slice(0, 16).length; i++) {
+          if ( i % 2 === 0 ) {
+            if (res.data[i].image_url) {
+              restaurantFactory.databinLeft.push(res.data[i]);
+            }
+          }
+          else {
+            if (res.data[i].image_url) {
+              restaurantFactory.databinRight.push(res.data[i]);
+            }
           }
         }
-        else {
-          if (res.data[i].image_url) {
-            restaurantFactory.databinRight.push(res.data[i]);
-          }
-        }
+        $state.go('dashboard.restaurantResults');
       }
-      // restaurantFactory.restaurants = res.data.slice(0, 14);
-
-      console.log("inside restaurantFactory ",restaurantFactory.restaurants);
-      $state.go('dashboard.restaurantResults');
+      else {
+        $state.go('dashboard.noresultsview');
+      }
   })
 };
-  $scope.getUserReq = function() {
-    $state.go('dashboard.loading');
 
-    userFactory.userReq($scope.user).then(function(res){
-      restaurantFactory.restaurants = res.data.slice(0, 11);
-      console.log(restaurantFactory.restaurants);
-      $state.go('dashboard.restaurantResults');
-    });
-  }
 }]);

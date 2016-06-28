@@ -83,6 +83,7 @@ angular.module('app.eventfactory',[])
         data:$window.sessionStorage.getItem('wefeast.user.username')
       })
       .then(function(res){
+        console.log("inside fetchEvents",res)
         liveEventDataHandler(data);
       });
     }
@@ -95,7 +96,8 @@ angular.module('app.eventfactory',[])
       databinLeft: databinLeft,
       databinRight: databinRight,
       liveEventDataHandler: liveEventDataHandler,
-      sendEventResponse: sendEventResponse
+      sendEventResponse: sendEventResponse,
+      fetchEvents: fetchEvents
     };
 
 }])
