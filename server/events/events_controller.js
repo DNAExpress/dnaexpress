@@ -13,7 +13,6 @@ var searchControls = require('./../search/search_controller');
 
 module.exports = eventControls = {
   createEvent: function(req, res, next) {
-    console.log('createEvent', req.body);
     var name = req.body.eventName;
     var date = req.body.date;
     var creator = req.body.creator;
@@ -215,8 +214,7 @@ module.exports = eventControls = {
   },
 
   getUsersEvents: function(req, res, next) {
-    console.log('events req', req.body)
-    User.forge({username: req.body})
+    User.forge({username: req.body.username})
       .fetch()
       .then(function(user) {
         if (!user) {
