@@ -14,10 +14,8 @@ module.exports.askYelp = function(searchCriteria, callback) {
   var category = 'restaurants';
   var termFilter = searchCriteria.searchTerm;
   var searchLocation = searchCriteria.location;
-  yelp.search({category_filter:category, term: termFilter, location:searchLocation})
+  yelp.search({category_filter:'restaurants', term: termFilter, location: searchLocation})
   .then(function(yelpData){
-    console.log('yelp resp (businesses): ', yelpData.businesses)
-        console.log(yelpData)
     callback(yelpData.businesses);
   })
   .catch(function(err) {
