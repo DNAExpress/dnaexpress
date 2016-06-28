@@ -9,8 +9,6 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
   $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
   $scope.event.creator = $window.sessionStorage.getItem('wefeast.user.username');
 
-  console.log($scope.allUsersList);
-
   var flag = "L";
   for(var user in $scope.allUsersList) {
     if (flag === "L") {
@@ -30,7 +28,6 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
   $scope.guestbin = [];
 
   $scope.addToGuestList = function(username) {
-
     if ($scope.guestbin.indexOf(username) < 0) {
       $scope.guestbin.push(username);
     }
@@ -39,16 +36,12 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
   $scope.removeFromGuestList = function(name) {
     if ($scope.guestbin.indexOf(name) > -1) {
       $scope.guestbin.splice($scope.guestbin.indexOf(name), 1);
-      console.log($scope.guestbin);
     }
   };
 
   $scope.addGuestsToEventData = function() {
     eventFactory.eventData["attendees"] = $scope.guestbin;
     $state.go('dashboard.createeventreview')
-    .then(function(){
-      console.log($scope.guestbin);
-    })
   };
 
   $scope.collectEventData = function() {

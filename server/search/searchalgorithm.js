@@ -8,57 +8,61 @@
   'use strict'
   var users = [[['a', 'b', 'c'], ['a', 'd', 'e']], [[['a', 'b', 'y']], ['p', 'y', 'x']], [['a', 'r', 'b'], ['a', 't', 'v']]];
   var numOfPeople = users.length;
-module.exports = function () {
+
+module.exports = searchAlgorithm = {
   // function to pull each profile and current from schema and add as an array to the results array - this will be passed into parseBestOptions
-  function totalUserPrefs(userPrefs) { //expects an array of both profile and current choices
+  totalUserPrefs: function (userPrefs) { //expects an array of both profile and current choices
     var result = [];
-    console.log(userPrefs);
-    userPrefs.forEach(function(item){
-      if (result.indexOf(item) !== -1) {
+    userPrefs.forEach(function(item) {
+      if (result.indexOf(item) === -1) {
         result.push(item);
       }
     });
-    return result; // this is the total different foods of a single user with repeats parsed out
-  }
 
-  function histogram(foodprefs) {
+    return result; // this is the total different foods of a single user with repeats parsed out
+  },
+
+  histogram: function (foodprefs) {
     var result = {};
-    foodprefs.forEach(function(food){
+    foodprefs.forEach(function(food) {
       if (!result[food]) {
         result[food] = 1;
       } else {
         result[food]++;
       }
     });
-    console.log(result);
     return result;
-  }
+  },
 
-  function threeHeighest(obj, userNum) { // get the most frequently chosen foods
+  threeHeighest: function (obj, userNum) { // get the most frequently chosen foods
     var result = [];
     while (result.length < 3) {
-      var high = _.reduce(Object.keys(obj), function(a, b){ return obj[a] > obj[b] ? a : b; });
+      var high = _.reduce(Object.keys(obj), function (a, b) { return obj[a] > obj[b] ? a : b; });
       var temp = [high, obj[high]];
       delete obj[high];
       result.push(temp);
     }
     return result;
-  };
+  },
 
-  function percentage(choiceNum, personNum) {
+  percentage: function (choiceNum, personNum) {
     return ((choiceNum*100)/personNum).toFixed(2);
-  }
+  },
 
-
-  function parseBestOptions(allUserChoices) {
-    var allUserPrefs = allUserChoices.map(function(user){
-      return totalUserPrefs(user[0].concat(user[1]));
+  parseBestOptions: function (allUserChoices) {
+    var allUserPrefs = allUserChoices.map(function(user) {
+      return searchAlgorithm.totalUserPrefs(user[0].concat(user[1]));
     });
-    return threeHeighest(histogram(_.flatten(allUserPrefs))); // number of people for each specified choices for all users
+
+    return searchAlgorithm.threeHeighest(searchAlgorithm.histogram(_.flatten(allUserPrefs)));
+     // number of people for each specified choices for all users
   }
+
+};
 
   //totalUserPrefs();
-  parseBestOptions(users);
+  // var bestoptions = searchAlgorithm.parseBestOptions(users);
+  // console.log('bestoptions', bestoptions)
 
   // function filterFoods(obj, curprefs) {
   //   var newObj = {};
@@ -134,12 +138,4 @@ module.exports = function () {
   //   }
   //   return
   // }
-return {
-  totalUserPrefs: totalUserPrefs,
-  histogram: histogram,
-  threeHeighest: threeHeighest,
-  percentage: percentage,
-  parseBestOptions: parseBestOptions
-};
 
-}();

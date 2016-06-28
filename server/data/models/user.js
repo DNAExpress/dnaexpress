@@ -6,7 +6,9 @@ var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 var foodServices = require('../../services/food_services.js');
 var dietServices = require('../../services/diet_services.js');
-var userEventServices = require('../../services/user_event_services'); 
+var userEventServices = require('../../services/user_event_services');
+var Bookshelf = require('bookshelf');
+db.plugin('registry');
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -27,7 +29,6 @@ var User = db.Model.extend({
     return this.belongsToMany(DietRestriction, 'userDietRestricts');
   },
   comparePassword: function(attemptedPassword, callback) {
-    console.log('in comparePassword')
     bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
       callback(isMatch);
     });
@@ -66,8 +67,6 @@ var User = db.Model.extend({
     };
   },
   editUserInfo: function(req, res, next, callback) {
-    console.log('inside editUserInfo');
-
     var newInfo = {
       username: req.body.username,
       firstname: req.body.firstname,
@@ -104,30 +103,32 @@ var User = db.Model.extend({
       resData.user.preferences = prefs;
     })
     .then(function() {
-      console.log('restrictions', restrictions)
       dietServices.editDietRestrictions(next, self, restrictions)
       .then(function(restrictions) {
         resData.user.restrictions = restrictions;
-        console.log('resData', resData)
         callback(resData);
       });
     })
   },
   getEvents: function(req, res, next) {
     var self = this;
+    var eventUserRespMap = {};
 
     return userEventServices.getSingleUsersEventConnections(self.attributes.id)
       // get user-event joins for the specified user
       .then(function(eventConnections){ 
+        eventConnections.forEach(function(connection) {
+          eventUserRespMap[connection.attributes.event_id] = connection.attributes.responseStatus;
+        });
         // get events from the event_id in the userevent joins
         return userEventServices.getSingleUsersEvents(eventConnections)
       })
-      .then(function(usersEvents) {
+      .then(function(events) {
         // after getting all of the events, filter them by status
         var activeEvents = [];
-        for (var i in usersEvents) {
-          if (usersEvents[i].status === 'active') {
-            activeEvents.push(usersEvents[i]);
+        for (var i in events) {
+          if (events[i].status === 'active') {
+            activeEvents.push(events[i]);
           }
         }
         return activeEvents;
@@ -149,7 +150,8 @@ var User = db.Model.extend({
                 numAttendees: event.attendeesNum,
                 attendeesResponded: event.responded,
                 publicEventId: event.publicEventId,
-                recommendations: recommendations
+                recommendations: recommendations,
+                userResponseStatus: eventUserRespMap[event.id]
               }
           }); 
           }) 

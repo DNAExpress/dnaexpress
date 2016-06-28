@@ -1,13 +1,14 @@
 var db = require('./../db_schema.js');
-var User = require('./user');
 var Recommendation = require('./recommendation');
 var UserEvent = require('./user_event');
+// var Bookshelf = require('bookshelf');
+db.plugin('registry');
 
 var Event = db.Model.extend({
   tableName: 'events',
   hasTimestamps: true,
   attendees: function() {
-    return this.belongsToMany(User, 'usersEvents');
+    return this.belongsToMany('User', 'usersEvents');
     //through usersEvents
   },
   createCustomId: function () {
@@ -25,7 +26,6 @@ var Event = db.Model.extend({
         num[j] = temp;
       }
       self.set('publicEventId', num.join(''));
-      console.log('initializing event');
       return self;
     }();
   },
@@ -35,7 +35,7 @@ var Event = db.Model.extend({
   },
 
   creator: function() {
-    return this.hasOne(User);
+    return this.hasOne('User');
   },
 
   initialize: function() {
@@ -50,7 +50,15 @@ var Event = db.Model.extend({
       .fetchAll()
       .then(function (userEvents) {
         return userEvents.models.map(function(model) {
-          return model.attributes.recommendation;
+          return {
+            name: model.attributes.name,
+            address: model.attributes.address,
+            city: model.attributes.city,
+            phone: model.attributes.phone,
+            rating_img_url: model.attributes.rating_img_url,
+            snippet_image_url: model.attributes.snippet_image_url,
+            url: model.attributes.url
+          };
         });
       });
   }

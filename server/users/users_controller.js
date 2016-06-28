@@ -60,10 +60,8 @@ module.exports = userControls = {
         if (!user) {
           res.status(500).send({error: 'user does not exist'});
         } else {
-          console.log('user found on signup', user)
           user.comparePassword(password, function(match) {
             if (match) {
-              //console.log('making signin token')
               var token = jwt.encode(user, 'secret');
               resData.token = token;
               resData.user = {
@@ -101,7 +99,6 @@ module.exports = userControls = {
       });
   },
   getAllUserData: function (req, res, next, user) {
-    console.log('getting all data with user: ', user.attributes.username)
     var allData = {};
     return userControls.getAllUsers()
       .then(function(allUsers) {
