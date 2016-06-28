@@ -40,7 +40,6 @@ angular.module('app.eventfactory',[])
           data: data
         })
         .then(function(res){
-          console.log(res);
           liveEventDataHandler(res);
           return res;
         }).then(function() {
@@ -79,12 +78,11 @@ angular.module('app.eventfactory',[])
     var fetchEvents = function() {
       return $http({
         method:'POST',
-        url:'api/events/getevents',
-        data:$window.sessionStorage.getItem('wefeast.user.username')
+        url: 'api/events/getevents',
+        data: {username: $window.sessionStorage.getItem('wefeast.user.username')}
       })
       .then(function(res){
-        console.log("inside fetchEvents",res)
-        liveEventDataHandler(data);
+        liveEventDataHandler(res);
       });
     }
 

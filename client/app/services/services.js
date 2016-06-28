@@ -32,6 +32,9 @@ angular.module('app.services', ['app.eventfactory'])
 .factory('Profile', ['$state', '$http', '$window',function ($state, $http,$window) {
 
   var processData = function (userdata, formdata) {
+    if (!formdata) {
+      formdata = {};
+    }
     console.log("userdata", userdata);
     console.log("formdata", formdata);
     var username = formdata.username || userdata.username;
@@ -50,7 +53,6 @@ angular.module('app.services', ['app.eventfactory'])
       restrictions:[],
       preferences:[]
     };
-    console.log("editprofile data",data)
 
     for (var key in formdata) {
       if (typeof formdata[key] === "boolean") {
@@ -83,10 +85,32 @@ angular.module('app.services', ['app.eventfactory'])
       $state.go('dashboard.profile');
     })
 
-  }
+  };
+
+  var sendCreateProfile = function (userdata) {
+    return $http({
+      method:'POST',
+      url:'/api/users/profile',
+      data: userdata
+    })
+    .then(function(res){
+      console.log("createprofile response", res);
+      $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
+      $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
+      $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
+      $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
+      $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
+      $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences))
+      $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.restrictions))
+      $state.go('dashboard.createevent');
+    })
+
+  };
+
   return {
     processData: processData,
-    sendEditProfile: sendEditProfile
+    sendEditProfile: sendEditProfile,
+    sendCreateProfile: sendCreateProfile
   };
 
 }])

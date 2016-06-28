@@ -9,10 +9,8 @@ angular.module('app.editprofile', ['app.services'])
   $scope.user.lastname = $window.sessionStorage.getItem('wefeast.user.last');
   $scope.user.location = $window.sessionStorage.getItem('wefeast.user.location');
   $scope.user.email = $window.sessionStorage.getItem('wefeast.user.email');
-  console.log($scope.user);
 
   $scope.activate = function(formdata) {
-    console.log(formdata);
     var profileData = Profile.processData($scope.user, formdata);
     Profile.sendEditProfile(profileData);
   }
