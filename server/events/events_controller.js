@@ -13,7 +13,6 @@ var searchControls = require('./../search/search_controller');
 
 module.exports = eventControls = {
   createEvent: function(req, res, next) {
-    console.log('createEvent', req.body);
     var name = req.body.eventName;
     var date = req.body.date;
     var creator = req.body.creator;

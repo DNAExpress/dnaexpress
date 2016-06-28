@@ -63,7 +63,7 @@ module.exports = UserEventServices = {
             foodType_id: food.attributes.id
           }).save()
           .then(function(newUserEventsFoodJoin) {
-              console.log('add food type to userEventsFood!')
+              // console.log('add food type to userEventsFood!')
           }).catch(function (error) {
             console.log(error);
           });

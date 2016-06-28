@@ -78,11 +78,14 @@ angular.module('app.eventfactory',[])
     var fetchEvents = function() {
       return $http({
         method:'POST',
-        url: 'api/events/getevents',
+        url:'api/events/getevents',
         data: {username: $window.sessionStorage.getItem('wefeast.user.username')}
       })
       .then(function(res){
         liveEventDataHandler(res);
+      })
+      .catch(function(error) {
+        console.log(error)
       });
     }
 
