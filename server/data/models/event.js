@@ -57,7 +57,8 @@ var Event = db.Model.extend({
             phone: model.attributes.phone,
             rating_img_url: model.attributes.rating_img_url,
             snippet_image_url: model.attributes.snippet_image_url,
-            url: model.attributes.url
+            url: model.attributes.url,
+            userVotes: model.attributes.userVotes
           };
         });
       });
