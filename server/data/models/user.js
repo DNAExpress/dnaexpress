@@ -16,23 +16,29 @@ var User = db.Model.extend({
   events: function() {
     return this.belongsToMany(Event, 'usersEvents');
   },
+  
   initialize: function() {
     return this.on('creating', this.hashPassword);
   },
+
   userEvents: function() {
     return this.hasMany(UserEvent);
   },
+
   foodtypes: function(){
     return this.belongsToMany(Food, 'userProfileFoodPrefs');
   },
+
   dietRestrictions: function () {
     return this.belongsToMany(DietRestriction, 'userDietRestricts');
   },
+
   comparePassword: function(attemptedPassword, callback) {
     bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
       callback(isMatch);
     });
   },
+
   hashPassword: function(currUser, req, res) {
     var self = this;
     var salt;
@@ -66,6 +72,7 @@ var User = db.Model.extend({
       });
     };
   },
+
   editUserInfo: function(req, res, next, callback) {
     var newInfo = {
       username: req.body.username,
@@ -75,29 +82,21 @@ var User = db.Model.extend({
       // password: req.body.password,
       location: req.body.location
     };
+
     var preferences = req.body.preferences;
     var restrictions = req.body.restrictions;
 
-    for (var key in newInfo) {
-      var storedData = this.get(key);
-
-      if (storedData !== newInfo[key]) {
-        this.set(key, newInfo[key]);
-      }
-    }
-
+    var resData = { user: {} };
     var self = this;
 
-    var resData = {
-      user: {
-        username: self.attributes.username,
-        firstname: self.attributes.firstname,
-        lastname: self.attributes.lastname,
-        email: self.attributes.email,
-        location: self.attributes.location
-      }
-    };
-
+    this.save(newInfo)
+    .then(function(updatedUser) {
+      resData.user.username = updatedUser.attributes.username,
+      resData.user.firstname = updatedUser.attributes.firstname,
+      resData.user.lastname = updatedUser.attributes.lastname,
+      resData.user.email = updatedUser.attributes.email,
+      resData.user.location = updatedUser.attributes.location
+    })
     foodServices.editProfileFoodPrefs(next, self, preferences)
     .then(function(prefs) {
       resData.user.preferences = prefs;
@@ -108,8 +107,9 @@ var User = db.Model.extend({
         resData.user.restrictions = restrictions;
         callback(resData);
       });
-    })
+    });
   },
+
   getEvents: function(req, res, next) {
     var self = this;
     var eventUserRespMap = {};
