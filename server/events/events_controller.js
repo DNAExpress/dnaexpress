@@ -8,17 +8,17 @@ var Users = require('./../data/collections/users');
 var User = require('./../data/models/user');
 var UserEventsFoods = require('../data/collections/user_events_foods');
 var UserEventsFood = require('../data/models/user_events_food');
-var userEventServices = require('../services/user_event_services')
-var FoodServices = require('../services/food_services')
+var userEventServices = require('../services/user_event_services');
+var FoodServices = require('../services/food_services');
+var MailServer = require('../mail_server/mail_server');
 
 module.exports = eventControls = {
   createEvent: function(req, res, next) {
-    // console.log('createEvent', req.body);
+    console.log('createEvent', req.body);
     var name = req.body.eventName;
     var date = req.body.date;
     var creator = req.body.creator;
-    var attendees = (req.body.attendees).concat({username: creator});
-    // var user = new User({username: creator});
+    var attendees = (req.body.attendees).concat(creator);
     var event = new Event({
       name: name,
       date: date,
@@ -26,6 +26,7 @@ module.exports = eventControls = {
       attendeesNum: attendees.length,
       responded: 0,
       status: 'active'
+      // location: 'San Francisco'
     });
     event.save()
     .then(function(newEvent){
@@ -35,18 +36,24 @@ module.exports = eventControls = {
         .forge({username: creator})
         .fetch()
         .then(function(user){
-          console.log('about to call getSingleUserEventsConnections', user.attributes);
+          // console.log('about to call getSingleUserEventsConnections', user.attributes);
           return UserEventServices.getSingleUsersEventConnections(user.attributes.id);
         })
         .then(function(events){
-          console.log('about to call getSingleUserEvents', events);
-
+          //console.log('about to call getSingleUserEvents', events);
           UserEventServices.getSingleUsersEvents(events)
           .then(function(usersEvents) {
-            console.log('Final .then before sending response', usersEvents);
+            // console.log('Final .then before sending response', usersEvents);
           // console.log(UserEvents);
             res.status(200).send(usersEvents);
-          });
+            return;
+          })
+          .then(function() {
+            eventControls.mailAttendees(attendees, creator);
+          })
+          .catch(function (err) {
+            console.error(err);
+          });;
         });
       });
     });
@@ -205,7 +212,7 @@ module.exports = eventControls = {
 
   connectEventUsers: function (attendees, event, res, next) {
     var result = attendees.map(function (username) {
-      return new User({username: username.username})
+      return new User({username: username})
         .fetch()
         .then(function(user){
           if (user) {
@@ -227,7 +234,23 @@ module.exports = eventControls = {
         });
     });
     return Promise.all(result);
-  }
+  },
+
+  mailAttendees: function (attendees, creator) {
+   return Promise.all(attendees.map(function (attendee) {
+     console.log(attendee);
+     return User
+     .forge({username: attendee})
+     .fetch()
+     .then(function (user) {
+       return user.attributes.email;
+     });
+   })).then(function (emailList) {
+     emailList = emailList.join(', ');
+     console.log(emailList);
+     MailServer.mail(creator, 'http://localhost:8000', '/mail_Templates/eventAlert.html', emailList);
+   });
+ }
 };
 // eventControls.getAllEventAttendees(2);
 // eventControls.getUserEventModel(1, 1)

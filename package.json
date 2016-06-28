@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jshint && jasmine",
-    "start": "node index.js",
-    "postinstall": "bower install"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
