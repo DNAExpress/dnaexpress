@@ -1,4 +1,4 @@
-var db = require('./server/data/db_schema.js')
+var db = require('./server/data/db_schema.js');
 
 var app = require('./server/server.js');
 
