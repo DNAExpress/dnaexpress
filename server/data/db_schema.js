@@ -93,7 +93,13 @@ db.schema.hasTable('recommendations').then(function(exists){
     db.schema.createTable('recommendations', function(recommendation){
       recommendation.increments('id').primary();
       recommendation.integer('event_id').references('events.id');
-      recommendation.string('recommendation');
+      recommendation.string('name');
+      recommendation.string('address');
+      recommendation.string('city');
+      recommendation.string('phone');
+      recommendation.string('rating_img_url');
+      recommendation.string('snippet_image_url');
+      recommendation.string('url');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });
