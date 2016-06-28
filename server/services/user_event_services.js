@@ -2,8 +2,6 @@ var Events = require('../data/collections/events');
 var Event = require('../data/models/event');
 var UserEvents = require('./../data/collections/user_events');
 var UserEvent = require('./../data/models/user_event');
-var Users = require('./../data/collections/users');
-var User = require('./../data/models/user');
 var UserEventsFoods = require('./../data/collections/user_events_foods');
 var UserEventsFood = require('./../data/models/user_events_food');
 var Foods = require('./../data/collections/foods');
@@ -12,7 +10,6 @@ var Food = require('./../data/models/food');
 module.exports = UserEventServices = {
 
   getSingleUsersEventConnections: function (userId) {
-    console.log('userEvent', UserEvent)
     return UserEvent
       .forge()
       .query('where', 'user_id', '=', userId)
@@ -23,21 +20,9 @@ module.exports = UserEventServices = {
   },
 
   getSingleUsersEvents: function(userEventConnections) {
-    // console.log(userEventConnections);
-    // var eventResults;
-
     return Promise.all(userEventConnections.map(function (connection) {
-      return UserEventServices.getEvent(connection.attributes.event_id);
+      return eventControls.getEvent(connection.attributes.event_id);
     }));
-  },
-
-  getEvent: function(eventId) {
-    return Event
-      .forge({id: eventId})
-      .fetch()
-      .then(function (event) {
-        return event.attributes;
-      });
   },
 
   getUserEventFoodPrefs: function () {
@@ -65,6 +50,7 @@ module.exports = UserEventServices = {
   },
 
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
+    console.log('in addEventUserFoodPrefs, UserEvent', UserEvent, 'foodPrefs', foodPrefs)
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
     });
@@ -101,43 +87,6 @@ module.exports = UserEventServices = {
         })
         return Promise.all(foods)
       })
-    // return Food
-      //     .forge()
-      //     .query(function(qb){
-      //       qb.where('userEvent_id', '=', userEvent.attributes.id);
-      //     })
-      //     .fetch()
-      //     .then(function(food) {
-      //         //send both references down the promise chain
-      //         return {foodModel: food, userEventModel: userEvent};
-      //     })
-        // .then(function(references) {
-        //     return references
-        //         .userModel
-        //         //get the belongsToMany relation specified in the first definition, which returns a collection
-        //         .foodtypes()
-        //         .fetch();
-        // })
-        // .then(function(relation) {
-        //     //console.log('got userProfileFoodPrefs table', relation.models)
-        //     return relation.models.map(function(model) {
-
-        //       console.log('model atts.type', model.attributes.type)
-        //       return model.attributes.type
-        //     })
-        // })
   }
 
 };
-
-//console.log(UserEventServices.getAllUserEventsForEvent(2))
-//console.log(UserEventServices.getSingleUsersEventConnections(1))
-// test for adding userEventFoodPrefs
-// UserEvent
-//   .forge({id: 3})
-//   .fetch()
-//   .then(function(userEvent){
-//     UserEventServices.addEventUserFoodPrefs(userEvent, ['burgers'])
-//   });
-
-

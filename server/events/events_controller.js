@@ -2,8 +2,6 @@ var Events = require('./../data/collections/events');
 var Event = require('./../data/models/event');
 var UserEvents = require('../data/collections/user_events');
 var UserEvent = require('../data/models/user_event');
-var Foods = require('../data/collections/foods');
-var Food = require('./../data/models/food');
 var Users = require('./../data/collections/users');
 var User = require('./../data/models/user');
 var UserEventsFoods = require('../data/collections/user_events_foods');
@@ -20,14 +18,15 @@ module.exports = eventControls = {
     var date = req.body.date;
     var creator = req.body.creator;
     var attendees = (req.body.attendees).concat(creator);
+    var location = 'San Francisco'  // get from client!!
     var event = new Event({
       name: name,
       date: date,
       creator: creator,
       attendeesNum: attendees.length,
       responded: 0,
-      status: 'active'
-      // location: 'San Francisco'
+      status: 'active',
+      location: location
     });
     event.save()
     .then(function(newEvent){
@@ -37,15 +36,15 @@ module.exports = eventControls = {
         .forge({username: creator})
         .fetch()
         .then(function(user){
-          // console.log('about to call getSingleUserEventsConnections', user.attributes);
+          console.log('about to call getSingleUserEventsConnections', user.attributes);
           return UserEventServices.getSingleUsersEventConnections(user.attributes.id);
         })
         .then(function(events){
           //console.log('about to call getSingleUserEvents', events);
           UserEventServices.getSingleUsersEvents(events)
           .then(function(usersEvents) {
-            // console.log('Final .then before sending response', usersEvents);
-          // console.log(UserEvents);
+            console.log('Final .then before sending response', usersEvents);
+            console.log(UserEvents);
             res.status(200).send(usersEvents);
             return;
           })
@@ -65,15 +64,13 @@ module.exports = eventControls = {
   },
 
   formSubmission: function (req, res, next) {
+    console.log('form data', req.body)
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
-    var prefs = req.body.preferences;
+    var prefs = req.body.prefs;
     var searchDetails = {location:'', restrictions: [], userFoodPrefs: [], eventId: null};
     eventControls.getUserModelByUsername(username)
       .then(function (user) {
-        // set users resp status for event to true, 
-          // so that sever and client know they have completed form
-        user.save('responseStatus', 1);
         eventControls.getEventModelByPubId(pubEventId)
           .then(function (event) {
             searchDetails.eventId = event.attributes.id;
@@ -86,7 +83,11 @@ module.exports = eventControls = {
 
             eventControls.getUserEventModel(user.attributes.id, event.attributes.id)
             .then(function (userEvent) {
+              // set users resp status for event to true, 
+              // so that sever and client know they have completed form
+              userEvent.save('responseStatus', 1);
             // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
+            console.log(prefs)
             UserEventServices.addEventUserFoodPrefs(userEvent, prefs);
             })
             .then(function () {
@@ -102,16 +103,13 @@ module.exports = eventControls = {
                   })
                   .then(function () {
                      // spit through alg
-                    console.log('searchDetails', searchDetails);
-                    return searchDetails;
-                    //searchControls.getEventRecommendations(searchDetails);
+                    searchControls.getEventRecommendations(searchDetails);
                   })
                   .then(function() {
                     // fetch all of users events and res
                     return user.getEvents()
                       .then(function(events) {
-                        console.log('all users have submitted form and events have been pulled!', events)
-                        //res.status(200).send(events);
+                        res.status(200).send(events);
                       })
                   }).catch(function(error) {
                     console.log('error line 110 events controller', error)
@@ -121,7 +119,7 @@ module.exports = eventControls = {
                 return user.getEvents()
                   .then(function(events) {
                     console.log('more forms to submit')
-                    //res.status(200).send(events);
+                    res.status(200).send(events);
                   });
               }
             })
@@ -173,6 +171,7 @@ module.exports = eventControls = {
       .forge({publicEventId: pubEventId})
       .fetch()
       .then(function (event) {
+        console.log('got event in getEventModelByPubId', event)
         return event;
       });
   },
@@ -209,6 +208,15 @@ module.exports = eventControls = {
                   });
               });
           });
+      });
+  },
+
+  getEvent: function(eventId) {
+    return Event
+      .forge({id: eventId})
+      .fetch()
+      .then(function (event) {
+        return event.attributes;
       });
   },
 
@@ -261,71 +269,3 @@ module.exports = eventControls = {
 //   });
 
 };
-
-// old
-      // eventControls.getAllEventAttendees(2);
-      // eventControls.getUserEventModel(1, 1)
-      //   .then(function (userEvent) {
-      //     eventControls.addEventUserFoodPrefs(userEvent, ['burgers', 'sushi', 'koreanbbq']);
-      //   });
-
-
-          //   return Food
-          //     .forge({type: type})
-          //     .fetch()
-          //     .then(function(food) {
-          //       return {foodTypesModel: food, userEventModel: userEvent};
-          //     })
-          //     .then(function(references) {
-          //       console.log(references);
-          //       return references
-          //         .userEventModel
-          //         .foods()
-          //         .attach(references.foodTypesModel);
-          //     })
-          //     .then(function(relation) {
-          //       console.log(relation);
-          //       console.log('Successfully created relationship in addEventUserFoodPrefs function');
-          //     }).catch(function(error){
-          //       console.log(error);
-          //       // return next(new Error('Failed to create relationship in addEventUserFoodPrefs function'))
-          //     });
-          // };
-
-// var lindaReq = {body : {
-//   pubEventId: '76d18a2345c9be',
-//   username: 'linda',
-//   preferences: ['french', 'burgers', 'greek']
-// }}
-// var normReq = {body : {
-//   pubEventId: '76d18a2345c9be',
-//   username: 'norm',
-//   preferences: ['italian', 'greek']
-// }}
-// var dianaReq = {body : {
-//   pubEventId: '76d18a2345c9be',
-//   username: 'diana',
-//   preferences: ['coffee', 'greek']
-// }}
-
-// setTimeout(function() {
-//   eventControls.formSubmission(lindaReq);
-// }, 200)
-// setTimeout(function() {
-//   eventControls.formSubmission(normReq);
-// }, 500)
-// setTimeout(function() {
-//   eventControls.formSubmission(dianaReq);
-// }, 600)
-
-// eventControls.getPrefsForAllAttendees(1).then(function(AllFoodPrefs) {
-//   return AllFoodPrefs.map(function(userPrefs) {
-//     return [userPrefs['profileFoodPrefs'], userPrefs['eventFoodPrefs']]
-//   });
-// })
-
-
-
-
-
-
