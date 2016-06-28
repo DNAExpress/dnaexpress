@@ -170,3 +170,8 @@ db.schema.hasTable('eventSuggestions').then(function(exists) {
 
 var bookshelf = require('bookshelf')(db);
 module.exports = bookshelf;
+
+var User = require('./models/user');
+bookshelf.model('User', User);
+var Event = require('./models/event');
+bookshelf.model('Event', Event);

@@ -6,7 +6,9 @@ var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 var foodServices = require('../../services/food_services.js');
 var dietServices = require('../../services/diet_services.js');
-var userEventServices = require('../../services/user_event_services'); 
+var userEventServices = require('../../services/user_event_services');
+var Bookshelf = require('bookshelf');
+db.plugin('registry');
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -27,7 +29,6 @@ var User = db.Model.extend({
     return this.belongsToMany(DietRestriction, 'userDietRestricts');
   },
   comparePassword: function(attemptedPassword, callback) {
-    console.log('in comparePassword')
     bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
       callback(isMatch);
     });
