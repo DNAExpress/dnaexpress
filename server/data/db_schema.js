@@ -42,6 +42,7 @@ db.schema.hasTable('events').then(function(exists) {
       event.integer('responded');
       event.string('selectedRestaurant');
       event.string('publicEventId').unique();
+      event.string('location');
       event.string('status');
       event.timestamps();
     }).then(function (table) {
@@ -92,7 +93,13 @@ db.schema.hasTable('recommendations').then(function(exists){
     db.schema.createTable('recommendations', function(recommendation){
       recommendation.increments('id').primary();
       recommendation.integer('event_id').references('events.id');
-      recommendation.string('recommendation');
+      recommendation.string('name');
+      recommendation.string('address');
+      recommendation.string('city');
+      recommendation.string('phone');
+      recommendation.string('rating_img_url');
+      recommendation.string('snippet_image_url');
+      recommendation.string('url');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });
@@ -163,3 +170,8 @@ db.schema.hasTable('eventSuggestions').then(function(exists) {
 
 var bookshelf = require('bookshelf')(db);
 module.exports = bookshelf;
+
+var User = require('./models/user');
+bookshelf.model('User', User);
+var Event = require('./models/event');
+bookshelf.model('Event', Event);

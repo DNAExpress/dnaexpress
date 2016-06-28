@@ -19,7 +19,7 @@ module.exports = {
     'irish',
     'greek',
     'italian',
-    'sandwhiches',
+    'sandwiches',
     'bagels',
     'pakistani',
     'ethiopian',
