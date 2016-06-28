@@ -215,8 +215,7 @@ module.exports = eventControls = {
   },
 
   getUsersEvents: function(req, res, next) {
-    console.log('events req', req.body)
-    User.forge({username: req.body})
+    User.forge({username: req.body.username})
       .fetch()
       .then(function(user) {
         if (!user) {

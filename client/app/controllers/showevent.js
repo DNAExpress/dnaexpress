@@ -1,6 +1,7 @@
 angular.module('app.showevent', [])
 
-.controller('ShowEventCtrl', ['$scope', '$window', '$stateParams', function($scope, $window, $stateParams) {
+.controller('ShowEventCtrl', ['$scope', '$window', '$stateParams', 'eventFactory', function($scope, $window, $stateParams, eventFactory) {
+  eventFactory.fetchEvents();
   $scope.eventBinLeft = [];
   $scope.eventBinCenter = [];
   $scope.eventBinRight = [];
