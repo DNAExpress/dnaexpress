@@ -36,15 +36,11 @@ module.exports = eventControls = {
         .forge({username: creator})
         .fetch()
         .then(function(user){
-          console.log('about to call getSingleUserEventsConnections', user.attributes);
           return UserEventServices.getSingleUsersEventConnections(user.attributes.id);
         })
         .then(function(events){
-          //console.log('about to call getSingleUserEvents', events);
           UserEventServices.getSingleUsersEvents(events)
           .then(function(usersEvents) {
-            console.log('Final .then before sending response', usersEvents);
-            console.log(UserEvents);
             res.status(200).send(usersEvents);
             return;
           })
