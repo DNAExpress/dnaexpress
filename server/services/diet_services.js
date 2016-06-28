@@ -61,23 +61,23 @@ module.exports = dietServices = {
       add(item);
     });
     function add(item) {
-        return DietRestriction
-          .forge({type: item})
-          .fetch()
-          .then(function(restriction) {
-            return {dietRestrictionModel: restriction, userModel: user};
-          })
-      .then(function(references) {
-          return references
-            .userModel
-            .dietRestrictions()
-            .attach(references.dietRestrictionModel);
-      })
-      .then(function(relation) {
-          console.log('Successfully created relationship in addDietRestrictions function');
-      }).catch(function(error){
-          return next(new Error('Failed to create relationship in addDietRestrictions function'))
-      });
+      return DietRestriction
+        .forge({type: item})
+        .fetch()
+        .then(function(restriction) {
+          return {dietRestrictionModel: restriction, userModel: user};
+        })
+        .then(function(references) {
+            return references
+              .userModel
+              .dietRestrictions()
+              .attach(references.dietRestrictionModel);
+        })
+        .then(function(relation) {
+            console.log('Successfully created relationship in addDietRestrictions function');
+        }).catch(function(error){
+            return next(new Error('Failed to create relationship in addDietRestrictions function'))
+        });
     };
   },
 
