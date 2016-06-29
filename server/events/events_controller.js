@@ -296,13 +296,3 @@ module.exports = eventControls = {
  }
 
 };
-
-var fakeReq = {
-    body: {
-      creator: 'norm',
-      pubEventId: 'a5d93c8b6e2714',
-      restaurant: 'Pier 23 Cafe'
-    }
-  }
-eventControls.selectRestaurant(fakeReq, {}, {});
-
