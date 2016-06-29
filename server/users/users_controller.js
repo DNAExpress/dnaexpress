@@ -26,7 +26,8 @@ module.exports = userControls = {
             salt: null,
             firstname: firstname,
             lastname: lastname,
-            location: location
+            location: location,
+            status: 'active'
           });
           newUser.save()
             .then(function(newUser) {
@@ -38,7 +39,7 @@ module.exports = userControls = {
                 email: email,
                 location: location
               };
-              userControls.getAllUsers(req, res, next)
+              userControls.getAllUsers(newUser)
                 .then(function(allUsers) {
                   resData.allUsers = allUsers;
                   res.status(200).send(resData);
@@ -59,6 +60,8 @@ module.exports = userControls = {
       .then(function(user) {
         if (!user) {
           res.status(500).send({error: 'user does not exist'});
+        } else if (user.attributes.status === 'inactive') {
+          res.status(500).send({error: 'user account deactived for ' + email});
         } else {
           user.comparePassword(password, function(match) {
             if (match) {
@@ -100,7 +103,7 @@ module.exports = userControls = {
   },
   getAllUserData: function (req, res, next, user) {
     var allData = {};
-    return userControls.getAllUsers()
+    return userControls.getAllUsers(user)
       .then(function(allUsers) {
         allData.allUsers = allUsers;
       })
@@ -128,23 +131,39 @@ module.exports = userControls = {
       });
     })
   },
-  getAllUsers: function (req, res, next) {
-    return User.fetchAll()
+  getAllUsers: function (currUser) {
+    var currUser = currUser.attributes.username;
+    return User
+      .query('where', 'status', '=', 'active')
+      .fetchAll()
       .then(function(users) {
         var currUsers = {};
         var userModels = users.models;
         for (var i = 0; i < userModels.length; i++) {
-          var userAttributes = userModels[i].attributes;
-          currUsers[userAttributes.username] = {
-            username: userAttributes.username,
-            location: userAttributes.location,
-            firstname: userAttributes.firstname,
-            lastname: userAttributes.lastname
-          };
-
+          if (userModels[i].attributes.username !== currUser) {
+            var userAttributes = userModels[i].attributes;
+            
+            currUsers[userAttributes.username] = {
+              username: userAttributes.username,
+              location: userAttributes.location,
+              firstname: userAttributes.firstname,
+              lastname: userAttributes.lastname
+            };
+          }
         }
         return currUsers;
       });
-  }
+  },
+  deactivateAccount: function(req, res, next) {
+    // will want to add in password verification...
+    var username = req.body.username;
+    User.forge({username: username}).fetch()
+    .then(function(user) {
+      user.save('status', 'inactive')
+      .then(function(deactivedUser) {
+        res.status(200).send('user successfully deactived');
+      })
+    })
+      
+  } 
 };
-

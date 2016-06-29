@@ -39,6 +39,7 @@ module.exports = searchControls = {
         location: userAndEventDetails.location,
         term: dietRestriction.concat(criteria[0]).join(',')  // yelp search term requires a comma seperated / stringed list
       };
+      var userVotes = criteria[1];
 
       searchControls.makeRequest(searchInput, function(searchResults) {
         var topRecommendations = searchResults.slice(0, 4);
@@ -53,7 +54,8 @@ module.exports = searchControls = {
             phone: recommendation.phone,
             rating_img_url: recommendation.rating_img_url,
             snippet_image_url: recommendation.snippet_image_url,
-            url: recommendation.url
+            url: recommendation.url,
+            userVotes: userVotes
           };
           new Recommendation(newRecommendation).save().then(function(recom) {
             console.log('new recommendation saved!')
