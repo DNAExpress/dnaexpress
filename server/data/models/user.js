@@ -151,7 +151,8 @@ var User = db.Model.extend({
                 attendeesResponded: event.responded,
                 publicEventId: event.publicEventId,
                 recommendations: recommendations,
-                userResponseStatus: eventUserRespMap[event.id]
+                userResponseStatus: eventUserRespMap[event.id],
+                selectedRestaurant: event.selectedRestaurant
               }
           }); 
           }) 
