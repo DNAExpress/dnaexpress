@@ -140,6 +140,7 @@ module.exports = userControls = {
         var currUsers = {};
         var userModels = users.models;
         for (var i = 0; i < userModels.length; i++) {
+          if (userModels[i].attributes.username !== currUser) {
             var userAttributes = userModels[i].attributes;
             
             currUsers[userAttributes.username] = {
@@ -148,20 +149,21 @@ module.exports = userControls = {
               firstname: userAttributes.firstname,
               lastname: userAttributes.lastname
             };
+          }
         }
         return currUsers;
       });
   },
   deactivateAccount: function(req, res, next) {
     // will want to add in password verification...
-    var username = res.body.username;
-    User.forge({username: username})
-      .save({
-        status: 'inactive'
-      })
+    var username = req.body.username;
+    User.forge({username: username}).fetch()
+    .then(function(user) {
+      user.save('status', 'inactive')
       .then(function(deactivedUser) {
         res.status(200).send('user successfully deactived');
       })
+    })
+      
   } 
 };
-
