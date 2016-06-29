@@ -82,6 +82,7 @@ angular.module('app.eventfactory',[])
         data: {username: $window.sessionStorage.getItem('wefeast.user.username')}
       })
       .then(function(res){
+        console.log(res);
         liveEventDataHandler(res);
       })
       .catch(function(error) {

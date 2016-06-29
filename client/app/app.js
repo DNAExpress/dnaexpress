@@ -14,7 +14,8 @@ var app = angular.module('app', [
   'app.createevent',
   'app.showevent',
   'app.responseform',
-  'app.restaurantresults'
+  'app.restaurantresults',
+  'angularjs-datetime-picker'
 
   ]);
 
