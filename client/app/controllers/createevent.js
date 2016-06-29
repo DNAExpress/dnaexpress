@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
 .controller('CreateEventCtrl', ['$scope', '$state', '$window','userFactory', 'eventFactory', function($scope, $state, $window, userFactory, eventFactory) {
@@ -10,19 +10,33 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
   $scope.guests = {};
 
+  $scope.event = {};
+
+  $scope.event.creator = $window.sessionStorage.getItem('wefeast.user.username');
+
   $scope.eventData = eventFactory.eventData;
 
-  $scope.getGuests = function() {
-    $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
-    eventFactory.eventData["attendees"] = [];
-    for (var guest in $scope.guests) {
-      for (var users in $scope.allUsersList) {
-        if (users === guest) {
-          eventFactory.eventData["attendees"].push($scope.allUsersList[users]);
-        }
-      }
+  $scope.possible = "";
+
+  $scope.guestbin = [];
+
+  $scope.addToGuestList = function(username) {
+
+    if ($scope.guestbin.indexOf(username) < 0) {
+      $scope.possible = "";
+      $scope.guestbin.push(username);
+      $scope.guestbin.forEach(function(name) {
+        $scope.possible += name +", ";
+      })
     }
+  };
+
+  $scope.addGuestsToEventData = function() {
+    eventFactory.eventData["attendees"] = $scope.guestbin;
     $state.go('dashboard.createeventreview')
+    .then(function(){
+      console.log($scope.guestbin);
+    })
   };
 
   $scope.collectEventData = function() {
@@ -31,18 +45,17 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
     eventFactory.eventData["date"] = $scope.event.date;
     $state.go('dashboard.guestlist')
     .then(function() {
-      $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
-      $scope.databinLeft = [];
-      $scope.databinRight = [];
-      eventFactory.distributeGuestList($scope.allUsersList);
+      if (eventFactory.databinLeft.length === 0 && eventFactory.databinRight.length === 0) {
+        $scope.allUsersList = JSON.parse($window.sessionStorage.getItem('wefeast.userList'));
+        $scope.databinLeft = [];
+        $scope.databinRight = [];
+        eventFactory.distributeGuestList($scope.allUsersList);
+      }
     })
   };
 
   $scope.submitEvent = function() {
     eventFactory.createEvent(eventFactory.eventData)
-    .then(function(response) {
-      $state.go('dashboard.showevent');
-    })
   };
 
 }]);

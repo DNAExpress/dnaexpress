@@ -2,11 +2,14 @@ var db = require('./../db_schema.js');
 var Event = require('./event');
 var Food = require('./food');
 var UserEvent = require('./user_event');
+var Recommendation = require('./recommendation');
 var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 var foodServices = require('../../services/food_services.js');
 var dietServices = require('../../services/diet_services.js');
-var userEventServices = require('../../services/user_event_services'); 
+var userEventServices = require('../../services/user_event_services');
+var Bookshelf = require('bookshelf');
+db.plugin('registry');
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -14,24 +17,29 @@ var User = db.Model.extend({
   events: function() {
     return this.belongsToMany(Event, 'usersEvents');
   },
+  
   initialize: function() {
     return this.on('creating', this.hashPassword);
   },
+
   userEvents: function() {
     return this.hasMany(UserEvent);
   },
+
   foodtypes: function(){
     return this.belongsToMany(Food, 'userProfileFoodPrefs');
   },
+
   dietRestrictions: function () {
     return this.belongsToMany(DietRestriction, 'userDietRestricts');
   },
+
   comparePassword: function(attemptedPassword, callback) {
-    console.log('in comparePassword')
     bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
       callback(isMatch);
     });
   },
+
   hashPassword: function(currUser, req, res) {
     var self = this;
     var salt;
@@ -65,9 +73,8 @@ var User = db.Model.extend({
       });
     };
   },
-  editUserInfo: function(req, res, next, callback) {
-    console.log('inside editUserInfo');
 
+  editUserInfo: function(req, res, next, callback) {
     var newInfo = {
       username: req.body.username,
       firstname: req.body.firstname,
@@ -76,58 +83,53 @@ var User = db.Model.extend({
       // password: req.body.password,
       location: req.body.location
     };
+
     var preferences = req.body.preferences;
     var restrictions = req.body.restrictions;
 
-    for (var key in newInfo) {
-      var storedData = this.get(key);
-
-      if (storedData !== newInfo[key]) {
-        this.set(key, newInfo[key]);
-      }
-    }
-
+    var resData = { user: {} };
     var self = this;
 
-    var resData = {
-      user: {
-        username: self.attributes.username,
-        firstname: self.attributes.firstname,
-        lastname: self.attributes.lastname,
-        email: self.attributes.email,
-        location: self.attributes.location
-      }
-    };
-
+    this.save(newInfo)
+    .then(function(updatedUser) {
+      resData.user.username = updatedUser.attributes.username,
+      resData.user.firstname = updatedUser.attributes.firstname,
+      resData.user.lastname = updatedUser.attributes.lastname,
+      resData.user.email = updatedUser.attributes.email,
+      resData.user.location = updatedUser.attributes.location
+    })
     foodServices.editProfileFoodPrefs(next, self, preferences)
     .then(function(prefs) {
       resData.user.preferences = prefs;
     })
     .then(function() {
-      console.log('restrictions', restrictions)
       dietServices.editDietRestrictions(next, self, restrictions)
       .then(function(restrictions) {
         resData.user.restrictions = restrictions;
-        console.log('resData', resData)
         callback(resData);
       });
-    })
+    });
   },
+
   getEvents: function(req, res, next) {
     var self = this;
+    var eventUserRespMap = {};
 
     return userEventServices.getSingleUsersEventConnections(self.attributes.id)
       // get user-event joins for the specified user
       .then(function(eventConnections){ 
+        eventConnections.forEach(function(connection) {
+          eventUserRespMap[connection.attributes.event_id] = connection.attributes.responseStatus;
+        });
         // get events from the event_id in the userevent joins
         return userEventServices.getSingleUsersEvents(eventConnections)
       })
-      .then(function(usersEvents) {
+      .then(function(events) {
         // after getting all of the events, filter them by status
         var activeEvents = [];
-        for (var i in usersEvents) {
-          if (usersEvents[i].status === 'active') {
-            activeEvents.push(usersEvents[i]);
+        for (var i in events) {
+          if (events[i].status === 'active') {
+            activeEvents.push(events[i]);
           }
         }
         return activeEvents;
@@ -138,21 +140,48 @@ var User = db.Model.extend({
           return Event.forge({id: event.id})
           .fetch() 
           .then(function(eventModel) {
-            return eventModel.getRecommendations()
             // recommendation table accessed through each spacific event instance
-            .then(function(recommendations) {
-              // include event details and recommendations
-              return {
-                name: event.name,
-                creator: event.creator,
-                date: event.date,
-                numAttendees: event.attendeesNum,
-                attendeesResponded: event.responded,
-                publicEventId: event.publicEventId,
-                recommendations: recommendations
-              }
-          }); 
-          }) 
+            // include event details and recommendations
+            var eventDetails = {
+              name: event.name,
+              creator: event.creator,
+              date: event.date,
+              numAttendees: event.attendeesNum,
+              attendeesResponded: event.responded,
+              publicEventId: event.publicEventId,
+              recommendations: [],
+              userResponseStatus: eventUserRespMap[event.id],
+              selectedRestaurant: null
+            }
+            return eventModel.getRecommendations()
+              .then(function(recommendations) {
+                eventDetails.recommendations = recommendations;
+              })
+              .then(function() {
+                if (event.selectedRestaurant) {
+                  return Recommendation.forge({id: event.selectedRestaurant})
+                  .fetch()
+                  .then(function(model) {
+                    return {
+                      name: model.attributes.name,
+                      address: model.attributes.address,
+                      city: model.attributes.city,
+                      phone: model.attributes.phone,
+                      rating_img_url: model.attributes.rating_img_url,
+                      snippet_image_url: model.attributes.snippet_image_url,
+                      url: model.attributes.url,
+                      userVotes: model.attributes.userVotes
+                    }
+                  })
+                  .then(function(selectedRestaurant) {
+                    eventDetails.selectedRestaurant = selectedRestaurant;
+                    return eventDetails;
+                  }) 
+                } else {
+                  return eventDetails;
+                }
+              }) 
+            })
 
         });
         return Promise.all(allEvents);

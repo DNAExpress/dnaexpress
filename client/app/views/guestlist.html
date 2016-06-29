@@ -2,16 +2,17 @@
 
   <div class="container">
     <div class="card-panel" style="opacity:.9;">
-      <form ng-submit="getGuests()">
+      <form ng-submit="addGuestsToEventData()">
         <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;border:1px solid brown;">
           <div class="row">
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinLeft">
-                <div class="card-panel hoverable">
+                <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer">
                   <div class="row">
                     <div>
-                      <input type="checkbox" id="{{people.username}}" ng-model="guests[people.username]" />
-                      <label for='{{people.username}}' class="black-text" style="font-size:18pt;">{{people.firstname}}&nbsp;{{people.lastname}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
+                      <span style="font-size:18pt;padding-left:20px;">{{people.firstname}}&nbsp;{{people.lastname}}</span>
+                      <br>
+                      <span style="padding-left:25px;">{{people.location}}</span>
                     </div>
                   </div>
                 </div>
@@ -19,11 +20,12 @@
             </ul>
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinRight">
-                <div class="card-panel hoverable">
+                <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer">
                   <div class="row">
                     <div>
-                      <input type="checkbox" id="{{people.username}}" ng-model="guests[people.username]" />
-                      <label for='{{people.username}}' class="black-text" style="font-size:18pt">{{people.firstname}}&nbsp;{{people.lastname}}<br><span style="font-size:12pt;">{{people.location}}</span></label>
+                      <span style="font-size:18pt;padding-left:20px">{{people.firstname}}&nbsp;{{people.lastname}}</span>
+                      <br>
+                      <span  style="padding-left:25px;">{{people.location}}</span>
                     </div>
                   </div>
                 </div>
@@ -32,6 +34,10 @@
           </div>
         </div>
         <br>
+        <div class="card-panel hoverable" style="border:1px solid brown">
+            <h6 style="padding:10px;">Currently on the Guest List: {{possible}}</h6>
+            <p></p>
+        </div>
         <div class="card-panel hoverable" style="border:1px solid brown">
           <div class="row">
             <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Step 1</a></h6>

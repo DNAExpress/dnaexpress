@@ -2,10 +2,24 @@
 angular.module('app.optionform', ['app.services'])
 
 .controller('OptionformCtrl', ['$scope', '$location', '$state', 'userFactory', 'restaurantFactory', function($scope, $location, $state, userFactory, restaurantFactory){
+
+  $scope.formData = {};
+
+  $scope.formData.Array = [];
+
+  $scope.toggleChoice = function(item) {
+    if ($scope.formData.Array.length === 0) {
+      $scope.formData.Array.push(item);
+      }
+    else {
+      $scope.formData.Array = [];
+    }
+  }
+
   $scope.search = function(data) {
     var foodtype;
-    for (var key in data) {
-      if (typeof data[key] === 'boolean') {
+    for (var key in $scope.formData) {
+      if ($scope.formData[key] === true) {
         foodtype = key;
       }
     }
@@ -13,9 +27,11 @@ angular.module('app.optionform', ['app.services'])
       opt1:foodtype,
       location:data.location
     }
+    console.log("searchParams",searchParams)
     $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
+      console.log("inside optionform.js", res)
       restaurantFactory.databinLeft = [];
       restaurantFactory.databinRight = [];
       for (var i = 0; i < res.data.slice(0, 16).length; i++) {

@@ -1,23 +1,23 @@
 var db = require('../db_schema');
-var UserEvents = require('../collections/user_events');
-var User = require('./user');
-var Event = require('./event');
+// var UserEvents = require('../collections/user_events');
 var Food = require('./food');
 
 var UserEvent = db.Model.extend({
   tableName: 'userEvents',
   hasTimestamp: false,
   users: function () {
-    return this.belongsTo(User);
+    return this.belongsTo('User');
   },
   events: function () {
-    return this.belongsTo(Event);
+    return this.belongsTo('Event');
   },
   foods: function() {
-    return this.hasMany(Food);
+    return this.belongsToMany(Food, 'userEventsFood');
   },
   initialize: function () {
-    this.set('responseStatus', 0);
+    return this.on('creating', function() {
+      this.set('responseStatus', 0);
+    });
   }
 });
 

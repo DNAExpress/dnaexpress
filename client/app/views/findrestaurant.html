@@ -7,19 +7,19 @@
       <div class="row">
         <div class="col s2"><h6>Dietary Needs:</h6></div>
         <div class="col s2">
-          <input type='checkbox' id='vegetarian' ng-model="formData.vegetarian" />
+          <input type='checkbox' id='vegetarian' ng-change="toggleChoice(formData.vegetarian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.vegetarian) === -1"ng-model="formData.vegetarian" />
           <label for='vegetarian'>Vegetarian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='vegan' ng-model='formData.vegan' />
+          <input type='checkbox' id='vegan' ng-change="toggleChoice(formData.vegan)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.vegan) === -1" ng-model='formData.vegan' />
           <label for='vegan'>Vegan</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='glutenfree' ng-model='formData.glutenFree' />
+          <input type='checkbox' id='glutenfree' ng-change="toggleChoice(formData.glutenfree)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.glutenfree) === -1"ng-model='formData.glutenFree' />
           <label for='glutenfree'>Gluten-Free</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='kosher' ng-model='formData.kosher' />
+          <input type='checkbox' id='kosher' ng-change="toggleChoice(formData.kosher)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.kosher) === -1"ng-model='formData.kosher' />
           <label for='kosher'>Kosher</label>
         </div>
       </div>
@@ -28,153 +28,153 @@
           <h6>Favorite Foods:</h6>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='burgers' ng-model="formData.burgers" />
+          <input type='checkbox' id='burgers' ng-change="toggleChoice(formData.burgers)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.burgers) === -1" ng-model="formData.burgers" />
           <label for='burgers'>Burgers</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='thai' ng-model="formData.thai" />
+          <input type='checkbox' id='thai' ng-change="toggleChoice(formData.thai)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.thai) === -1" ng-model="formData.thai" />
           <label for='thai'>Thai</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='indian' ng-model="formData.indian" />
+          <input type='checkbox' id='indian' ng-change="toggleChoice(formData.indian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.indian) === -1" ng-model="formData.indian" />
           <label for='indian'>Indian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='koreanbbq' ng-model="formData.koreanbbq" />
+          <input type='checkbox' id='koreanbbq' ng-change="toggleChoice(formData.koreanbbq)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.koreanbbq) === -1" ng-model="formData.koreanbbq" />
           <label for='koreanbbq'>Korean BBQ</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='bbq' ng-model="formData.bbq" />
+          <input type='checkbox' id='bbq' ng-change="toggleChoice(formData.bbq)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.bbq) === -1" ng-model="formData.bbq" />
           <label for='bbq'>Barbecue</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='french' ng-model="formData.french" />
+          <input type='checkbox' id='french' ng-change="toggleChoice(formData.french)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.french) === -1" ng-model="formData.french" />
           <label for='french'>French</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='pubgrub' ng-model="formData.pubgrub" />
+          <input type='checkbox' id='pubgrub' ng-change="toggleChoice(formData.pubgrub)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.pubgrub) === -1" ng-model="formData.pubgrub" />
           <label for='pubgrub'>Pub Grub</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='szechuan' ng-model="formData.szechuan" />
+          <input type='checkbox' id='szechuan' ng-change="toggleChoice(formData.szechuan)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.szechuan) === -1" ng-model="formData.szechuan" />
           <label for='szechuan'>Szechuan</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='jamaican' ng-model="formData.jamaican" />
+          <input type='checkbox' id='jamaican' ng-change="toggleChoice(formData.jamaican)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.jamaican) === -1"ng-model="formData.jamaican" />
           <label for='jamaican'>Jamaican</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='soul' ng-model="formData.soul" />
+          <input type='checkbox' id='soul' ng-change="toggleChoice(formData.soul)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.soul) === -1" ng-model="formData.soul" />
           <label for='soul'>Soul</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='sushi' ng-model="formData.sushi" />
+          <input type='checkbox' id='sushi' ng-change="toggleChoice(formData.sushi)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.sushi) === -1" ng-model="formData.sushi" />
           <label for='sushi'>Sushi</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='steakhouse' ng-model="formData.steakhouse" />
+          <input type='checkbox' id='steakhouse' ng-change="toggleChoice(formData.steakhouse)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.steakhouse) === -1"ng-model="formData.steakhouse" />
           <label for='steakhouse'>Steakhouse</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='vietnamese' ng-model="formData.vietnamese" />
+          <input type='checkbox' id='vietnamese' ng-change="toggleChoice(formData.vietnamese)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.vietnamese) === -1"ng-model="formData.vietnamese" />
           <label for='vietnamese'>Vietnamese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='mexican' ng-model="formData.mexican" />
+          <input type='checkbox' id='mexican' ng-change="toggleChoice(formData.mexican)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.mexican) === -1" ng-model="formData.mexican" />
           <label for='mexican'>Mexican</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='cantonese' ng-model="formData.cantonese" />
+          <input type='checkbox' id='cantonese' ng-change="toggleChoice(formData.cantonese)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.cantonese) === -1" ng-model="formData.cantonese" />
           <label for='cantonese'>Cantonese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='irish' ng-model="formData.irish" />
+          <input type='checkbox' id='irish' ng-change="toggleChoice(formData.irish)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.irish) === -1" ng-model="formData.irish" />
           <label for='irish'>Irish</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='greek' ng-model="formData.greek" />
+          <input type='checkbox' id='greek' ng-change="toggleChoice(formData.greek)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.greek) === -1" ng-model="formData.greek" />
           <label for='greek'>Greek</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='italian' ng-model="formData.italian" />
+          <input type='checkbox' id='italian' ng-change="toggleChoice(formData.italian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.italian) === -1" ng-model="formData.italian" />
           <label for='italian'>Italian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='sandwiches' ng-model="formData.sandwiches" />
+          <input type='checkbox' id='sandwiches' ng-change="toggleChoice(formData.sandwiches)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.sandwiches) === -1"ng-model="formData.sandwiches" />
           <label for='sandwiches'>Sandwiches</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='bagels' ng-model="formData.bagels" />
+          <input type='checkbox' id='bagels' ng-change="toggleChoice(formData.bagels)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.bagels) === -1"ng-model="formData.bagels" />
           <label for='bagels'>Bagels</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='pakistani' ng-model="formData.pakistani" />
+          <input type='checkbox' id='pakistani' ng-change="toggleChoice(formData.pakistani)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.pakistani) === -1"ng-model="formData.pakistani" />
           <label for='pakistani'>Pakistani</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='ethiopian' ng-model="formData.ethiopian" />
+          <input type='checkbox' id='ethiopian' ng-change="toggleChoice(formData.ethiopian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.ethiopian) === -1"ng-model="formData.ethiopian" />
           <label for='ethiopian'>Ethiopian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='salad' ng-model="formData.salad" />
+          <input type='checkbox' id='salad' ng-change="toggleChoice(formData.salad)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.salad) === -1" ng-model="formData.salad" />
           <label for='salad'>Salad</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='ramen' ng-model="formData.ramen" />
+          <input type='checkbox' id='ramen' ng-change="toggleChoice(formData.ramen)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.ramen) === -1" ng-model="formData.ramen" />
           <label for='ramen'>Ramen</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='coffee' ng-model="formData.coffee" />
+          <input type='checkbox' id='coffee' ng-change="toggleChoice(formData.coffee)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.coffee) === -1" ng-model="formData.coffee" />
           <label for='coffee'>Coffee</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='doughnuts' ng-model="formData.doughnuts" />
+          <input type='checkbox' id='doughnuts' ng-change="toggleChoice(formData.doughnuts)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.doughnuts) === -1" ng-model="formData.doughnuts" />
           <label for='doughnuts'>Doughnuts</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='german' ng-model="formData.german" />
+          <input type='checkbox' id='german' ng-change="toggleChoice(formData.german)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.german) === -1" ng-model="formData.german" />
           <label for='german'>German</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='russian' ng-model="formData.russian" />
+          <input type='checkbox' id='russian' ng-change="toggleChoice(formData.russian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.russian) === -1" ng-model="formData.russian" />
           <label for='russian'>Russian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='deli' ng-model="formData.deli" />
+          <input type='checkbox' id='deli'ng-change="toggleChoice(formData.deli)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.deli) === -1" ng-model="formData.deli" />
           <label for='deli'>Delicatessan</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='seafood' ng-model="formData.seafood" />
+          <input type='checkbox' id='seafood' ng-change="toggleChoice(formData.seafood)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.seafood) === -1" ng-model="formData.seafood" />
           <label for='seafood'>Seafood</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='singaporean' ng-model="formData.singaporean" />
+          <input type='checkbox' id='singaporean' ng-change="toggleChoice(formData.singaporean)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.singaporean) === -1" ng-model="formData.singaporean" />
           <label for='singaporean'>Singaporean</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='lebanese' ng-model="formData.lebanese" />
+          <input type='checkbox' id='lebanese' ng-change="toggleChoice(formData.lebanese)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.lebanese) === -1" ng-model="formData.lebanese" />
           <label for='lebanese'>Lebanese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='fusion' ng-model="formData.fusion" />
+          <input type='checkbox' id='fusion' ng-change="toggleChoice(formData.fusion)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.fusion) === -1" ng-model="formData.fusion" />
           <label for='fusion'>Fusion</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='afghan' ng-model="formData.afghan" />
-          <label for='afghan'>Afghan</label>
+          <input type='checkbox' id='peruvian' ng-change="toggleChoice(formData.peruvian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.peruvian) === -1" ng-model="formData.peruvian" />
+          <label for='peruvian'>Peruvian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='creole' ng-model="formData.creole" />
+          <input type='checkbox' id='creole' ng-change="toggleChoice(formData.creole)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.creole) === -1" ng-model="formData.creole" />
           <label for='creole'>Creole</label>
         </div>
       </div>

@@ -9,7 +9,7 @@ var db = require('knex')({
     charset: 'utf8',
     filename: path.join(__dirname, './db/dna.sqlite')
   },
-  useNullAsDefault: true
+  useNullAsDefault: true,
 });
 
 
@@ -24,6 +24,7 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('firstname', 50);
       user.string('lastname', 50);
       user.string('location', 100);
+      user.string('status');
       user.timestamps();
     }).then(function () {
       console.log('Created users table');
@@ -40,8 +41,9 @@ db.schema.hasTable('events').then(function(exists) {
       event.integer('creator').references('users.id');
       event.integer('attendeesNum');
       event.integer('responded');
-      event.string('selectedRestaurant');
+      event.integer('selectedRestaurant');
       event.string('publicEventId').unique();
+      event.string('location');
       event.string('status');
       event.timestamps();
     }).then(function (table) {
@@ -92,9 +94,16 @@ db.schema.hasTable('recommendations').then(function(exists){
     db.schema.createTable('recommendations', function(recommendation){
       recommendation.increments('id').primary();
       recommendation.integer('event_id').references('events.id');
-      recommendation.string('recommendation');
+      recommendation.string('name');
+      recommendation.string('address');
+      recommendation.string('city');
+      recommendation.string('phone');
+      recommendation.string('rating_img_url');
+      recommendation.string('snippet_image_url');
+      recommendation.string('url');
+      recommendation.string('userVotes');
     }).then(function (table) {
-      console.log('Created userEventsFood table', table);
+      console.log('Created recommendations table', table);
     });
   }
 });
@@ -163,3 +172,8 @@ db.schema.hasTable('eventSuggestions').then(function(exists) {
 
 var bookshelf = require('bookshelf')(db);
 module.exports = bookshelf;
+
+var User = require('./models/user');
+bookshelf.model('User', User);
+var Event = require('./models/event');
+bookshelf.model('Event', Event);

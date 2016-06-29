@@ -1,42 +1,86 @@
 var api_router = require('./../data/api_requests/api_router.js');
+var searchAlgorithm = require('./searchalgorithm');
+var Recommendation = require('./../data/models/recommendation');
 
 module.exports = searchControls = {
-  handleSearch: function handleSearch(req, res) {
-    console.log('search req body', req.body)
-    searchControls.makeRequest(req.body, res);
+
+  handleSingleSearch: function (req, res) {
+    var searchInput = {
+      location: req.body.location,
+      term: req.body.opt1
+    };
+
+    searchControls.makeRequest(searchInput, function(searchResults) {
+      console.log(searchResults)
+      res.status(200).json(searchResults);
+    });
   },
 
-  makeRequest: function makeRequest(searchInput, res) {
+  makeRequest: function (searchInput, callback) {
     var searchCriteria = {
       location: searchInput.location,
-      searchTerm: searchInput.opt1
+      searchTerm: searchInput.term
     };
-    api_router.askYelp(searchCriteria, res);
+
+    api_router.askYelp(searchCriteria, callback);
+  },
+
+  getEventRecommendations: function (userAndEventDetails) {
+    // sample userAndEventDetails: {location:'', restrictions: [], userFoodPrefs: [], eventId: int};
+    var searchInput = {};
+
+    searchInput.location = userAndEventDetails.location;
+    var searchCriteria = searchAlgorithm.parseBestOptions(userAndEventDetails.userFoodPrefs);
+    var dietRestriction = getUnique(userAndEventDetails.restrictions);
+    // make three calls to makeRequest with request details, (a food pref, diet restrictions, and location) 
+    // pass in a callback to add the result to recommendations (this will need userAndEventDetails.eventId)
+    searchCriteria.forEach(function(criteria) {
+      var searchInput = {
+        location: userAndEventDetails.location,
+        term: dietRestriction.concat(criteria[0]).join(',')  // yelp search term requires a comma seperated / stringed list
+      };
+      var userVotes = criteria[1];
+
+      searchControls.makeRequest(searchInput, function(searchResults) {
+        var topRecommendations = searchResults.slice(0, 4);
+
+        topRecommendations.forEach(function(recommendation) {
+          // should create a seperate add recommendation function on the events controller...
+          var newRecommendation  = {
+            event_id: userAndEventDetails.eventId, 
+            name: recommendation.name,
+            address: recommendation.location.address[0],
+            city: recommendation.location.city,
+            phone: recommendation.phone,
+            rating_img_url: recommendation.rating_img_url,
+            snippet_image_url: recommendation.snippet_image_url,
+            url: recommendation.url,
+            userVotes: userVotes
+          };
+          new Recommendation(newRecommendation).save().then(function(recom) {
+            console.log('new recommendation saved!')
+          })
+          .catch(function(error) {
+            console.log(error);
+          })
+        })
+      })
+    })
+
+    // helper function: 
+    function getUnique() {
+      var n = [];
+      for(var i = 0; i < this.length; i++) {
+        if (n.indexOf(this[i]) == -1) n.push(this[i]);
+      }
+      return n;
+    };
   }
 
-  // things to do
-    // get in search (handleSearch)
-    // parse users search input
-    // determine from input what to ask yelp for
-        // logic logic logic (for mvp, this doesnt really need logic)
-    // make api request to yelp and get response
-        // this will use content of ./../data/api_requests/
-            // these must be readjusted to return a response here
-            // rather than immediately sending Yelps res to the client
-    // choose which responses to send back to the client
-        // logic logic logic
-    // send the selected options / resp back to the client
 }
 
-
-// search categories for MVP: Location, (3) Food Genres, Veg (y/n), by rating
-
-
 //sample current request body from client:
-    // search req body { location: 'boston',
-    //   opt1: 'indian',
-    //   opt2: 'italian',
-    //   opt3: 'american',
-    //   mealtime: 'breakfast',
-    //   preference: 'no',
-    //   searchBy: 'Stars' }
+    // search req body { 
+    //  location: 'boston',
+    //   opt1: 'indian'
+    // }

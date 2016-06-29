@@ -11,6 +11,13 @@ angular.module('app.eventfactory',[])
 
     var databinRight = [];
 
+    var eventBinLeft = [];
+
+    var eventBinCenter = [];
+
+    var eventBinRight = [];
+
+
     var distributeGuestList = function(data) {
       var flag = "L";
       for(var user in data) {
@@ -33,11 +40,55 @@ angular.module('app.eventfactory',[])
           data: data
         })
         .then(function(res){
+          console.log(res);
+          liveEventDataHandler(res);
           return res;
+        }).then(function() {
+          $state.go('dashboard.showevent');
         })
         .catch(function(error) {
+          console.error("Error received in createEvent", error);
         })
       };
+
+    var liveEventDataHandler = function(data) {
+      $window.sessionStorage.removeItem('wefeast.user.events');
+      $window.sessionStorage.setItem('wefeast.user.events', JSON.stringify(data.data));
+    };
+
+    var sendEventResponse = function(data) {
+      $state.go('loading');
+      return $http({
+        method:'POST',
+        url: 'api/events/formsubmission',
+        data: data
+      })
+      .then(function(res) {
+        console.log(res);
+        liveEventDataHandler(res);
+        return res;
+      })
+      .then(function(){
+        $state.go('dashboard.showevent');
+      })
+      .catch(function(error) {
+        console.error("Error received in sendEventResponse", error);
+      })
+    };
+
+    var fetchEvents = function() {
+      return $http({
+        method:'POST',
+        url:'api/events/getevents',
+        data: {username: $window.sessionStorage.getItem('wefeast.user.username')}
+      })
+      .then(function(res){
+        liveEventDataHandler(res);
+      })
+      .catch(function(error) {
+        console.log(error)
+      });
+    }
 
     return {
       guestList: guestList,
@@ -45,7 +96,10 @@ angular.module('app.eventfactory',[])
       eventData: eventData,
       distributeGuestList: distributeGuestList,
       databinLeft: databinLeft,
-      databinRight: databinRight
+      databinRight: databinRight,
+      liveEventDataHandler: liveEventDataHandler,
+      sendEventResponse: sendEventResponse,
+      fetchEvents: fetchEvents
     };
 
 }])

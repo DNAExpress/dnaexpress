@@ -6,14 +6,12 @@
         <li ng-repeat="results in databinLeft">
           <div class="card-panel hoverable">
             <div class="row">
-              <div>
+              <div style="padding-left:5px;">
                 <img src="{{results.image_url}}" class="right" />
-                <input type="checkbox" id="{{results.name}}">
-                <label for='{{results.name}}' class="black-text left" style="font-size:18pt;width:300px;overflow-wrap:break-word;">{{results.name}}
+                  <div style="font-size:18pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:0px;margin-bottom:0px;">{{results.name}}</div>
                   <br><img src="{{results.rating_img_url}}" />
                   <br><span style="font-size:12pt;">{{results.location.address[0]}}</span>
                   <br><span style="font-size:12pt;">{{results.location.city}}</span>,&nbsp;<span style="font-size:12pt;">{{results.location.state_code}}</span>
-                </label>
               </div>
             </div>
           </div>
@@ -25,12 +23,10 @@
             <div class="row">
               <div>
                 <img src="{{results.image_url}}" class="right" />
-                <input class="left" type="checkbox" id="{{results.name}}">
-                <label for='{{results.name}}' class="black-text left" style="font-size:18pt;width:300px;overflow-wrap:break-word;">{{results.name}}
+                <div style="font-size:18pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0px">{{results.name}}</div>
                   <br><img src="{{results.rating_img_url}}" />
                   <br><span style="font-size:12pt;">{{results.location.address[0]}}</span>
                   <br><span style="font-size:12pt;">{{results.location.city}}</span>,&nbsp;<span style="font-size:12pt;">{{results.location.state_code}}</span>
-                </label>
               </div>
             </div>
           </div>
@@ -39,10 +35,3 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $('input').on('change',function(e){
-      e.preventDefault();
-    })
-  });
-  </script>

@@ -1,0 +1,17 @@
+<h2 class="center-align white-text"><a class="white-text">{{singleEvent.name}}</a></h2>
+
+<div class="container">
+  <div class="container">
+    <div class="card-panel hoverable" style="opacity:.9">
+      <h4>{{singleEvent.name}}</h4>
+      <h4>{{singleEvent.date | date: 'fullDate'}}</h4>
+      <h5>{{singleEvent.date | date: 'shortTime'}}</h4>
+      <h5 ng-if="!singleEvent.responded">You have not responded to this invitation</h5>
+      <h6 ng-if="!singleEvent.responded"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">Respond Now!</a></h6>
+      <h5 ng-if="singleEvent.responded">You have responded to this invitation</h5>
+      <br>
+      <h6 class="left" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
+      <br>
+    </div>
+  </div>
+</div>

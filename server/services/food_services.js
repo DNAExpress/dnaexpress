@@ -38,24 +38,24 @@ module.exports = foodServices = {
 
         function addPref(pref) {
           return Food
-              .forge({type: pref})
-              .fetch()
-              .then(function(food) {
-                  //send both references down the promise chain
-                  return {foodModel: food, userModel: user};
-              })
-              .then(function(references) {
-                //console.log('references', references)
-                  return references
-                    .userModel
-                    //get the belongsToMany relation specified in the first definition, which returns a collection
-                    .foodtypes()
-                    //attach the target to the collection, not the model instance
-                    .attach(references.foodModel);
-              })
-              .then(function(relation) {
-                  console.log('added user-food connection to userProfileFoodPrefs table')
-              })
+            .forge({type: pref})
+            .fetch()
+            .then(function(food) {
+                //send both references down the promise chain
+                return {foodModel: food, userModel: user};
+            })
+            .then(function(references) {
+              //console.log('references', references)
+                return references
+                  .userModel
+                  //get the belongsToMany relation specified in the first definition, which returns a collection
+                  .foodtypes()
+                  //attach the target to the collection, not the model instance
+                  .attach(references.foodModel);
+            })
+            .then(function(relation) {
+                console.log('added user-food connection to userProfileFoodPrefs table')
+            })
         }
     },
     removeProfileFoodPrefs: function(user, prefsToRemove) {
@@ -103,7 +103,7 @@ module.exports = foodServices = {
               if (!isInArray(updatedFoodPrefs,savedFoodPrefs[j])) {
                 toRemove.push(savedFoodPrefs[j]);
               }
-            }   
+            }
           })
           .then(function() {
             foodServices.removeProfileFoodPrefs(user, toRemove);
