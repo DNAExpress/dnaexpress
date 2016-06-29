@@ -5,5 +5,5 @@ module.exports = function (app) {
   app.post('/delete', eventsController.deleteEvent);
   app.post('/formsubmission', eventsController.formSubmission);
   app.post('/getevents', eventsController.getUsersEvents);
-  app.post('/delete', eventsController.deleteEvent);
+  app.post('/selectrestaurant', eventsController.selectRestaurant);
 };

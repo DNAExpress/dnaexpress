@@ -27,7 +27,6 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('status');
       user.timestamps();
     }).then(function () {
-      addFakeUsers()
       console.log('Created users table');
     });
   }
@@ -42,7 +41,7 @@ db.schema.hasTable('events').then(function(exists) {
       event.integer('creator').references('users.id');
       event.integer('attendeesNum');
       event.integer('responded');
-      event.string('selectedRestaurant');
+      event.integer('selectedRestaurant');
       event.string('publicEventId').unique();
       event.string('location');
       event.string('status');
@@ -102,7 +101,7 @@ db.schema.hasTable('recommendations').then(function(exists){
       recommendation.string('rating_img_url');
       recommendation.string('snippet_image_url');
       recommendation.string('url');
-      recommendation.userVotes('userVotes');
+      recommendation.string('userVotes');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });

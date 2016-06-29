@@ -42,6 +42,31 @@ var Event = db.Model.extend({
     return this.on('creating', this.createCustomId);
   },
 
+  saveSelection: function(RecName) {
+    var self = this;
+    var eventId = this.attributes.id;
+    var choosen;
+    return Recommendation
+      .forge()
+      .query('where', 'event_id', '=', eventId)
+      .fetchAll()
+      .then(function(recommendations) {
+        console.log(recommendations)
+        var recModels = recommendations.models;
+        for (var i = 0; i < recModels.length - 1; i++) {
+          if (recModels[i].attributes.name === RecName) {
+            choosen = recModels[i];
+            i = recModels.length - 1;
+          }
+        }
+        return choosen;
+      })
+      .then(function(choosen) {
+
+        self.save({selectedRestaurant: choosen.attributes.id});
+      })
+  },
+
   getRecommendations: function() {
     var eventId = this.attributes.id;
     return Recommendation

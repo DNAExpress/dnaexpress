@@ -257,6 +257,28 @@ module.exports = eventControls = {
     return Promise.all(result);
   },
 
+  selectRestaurant: function (req, res, next) {
+    var creator = req.body.creator;
+    var pubEventId = req.body.pubEventId;
+    var selection = req.body.restaurant;
+
+    Event.forge({publicEventId: pubEventId})
+      .fetch()
+      .then(function(event) {
+        event.saveSelection(selection)
+      })
+      .then(function() {
+        User.forge({username: creator})
+          .fetch()
+          .then(function(user) {
+            user.getEvents(res, res, next)
+              .then(function(events) {
+                res.status(200).send(events);
+              })
+          })
+      });
+  },
+
   mailAttendees: function (attendees, creator) {
    return Promise.all(attendees.map(function (attendee) {
      console.log(attendee);

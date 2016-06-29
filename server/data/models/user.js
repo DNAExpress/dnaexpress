@@ -2,6 +2,7 @@ var db = require('./../db_schema.js');
 var Event = require('./event');
 var Food = require('./food');
 var UserEvent = require('./user_event');
+var Recommendation = require('./recommendation');
 var DietRestriction = require('./diet_restrictions');
 var bcrypt = require('bcrypt-nodejs');
 var foodServices = require('../../services/food_services.js');
@@ -139,22 +140,48 @@ var User = db.Model.extend({
           return Event.forge({id: event.id})
           .fetch() 
           .then(function(eventModel) {
-            return eventModel.getRecommendations()
             // recommendation table accessed through each spacific event instance
-            .then(function(recommendations) {
-              // include event details and recommendations
-              return {
-                name: event.name,
-                creator: event.creator,
-                date: event.date,
-                numAttendees: event.attendeesNum,
-                attendeesResponded: event.responded,
-                publicEventId: event.publicEventId,
-                recommendations: recommendations,
-                userResponseStatus: eventUserRespMap[event.id]
-              }
-          }); 
-          }) 
+            // include event details and recommendations
+            var eventDetails = {
+              name: event.name,
+              creator: event.creator,
+              date: event.date,
+              numAttendees: event.attendeesNum,
+              attendeesResponded: event.responded,
+              publicEventId: event.publicEventId,
+              recommendations: [],
+              userResponseStatus: eventUserRespMap[event.id],
+              selectedRestaurant: null
+            }
+            return eventModel.getRecommendations()
+              .then(function(recommendations) {
+                eventDetails.recommendations = recommendations;
+              })
+              .then(function() {
+                if (event.selectedRestaurant) {
+                  return Recommendation.forge({id: event.selectedRestaurant})
+                  .fetch()
+                  .then(function(model) {
+                    return {
+                      name: model.attributes.name,
+                      address: model.attributes.address,
+                      city: model.attributes.city,
+                      phone: model.attributes.phone,
+                      rating_img_url: model.attributes.rating_img_url,
+                      snippet_image_url: model.attributes.snippet_image_url,
+                      url: model.attributes.url,
+                      userVotes: model.attributes.userVotes
+                    }
+                  })
+                  .then(function(selectedRestaurant) {
+                    eventDetails.selectedRestaurant = selectedRestaurant;
+                    return eventDetails;
+                  }) 
+                } else {
+                  return eventDetails;
+                }
+              }) 
+            })
 
         });
         return Promise.all(allEvents);
