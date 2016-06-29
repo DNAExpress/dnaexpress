@@ -39,7 +39,7 @@ module.exports = userControls = {
                 email: email,
                 location: location
               };
-              userControls.getAllUsers(req, res, next)
+              userControls.getAllUsers(newUser)
                 .then(function(allUsers) {
                   resData.allUsers = allUsers;
                   res.status(200).send(resData);
