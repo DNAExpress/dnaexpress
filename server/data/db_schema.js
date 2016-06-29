@@ -27,6 +27,7 @@ db.schema.hasTable('users').then(function(exists) {
       user.string('status');
       user.timestamps();
     }).then(function () {
+      addFakeUsers()
       console.log('Created users table');
     });
   }
@@ -101,6 +102,7 @@ db.schema.hasTable('recommendations').then(function(exists){
       recommendation.string('rating_img_url');
       recommendation.string('snippet_image_url');
       recommendation.string('url');
+      recommendation.userVotes('userVotes');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });
