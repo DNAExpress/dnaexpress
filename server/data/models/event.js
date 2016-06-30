@@ -83,7 +83,8 @@ var Event = db.Model.extend({
             rating_img_url: model.attributes.rating_img_url,
             snippet_image_url: model.attributes.snippet_image_url,
             url: model.attributes.url,
-            userVotes: model.attributes.userVotes
+            userVotes: model.attributes.userVotes,
+            image_url: model.attributes.image_url
           };
         });
       });
