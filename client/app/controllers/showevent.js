@@ -14,7 +14,6 @@ angular.module('app.showevent', ['app.eventfactory'])
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
   $scope.userIsEventCreator = function(event) {
-    console.log(event);
     if (event.creator === $window.sessionStorage.getItem('wefeast.user.username')) {
       return true
     }
@@ -34,6 +33,10 @@ angular.module('app.showevent', ['app.eventfactory'])
   };
 
   $scope.selection = JSON.parse($window.sessionStorage.getItem('wefeast.selection'));
+
+  $scope.showSelection = function(item) {
+    console.log(item);
+  };
 
   var flag = "L";
   if ($scope.allEventList && $scope.allEventList.length > 0) {

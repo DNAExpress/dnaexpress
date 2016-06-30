@@ -1,7 +1,13 @@
 <h2 class="center-align white-text"><a class="white-text">{{selection.name}}</a></h2>
 
 <div class="container">
-  <div class="card-panel hoverable">
-    <h5>{{selection.phone}}</h5>
+  <div class="container">
+    <div class="card-panel hoverable">
+      <h5>{{selection.phone}}</h5>
+      <h5>{{selection.address}}</h5>
+      <h5>{{selection.city}}</h5>
+      <img src="{{selection.rating_img_url}}" />
+      <h5 ng-click="showSelection(selection);" style="cursor:pointer;">Click It</h5>
+    </div>
   </div>
 </div>
