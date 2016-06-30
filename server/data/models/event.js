@@ -51,7 +51,6 @@ var Event = db.Model.extend({
       .query('where', 'event_id', '=', eventId)
       .fetchAll()
       .then(function(recommendations) {
-        console.log(recommendations)
         var recModels = recommendations.models;
         for (var i = 0; i < recModels.length - 1; i++) {
           if (recModels[i].attributes.name === RecName) {
