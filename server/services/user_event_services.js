@@ -31,10 +31,6 @@ module.exports = UserEventServices = {
     return userEvent.attributes.responseStatus;
   }, //used in getUserEvents
 
-  getUserEventFoodPrefs: function () {
-
-  },
-
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
