@@ -87,6 +87,7 @@ module.exports = foodServices = {
               })
         }
     },
+
     editProfileFoodPrefs: function(next, user, updatedFoodPrefs) {
         console.log('inside editProfileFoodPrefs')
         var toRemove = [];
