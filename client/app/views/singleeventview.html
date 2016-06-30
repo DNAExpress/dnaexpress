@@ -8,12 +8,13 @@
       <h4>{{singleEvent.date}}</h4>
       <h5 ng-if="!singleEvent.userResponseStatus">You have not responded to this invitation</h5>
       <h6 ng-if="!singleEvent.userResponseStatus"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">RSVP Now!</a></h6>
-      <h5 ng-if="singleEvent.userResponseStatus">You have responded to this invitation</h5>
-      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent)">All Invitees Have Responded</h5>
+      <h5 ng-if="singleEvent.userResponseStatus && !singleEvent.selectedRestaurant">You have responded to this invitation</h5>
+      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent) && !singleEvent.selectedRestaurant;">All Invitees Have Responded</h5>
+      <h5 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.name}}</h5>
       <br>
       <br>
       <br>
-      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent)"><a ng-click="setRecommendations(singleEvent.recommendations);"ui-sref='dashboard.eventrecommendations'>click to view WeFeast's Recommended Restaurants</a></h5>
+      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent) && !singleEvent.selectedRestaurant;"><a ng-click="showSelection(singleEvent);setRecommendations(singleEvent);"ui-sref='dashboard.eventrecommendations'>click to view WeFeast's Recommended Restaurants</a></h5>
       <br>
       <h6 class="right" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
       <br>

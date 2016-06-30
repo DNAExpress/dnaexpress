@@ -343,7 +343,7 @@ module.exports = eventControls = {
                     return user.getEvents()
                       .then(function(events) {
                         console.log('Success!', events);
-                        // res.status(200).send(events);
+                        res.status(200).send(events);
                       });
                   });
               }
