@@ -5,28 +5,25 @@
     <div class="row">
       <ul class="col s4">
         <li ng-repeat="place in recommendationsBinLeft">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
             <h5>{{place.name}}</h5>
           </div>
         </li>
       </ul>
       <ul class="col s4">
         <li ng-repeat="place in recommendationsBinCenter">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singlerecommendationview">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
             <h5>{{place.name}}</h5>
           </div>
         </li>
       </ul>
       <ul class="col s4">
         <li ng-repeat="place in recommendationsBinRight">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singlerecommendationview">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
             <h5>{{place.name}}</h5>
           </div>
         </li>
       </ul>
     </div>
-  </div>
-  <div ng-if="!allEventList" class="card-panel hoverable" style="height:500px;">
-    <h2 class="black-text center-align">{{noEventsNotice}}</h2>
   </div>
 </div>

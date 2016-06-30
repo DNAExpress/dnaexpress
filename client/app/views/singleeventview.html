@@ -11,7 +11,7 @@
       <h6 ng-if="!singleEvent.userResponseStatus"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">RSVP Now!</a></h6>
       <h5 ng-if="singleEvent.userResponseStatus">You have responded to this invitation</h5>
       <h5 ng-if="singleEvent.recommendations && userIsEventCreator(singleEvent)">All Invitees Have Responded</h5>
-      <h5 ng-if="singleEvent.recommendations && userIsEventCreator(singleEvent)"><a ui-sref='dashboard.eventrecommendations({recommendations:singleEvent.recommendations})'>click to view WeFeast's Recommended Restaurants</a></h5>
+      <h5 ng-if="singleEvent.recommendations && userIsEventCreator(singleEvent)"><a ng-click="setRecommendations(singleEvent.recommendations);"ui-sref='dashboard.eventrecommendations'>click to view WeFeast's Recommended Restaurants</a></h5>
       <br>
       <h6 class="right" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
       <br>

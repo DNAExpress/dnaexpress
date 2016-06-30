@@ -9,7 +9,7 @@ angular.module('app.showevent', ['app.eventfactory'])
   $scope.recommendationsBinLeft = [];
   $scope.recommendationsBinCenter = [];
   $scope.recommendationsBinRight = [];
-  $scope.recommendations = $stateParams.recommendations;
+  $scope.recommendations = JSON.parse($window.sessionStorage.getItem('wefeast.temp.recommendations'));
   $scope.noEventsNotice = "No Events To Display";
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
@@ -21,6 +21,11 @@ angular.module('app.showevent', ['app.eventfactory'])
     else {
       return false
     }
+  };
+
+  $scope.setRecommendations = function(list) {
+    $window.sessionStorage.removeItem('wefeast.temp.recommendations');
+    $window.sessionStorage.setItem('wefeast.temp.recommendations', JSON.stringify(list));
   }
 
   $scope.selectRecommendation = function(selection) {

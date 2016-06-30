@@ -90,7 +90,7 @@ angular.module('app.eventfactory',[])
       });
     };
 
-    var declineInvite(data) {
+    var declineInvite = function(data) {
       return $http({
         method:'POST',
         url:'api/events/decline',
@@ -99,7 +99,7 @@ angular.module('app.eventfactory',[])
       .then(function(res) {
         liveEventDataHandler(res);
         $state.go('dashboard.showevent');
-      }
+      })
       .catch(function(error) {
         console.log(error);
       })
