@@ -273,34 +273,37 @@ module.exports = eventControls = {
   selectRestaurant: function (req, res, next) {
     var creator = req.body.creator;
     var pubEventId = req.body.pubEventId;
-    var restaurant = req.body.restaurant;
-
-    Event.forge({publicEventId: pubEventId})
+    var selection = req.body.restaurant;
+    Event
+      .forge({publicEventId: pubEventId})
       .fetch()
       .then(function(event) {
-        event.saveSelection(restaurant)
+        event.saveSelection(selection);
+        return event;
       })
-      .then(function() {
-        return User.forge({username: creator})
+      .then(function(event) {
+        User.forge({username: creator})
           .fetch()
           .then(function(user) {
-            user.getEvents(res, res, next)
+            user.getEvents(req, res, next)
               .then(function(events) {
                 res.status(200).send(events);
-                console.log('This starts the emailing process');
                 UserEvent
-                  .forge({event_id: event.attributes.id})
+                  .query('where', 'event_id', '=', event.attributes.id)
                   .fetchAll()
                   .then(function (userevents) {
                     Promise.all(userevents.map(function (userevent) {
                       return User
-                        .forge({id: userevent.attributes.user_id})
+                        .query('where', 'id', '=', userevent.attributes.user_id)
                         .fetch()
                         .then(function (user) {
-                          return user.attributes.email;
+                          return user.attributes.username;
                         });
                     })).then(function (attendees) {
-                      mailUsers(attendees, creator, '/mail_templates/recommendationAlert.html', event.attibutes.name);
+                      console.log(attendees);
+                      eventControls.mailUsers(attendees, creator, '/mail_templates/recommendationAlert.html', event.attributes.name);
+                    }).catch(function (err) {
+                      console.error('Failed to send email', err);
                     });
                   });
               });
@@ -308,9 +311,8 @@ module.exports = eventControls = {
       });
   },
 
-  mailUsers: function (attendees, creator, link) {
+  mailUsers: function (attendees, creator, template) {
    return Promise.all(attendees.map(function (attendee) {
-     console.log(attendee);
      return User
      .forge({username: attendee})
      .fetch()
@@ -319,8 +321,7 @@ module.exports = eventControls = {
      });
    })).then(function (emailList) {
      emailList = emailList.join(', ');
-     console.log(emailList);
-     MailServer.mail(creator, link, emailList);
+     MailServer.mail(creator, template, emailList);
    });
  },
 
@@ -370,5 +371,3 @@ module.exports = eventControls = {
   }
 
 };
-
-// eventControls.declineEvent();
