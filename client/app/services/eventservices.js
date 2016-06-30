@@ -40,7 +40,6 @@ angular.module('app.eventfactory',[])
           data: data
         })
         .then(function(res){
-          console.log(res);
           liveEventDataHandler(res);
           return res;
         }).then(function() {
@@ -83,11 +82,27 @@ angular.module('app.eventfactory',[])
         data: {username: $window.sessionStorage.getItem('wefeast.user.username')}
       })
       .then(function(res){
+        console.log(res);
         liveEventDataHandler(res);
       })
       .catch(function(error) {
         console.log(error)
       });
+    };
+
+    var declineInvite = function(data) {
+      return $http({
+        method:'POST',
+        url:'api/events/decline',
+        data:data
+      })
+      .then(function(res) {
+        liveEventDataHandler(res);
+        $state.go('dashboard.showevent');
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
     }
 
     return {
@@ -99,7 +114,8 @@ angular.module('app.eventfactory',[])
       databinRight: databinRight,
       liveEventDataHandler: liveEventDataHandler,
       sendEventResponse: sendEventResponse,
-      fetchEvents: fetchEvents
+      fetchEvents: fetchEvents,
+      declineInvite: declineInvite
     };
 
 }])

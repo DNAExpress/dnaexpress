@@ -32,12 +32,20 @@ angular.module('app.services', ['app.eventfactory'])
 .factory('Profile', ['$state', '$http', '$window',function ($state, $http,$window) {
 
   var processData = function (userdata, formdata) {
+    if (!formdata) {
+      formdata = {};
+    }
+    var username = formdata.username || userdata.username;
+    var firstname = formdata.firstname || userdata.firstname;
+    var lastname = formdata.lastname || userdata.lastname;
+    var email = formdata.email || userdata.email;
+    var location = formdata.location || userdata.location;
 
     var data = {
-      username:userdata.username,
-      firstname:userdata.firstname,
-      lastname:userdata.lastname,
-      email:userdata.email,
+      username:username,
+      firstname:firstname,
+      lastname:lastname,
+      email:email,
       password:userdata.password,
       location:userdata.location,
       restrictions:[],
@@ -75,10 +83,32 @@ angular.module('app.services', ['app.eventfactory'])
       $state.go('dashboard.profile');
     })
 
-  }
+  };
+
+  var sendCreateProfile = function (userdata) {
+    return $http({
+      method:'POST',
+      url:'/api/users/profile',
+      data: userdata
+    })
+    .then(function(res){
+      console.log("createprofile response", res);
+      $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
+      $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
+      $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
+      $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
+      $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
+      $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences));
+      $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.restrictions));
+      $state.go('dashboard.createevent');
+    })
+
+  };
+
   return {
     processData: processData,
-    sendEditProfile: sendEditProfile
+    sendEditProfile: sendEditProfile,
+    sendCreateProfile: sendCreateProfile
   };
 
 }])
@@ -118,6 +148,7 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function (res) {
+      console.log("signup",res);
       $window.localStorage.setItem('com.app', res.data.token);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);

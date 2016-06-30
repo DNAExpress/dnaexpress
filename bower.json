@@ -20,6 +20,7 @@
     "angular-ui-router": "^0.3.1",
     "Materialize": "materialize#^0.97.6",
     "underscore": "^1.8.3",
-    "jquery": "^2.2.4"
+    "jquery": "^2.2.4",
+    "angularjs-datetime-picker": "^0.1.20"
   }
 }

@@ -7,14 +7,18 @@
         <div class="row">
           <div class="col s3">
             <div class='input-field'>
-              <input id="eventdatepicker" type="date" class="datepicker" placeholder="date" ng-model="event.date">
+              <!-- <input id="eventdatepicker" type="date" class="datepicker" placeholder="date" ng-model="event.date"> -->
+              <input type="button" value="time" datetime-picker future-only hour="12" ng-model="event.date" />
             </div>
+          </div>
+          <div class="col s3">
+            <div>{{event.date}}</div>
           </div>
         </div>
       <div class="row">
         <div>
           <div class='input-field'>
-            <input type="text" placeholder="event name" ng-model="event.name">
+            <input type="text" placeholder="event name" ng-model="event.name" minlength="4">
           </div>
         </div>
       </div>

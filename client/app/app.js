@@ -14,7 +14,8 @@ var app = angular.module('app', [
   'app.createevent',
   'app.showevent',
   'app.responseform',
-  'app.restaurantresults'
+  'app.restaurantresults',
+  'angularjs-datetime-picker'
 
   ]);
 
@@ -79,7 +80,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
     .state('main.createprofile', {
       url:'/createprofile',
       templateUrl:'app/views/createprofile.html',
-      controller:'EditProfileCtrl',
+      controller:'CreateProfileCtrl',
       params:{
         user:null
       }
@@ -130,7 +131,23 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
         eventData:null
       },
       authenticate:true
+    })
+    .state('dashboard.eventrecommendations', {
+      url:'/recommendations',
+      templateUrl:'app/views/eventrecommendations.html',
+      controller:'ShowEventCtrl',
+      params:{
+        recommendations:null
+      },
+      authenticate:true
+    })
+    .state('dashboard.singlerecommendationview', {
+      url:'/singlerecommendationview',
+      templateUrl:'app/views/singlerecommendationview.html',
+      controller:'ShowEventCtrl',
+      authenticate:true
     });
+
 
     $locationProvider.html5Mode(true);
 

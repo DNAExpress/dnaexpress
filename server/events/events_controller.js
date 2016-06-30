@@ -69,7 +69,7 @@ module.exports = eventControls = {
           .then(function (event) {
             searchDetails.eventId = event.attributes.id;
             searchDetails.location = event.attributes.location;
-            // update the number of responded attendees ; 
+            // update the number of responded attendees ;
               // will be used below to check if all attendees have completed foodPref forms
             var attendeesNum = event.get('attendeesNum');
             var responded = event.get('responded') + 1;
@@ -77,7 +77,7 @@ module.exports = eventControls = {
 
             eventControls.getUserEventModel(user.attributes.id, event.attributes.id)
             .then(function (userEvent) {
-              // set users resp status for event to true, 
+              // set users resp status for event to true,
               // so that sever and client know they have completed form
               userEvent.save('responseStatus', 1);
             // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
@@ -122,7 +122,7 @@ module.exports = eventControls = {
               //return next(new Error('failure in form submission handling: ' + error));
             });
           })
-          
+
       })
   },
 

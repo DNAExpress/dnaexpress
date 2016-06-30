@@ -1,0 +1,29 @@
+<h2 class="center-align white-text"><a class="white-text">Recommendations</a></h2>
+
+<div class="container hoverable" style="opacity:.9">
+  <div ng-if="allEventList" class="card-panel hoverable" style="height:500px;overflow:scroll;">
+    <div class="row">
+      <ul class="col s4">
+        <li ng-repeat="place in recommendationsBinLeft">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
+            <h5>{{place.name}}</h5>
+          </div>
+        </li>
+      </ul>
+      <ul class="col s4">
+        <li ng-repeat="place in recommendationsBinCenter">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
+            <h5>{{place.name}}</h5>
+          </div>
+        </li>
+      </ul>
+      <ul class="col s4">
+        <li ng-repeat="place in recommendationsBinRight">
+          <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
+            <h5>{{place.name}}</h5>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
