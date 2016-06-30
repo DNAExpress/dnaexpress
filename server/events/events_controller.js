@@ -44,7 +44,7 @@ module.exports = eventControls = {
             return;
           })
           .then(function() {
-            eventControls.mailAttendees(attendees, creator);
+            eventControls.mailUsers(attendees, creator, '/mail_templates/eventAlert.html');
           })
           .catch(function (err) {
             console.error(err);
@@ -273,26 +273,42 @@ module.exports = eventControls = {
   selectRestaurant: function (req, res, next) {
     var creator = req.body.creator;
     var pubEventId = req.body.pubEventId;
-    var selection = req.body.restaurant;
+    var restaurant = req.body.restaurant;
 
     Event.forge({publicEventId: pubEventId})
       .fetch()
       .then(function(event) {
-        event.saveSelection(selection)
+        event.saveSelection(restaurant)
       })
       .then(function() {
-        User.forge({username: creator})
+        return User.forge({username: creator})
           .fetch()
           .then(function(user) {
             user.getEvents(res, res, next)
               .then(function(events) {
                 res.status(200).send(events);
-              })
-          })
+                console.log('This starts the emailing process');
+                UserEvent
+                  .forge({event_id: event.attributes.id})
+                  .fetchAll()
+                  .then(function (userevents) {
+                    Promise.all(userevents.map(function (userevent) {
+                      return User
+                        .forge({id: userevent.attributes.user_id})
+                        .fetch()
+                        .then(function (user) {
+                          return user.attributes.email;
+                        });
+                    })).then(function (attendees) {
+                      mailUsers(attendees, creator, '/mail_templates/recommendationAlert.html', event.attibutes.name);
+                    });
+                  });
+              });
+          });
       });
   },
 
-  mailAttendees: function (attendees, creator) {
+  mailUsers: function (attendees, creator, link) {
    return Promise.all(attendees.map(function (attendee) {
      console.log(attendee);
      return User
@@ -304,7 +320,7 @@ module.exports = eventControls = {
    })).then(function (emailList) {
      emailList = emailList.join(', ');
      console.log(emailList);
-     MailServer.mail(creator, '/mail_templates/eventAlert.html', emailList);
+     MailServer.mail(creator, link, emailList);
    });
  },
 
@@ -342,7 +358,6 @@ module.exports = eventControls = {
                     // fetch all of users events and res
                     return user.getEvents()
                       .then(function(events) {
-                        console.log('Success!', events);
                         res.status(200).send(events);
                       });
                   });
