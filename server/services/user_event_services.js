@@ -6,6 +6,8 @@ var UserEventsFoods = require('./../data/collections/user_events_foods');
 var UserEventsFood = require('./../data/models/user_events_food');
 var Foods = require('./../data/collections/foods');
 var Food = require('./../data/models/food');
+// var User = require('./../data/models/user');
+// var eventControls = require('./../events/events_controller');
 
 module.exports = UserEventServices = {
 
@@ -25,29 +27,9 @@ module.exports = UserEventServices = {
     }));
   },
 
-  getUserEventFoodPrefs: function () {
-
-  },
-
   getResponseStatus: function (userEvent) {
     return userEvent.attributes.responseStatus;
   }, //used in getUserEvents
-
-  submitUserEventPrefs: function () {
-
-  },
-
-  changeResponseStatus: function() {
-
-  },
-
-  getTotalEventUsers: function() {
-
-  },
-
-  getRespondedTotal: function() {
-
-  },
 
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
     foodPrefs.forEach(function (foodPref) {
