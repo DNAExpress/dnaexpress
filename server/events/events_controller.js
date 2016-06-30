@@ -309,8 +309,9 @@ module.exports = eventControls = {
  },
 
   declineEvent: function (res, req, next) {
-    var username = 'nate' //res.body.username;
-    var pubId = 'a4b2691d578ce3' //res.body.pubId;
+    var username = res.body.username;
+    var pubId = res.body.pubId;
+    console.log('hit');
     User
       .forge({username: username})
       .fetch()
