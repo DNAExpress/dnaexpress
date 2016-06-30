@@ -73,8 +73,9 @@ module.exports = searchControls = {
       return 1;
     }))
     .then(function (n) {
-        console.log('How many times is this logging?');
         emailCreator(event);
+    }).catch(function (err){
+      console.error('Failed to email Creator', err);
     });
 
     // helper functions:
