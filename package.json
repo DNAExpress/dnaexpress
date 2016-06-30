@@ -41,6 +41,7 @@
     "yelp": "^1.0.1"
   },
   "devDependencies": {
+    "jquery": "^3.0.0",
     "jshint": "^2.9.2"
   }
 }

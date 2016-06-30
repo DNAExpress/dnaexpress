@@ -102,6 +102,7 @@ db.schema.hasTable('recommendations').then(function(exists){
       recommendation.string('snippet_image_url');
       recommendation.string('url');
       recommendation.string('userVotes');
+      recommendation.string('image_url');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });
