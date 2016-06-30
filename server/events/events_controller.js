@@ -44,7 +44,7 @@ module.exports = eventControls = {
             return;
           })
           .then(function() {
-            eventControls.mailAttendees(attendees, creator);
+            eventControls.mailUsers(attendees, creator, '/mail_templates/eventAlert.html');
           })
           .catch(function (err) {
             console.error(err);
@@ -274,27 +274,45 @@ module.exports = eventControls = {
     var creator = req.body.creator;
     var pubEventId = req.body.pubEventId;
     var selection = req.body.restaurant;
-
-    Event.forge({publicEventId: pubEventId})
+    Event
+      .forge({publicEventId: pubEventId})
       .fetch()
       .then(function(event) {
-        event.saveSelection(selection)
+        event.saveSelection(selection);
+        return event;
       })
-      .then(function() {
+      .then(function(event) {
         User.forge({username: creator})
           .fetch()
           .then(function(user) {
-            user.getEvents(res, res, next)
+            user.getEvents(req, res, next)
               .then(function(events) {
                 res.status(200).send(events);
-              })
-          })
+                UserEvent
+                  .query('where', 'event_id', '=', event.attributes.id)
+                  .fetchAll()
+                  .then(function (userevents) {
+                    Promise.all(userevents.map(function (userevent) {
+                      return User
+                        .query('where', 'id', '=', userevent.attributes.user_id)
+                        .fetch()
+                        .then(function (user) {
+                          return user.attributes.username;
+                        });
+                    })).then(function (attendees) {
+                      console.log(attendees);
+                      eventControls.mailUsers(attendees, creator, '/mail_templates/recommendationAlert.html', event.attributes.name);
+                    }).catch(function (err) {
+                      console.error('Failed to send email', err);
+                    });
+                  });
+              });
+          });
       });
   },
 
-  mailAttendees: function (attendees, creator) {
+  mailUsers: function (attendees, creator, template) {
    return Promise.all(attendees.map(function (attendee) {
-     console.log(attendee);
      return User
      .forge({username: attendee})
      .fetch()
@@ -303,8 +321,7 @@ module.exports = eventControls = {
      });
    })).then(function (emailList) {
      emailList = emailList.join(', ');
-     console.log(emailList);
-     MailServer.mail(creator, '/mail_templates/eventAlert.html', emailList);
+     MailServer.mail(creator, template, emailList);
    });
  },
 
@@ -342,7 +359,6 @@ module.exports = eventControls = {
                     // fetch all of users events and res
                     return user.getEvents()
                       .then(function(events) {
-                        console.log('Success!', events);
                         res.status(200).send(events);
                       });
                   });
@@ -355,5 +371,3 @@ module.exports = eventControls = {
   }
 
 };
-
-// eventControls.declineEvent();
