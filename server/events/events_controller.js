@@ -97,7 +97,7 @@ module.exports = eventControls = {
                   })
                   .then(function () {
                      // spit through alg
-                    searchControls.getEventRecommendations(searchDetails);
+                    searchControls.getEventRecommendations(searchDetails, event);
                   })
                   .then(function() {
                     // fetch all of users events and res
@@ -148,6 +148,18 @@ module.exports = eventControls = {
       .fetch()
       .then(function (userevent) {
         return userevent;
+      });
+  },
+
+  deleteUserEventModel: function (userId, eventId) {
+    return UserEvent
+      .forge()
+      .query(function(qb){
+        qb.where('user_id', '=', userId).andWhere('event_id', '=', eventId);
+      })
+      .destroy()
+      .then(function (userevent) {
+        console.log(userevent);
       });
   },
 
@@ -214,7 +226,8 @@ module.exports = eventControls = {
   },
 
   getUsersEvents: function(req, res, next) {
-    User.forge({username: req.body.username})
+    User
+      .forge({username: req.body.username})
       .fetch()
       .then(function(user) {
         if (!user) {
@@ -291,8 +304,56 @@ module.exports = eventControls = {
    })).then(function (emailList) {
      emailList = emailList.join(', ');
      console.log(emailList);
-     MailServer.mail(creator, 'http://localhost:8000', '/mail_Templates/eventAlert.html', emailList);
+     MailServer.mail(creator, '/mail_templates/eventAlert.html', emailList);
    });
- }
+ },
+
+  declineEvent: function (res, req, next) {
+    var username = 'nate' //res.body.username;
+    var pubId = 'a4b2691d578ce3' //res.body.pubId;
+    User
+      .forge({username: username})
+      .fetch()
+      .then(function (user) {
+        Event
+          .forge({publicEventId: pubId})
+          .fetch()
+          .then(function (event) {
+            event.save({attendeesNum: event.attributes.attendeesNum - 1})
+            .then(function () {
+              return eventControls.deleteUserEventModel(user.attributes.id, event.attributes.id)
+            })
+            .then(function (model) {
+              if (event.attributes.responded === event.attributes.attendeesNum) {
+                var searchDetails = {location: event.attributes.location, restrictions: [], userFoodPrefs: [], eventId: event.attributes.id};
+                return eventControls.getPrefsForAllAttendees(searchDetails.eventId)
+                  .then(function(allUserPrefs) {
+                    // format food Prefs into and array of arrays for the algorithm
+                    allUserPrefs.forEach(function(userPrefs) {
+                      searchDetails.restrictions.push(userPrefs.restrictions)
+                      searchDetails.userFoodPrefs.push([userPrefs.profileFoodPrefs, userPrefs.eventFoodPrefs]);
+                    });
+                  })
+                  .then(function () {
+                     // spit through alg
+                    searchControls.getEventRecommendations(searchDetails, event);
+                  })
+                  .then(function() {
+                    // fetch all of users events and res
+                    return user.getEvents()
+                      .then(function(events) {
+                        console.log('Success!', events);
+                        // res.status(200).send(events);
+                      });
+                  });
+              }
+            }).catch(function (err) {
+              console.error('Failed to decline user invitation', err);
+            });
+          });
+      });
+  }
 
 };
+
+// eventControls.declineEvent();
