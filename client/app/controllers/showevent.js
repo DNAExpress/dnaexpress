@@ -14,28 +14,48 @@ angular.module('app.showevent', ['app.eventfactory'])
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
 
   $scope.userIsEventCreator = function(event) {
+
     if (event.creator === $window.sessionStorage.getItem('wefeast.user.username')) {
       return true
     }
     else {
       return false
     }
+
   };
 
-  $scope.setRecommendations = function(list) {
+  $scope.setRecommendations = function(event) {
+    $window.sessionStorage.removeItem('wefeast.temp.focusevent');
+    $window.sessionStorage.setItem('wefeast.temp.focusevent', JSON.stringify(event));
     $window.sessionStorage.removeItem('wefeast.temp.recommendations');
-    $window.sessionStorage.setItem('wefeast.temp.recommendations', JSON.stringify(list));
+    $window.sessionStorage.setItem('wefeast.temp.recommendations', JSON.stringify(event.recommendations));
+
   }
 
   $scope.selectRecommendation = function(selection) {
+
     $window.sessionStorage.removeItem('wefeast.selection');
     $window.sessionStorage.setItem('wefeast.selection', JSON.stringify(selection));
+
   };
 
   $scope.selection = JSON.parse($window.sessionStorage.getItem('wefeast.selection'));
 
   $scope.showSelection = function(item) {
     console.log(item);
+  };
+
+  $scope.finalChoice = function(choice) {
+
+    var eventData = JSON.parse($window.sessionStorage.getItem('wefeast.temp.focusevent'));
+
+    var selectionData = {
+      creator:eventData.creator,
+      pubEventId:eventData.publicEventId,
+      restaurant:choice.name
+    }
+    eventFactory.selectrestaurant(selectionData);
+
   };
 
   var flag = "L";
