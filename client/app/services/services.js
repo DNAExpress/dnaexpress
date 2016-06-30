@@ -35,8 +35,6 @@ angular.module('app.services', ['app.eventfactory'])
     if (!formdata) {
       formdata = {};
     }
-    console.log("userdata", userdata);
-    console.log("formdata", formdata);
     var username = formdata.username || userdata.username;
     var firstname = formdata.firstname || userdata.firstname;
     var lastname = formdata.lastname || userdata.lastname;
@@ -100,8 +98,8 @@ angular.module('app.services', ['app.eventfactory'])
       $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
       $window.sessionStorage.setItem('wefeast.user.location', res.data.user.location);
       $window.sessionStorage.setItem('wefeast.user.email', res.data.user.email);
-      $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences))
-      $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.restrictions))
+      $window.sessionStorage.setItem('wefeast.user.preferences', JSON.stringify(res.data.user.preferences));
+      $window.sessionStorage.setItem('wefeast.user.dietrestrictions', JSON.stringify(res.data.user.restrictions));
       $state.go('dashboard.createevent');
     })
 
@@ -150,6 +148,7 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function (res) {
+      console.log("signup",res);
       $window.localStorage.setItem('com.app', res.data.token);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);

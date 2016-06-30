@@ -131,7 +131,23 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
         eventData:null
       },
       authenticate:true
+    })
+    .state('dashboard.eventrecommendations', {
+      url:'/recommendations',
+      templateUrl:'app/views/eventrecommendations.html',
+      controller:'ShowEventCtrl',
+      params:{
+        recommendations:null
+      },
+      authenticate:true
+    })
+    .state('dashboard.singlerecommendationview', {
+      url:'/singlerecommendationview',
+      templateUrl:'app/views/singlerecommendationview.html',
+      controller:'ShowEventCtrl',
+      authenticate:true
     });
+
 
     $locationProvider.html5Mode(true);
 

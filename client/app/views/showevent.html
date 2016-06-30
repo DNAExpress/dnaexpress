@@ -12,6 +12,7 @@
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+            <h6 ng-if="events.recommendations && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
           </div>
         </li>
       </ul>
@@ -24,6 +25,7 @@
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+            <h6 ng-if="events.recommendations && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
           </div>
         </li>
       </ul>
@@ -36,6 +38,7 @@
             <h6>{{events.date | date:'shortTime'}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+            <h6 ng-if="events.recommendations && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
           </div>
         </li>
       </ul>

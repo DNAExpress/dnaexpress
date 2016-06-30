@@ -6,8 +6,29 @@ angular.module('app.showevent', ['app.eventfactory'])
   $scope.eventBinCenter = [];
   $scope.eventBinRight = [];
   $scope.singleEvent = $stateParams.singleevent;
+  $scope.recommendationsBinLeft = [];
+  $scope.recommendationsBinCenter = [];
+  $scope.recommendationsBinRight = [];
+  $scope.recommendations = $stateParams.recommendations;
   $scope.noEventsNotice = "No Events To Display";
   $scope.allEventList = JSON.parse($window.sessionStorage.getItem('wefeast.user.events'));
+
+  $scope.userIsEventCreator = function(event) {
+    console.log(event);
+    if (event.creator === $window.sessionStorage.getItem('wefeast.user.username')) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  $scope.selectRecommendation = function(selection) {
+    $window.sessionStorage.removeItem('wefeast.selection');
+    $window.sessionStorage.setItem('wefeast.selection', JSON.stringify(selection));
+  };
+
+  $scope.selection = JSON.parse($window.sessionStorage.getItem('wefeast.selection'));
 
   var flag = "L";
   if ($scope.allEventList && $scope.allEventList.length > 0) {
@@ -31,8 +52,24 @@ angular.module('app.showevent', ['app.eventfactory'])
     $scope.allEventList = null;
   }
 
+  var recFlag = "L";
+  if ($scope.recommendations && $scope.recommendations.length > 0) {
 
-
+    for (var j = 0; j < $scope.recommendations.length; j++) {
+      if (recFlag === "L") {
+        $scope.recommendationsBinLeft.push($scope.recommendations[j]);
+        recFlag = "C";
+      }
+      else if (recFlag === "C" ) {
+        $scope.recommendationsBinCenter.push($scope.recommendations[j]);
+        recFlag = "R";
+      }
+      else {
+        $scope.recommendationsBinRight.push($scope.recommendations[j]);
+        recFlag = "L";
+      }
+    }
+  }
 
 
 

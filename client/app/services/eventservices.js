@@ -88,6 +88,21 @@ angular.module('app.eventfactory',[])
       .catch(function(error) {
         console.log(error)
       });
+    };
+
+    var declineInvite(data) {
+      return $http({
+        method:'POST',
+        url:'api/events/decline',
+        data:data
+      })
+      .then(function(res) {
+        liveEventDataHandler(res);
+        $state.go('dashboard.showevent');
+      }
+      .catch(function(error) {
+        console.log(error);
+      })
     }
 
     return {
@@ -99,7 +114,8 @@ angular.module('app.eventfactory',[])
       databinRight: databinRight,
       liveEventDataHandler: liveEventDataHandler,
       sendEventResponse: sendEventResponse,
-      fetchEvents: fetchEvents
+      fetchEvents: fetchEvents,
+      declineInvite: declineInvite
     };
 
 }])
