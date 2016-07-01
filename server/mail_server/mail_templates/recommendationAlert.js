@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+module.exports = '<!DOCTYPE html>
 <html>
   <body>
     <div>
@@ -12,4 +12,4 @@
       <img src="cid:1234"/>
     </div>
   <body/>
-</html>
+</html>'

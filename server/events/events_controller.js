@@ -18,39 +18,36 @@ module.exports = eventControls = {
     var creator = req.body.creator;
     var attendees = (req.body.attendees).concat(creator);
     var location = 'San Francisco'  // get from client!!
-    var event = new Event({
-      name: name,
-      date: date,
-      creator: creator,
-      attendeesNum: attendees.length,
-      responded: 0,
-      status: 'active',
-      location: location
-    });
-    event.save()
-    .then(function(newEvent){
-      return eventControls.connectEventUsers(attendees, newEvent, res, next)
-      .then(function() {
-        User
-        .forge({username: creator})
-        .fetch()
-        .then(function(user){
-          return UserEventServices.getSingleUsersEventConnections(user.attributes.id);
-        })
-        .then(function(events){
-          UserEventServices.getSingleUsersEvents(events)
+
+    User
+    .forge({username: creator})
+    .fetch().then(function(user){
+      Event.forge({
+        name: name,
+        date: date,
+        creator: user.attributes.id,
+        attendeesNum: attendees.length,
+        responded: 0,
+        status: 'active',
+        location: location
+      })
+      .save()
+      .then(function(newEvent){
+        return eventControls.connectEventUsers(attendees, newEvent, res, next)
+        .then(function() {
+          return user.getEvents(req, res, next)
           .then(function(usersEvents) {
             res.status(200).send(usersEvents);
             return;
           })
-          .then(function() {
-            eventControls.mailUsers(attendees, creator, '/mail_templates/eventAlert.html');
-          })
+          // .then(function() {
+          //   eventControls.mailUsers(attendees, creator, 'eventAlert');
+          // })
           .catch(function (err) {
             console.error(err);
-          });;
-        });
-      });
+          });
+        })
+      })
     });
   },
 
@@ -302,7 +299,7 @@ module.exports = eventControls = {
                         });
                     })).then(function (attendees) {
                       console.log(attendees);
-                      eventControls.mailUsers(attendees, creator, '/mail_templates/recommendationAlert.html', event.attributes.name);
+                      eventControls.mailUsers(attendees, creator, 'recommendationAlert', event.attributes.name);
                     }).catch(function (err) {
                       console.error('Failed to send email', err);
                     });

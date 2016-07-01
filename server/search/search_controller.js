@@ -14,7 +14,6 @@ module.exports = searchControls = {
     };
 
     searchControls.makeRequest(searchInput, function(searchResults) {
-      console.log(searchResults)
       res.status(200).json(searchResults);
     });
   },
@@ -81,7 +80,7 @@ module.exports = searchControls = {
     // helper functions:
     function getUnique() {
       var n = [];
-      for(var i = 0; i < this.length; i++) {
+      for (var i = 0; i < this.length; i++) {
         if (n.indexOf(this[i]) == -1) n.push(this[i]);
       }
       return n;
@@ -89,10 +88,10 @@ module.exports = searchControls = {
 
     function emailCreator(event) {
       User
-       .forge({username: event.attributes.creator})
+       .forge({id: event.attributes.creator})
        .fetch()
        .then(function (user) {
-         return MailServer.mail(user.attributes.firstname, '/mail_Templates/creatorAlert.html', user.attributes.email, event.attributes.name);
+         return MailServer.mail(user.attributes.firstname, 'creatorAlert', user.attributes.email, event.attributes.name);
        });
     };
   }
