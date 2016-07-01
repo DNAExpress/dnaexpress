@@ -7,7 +7,6 @@ angular.module('app.responseform', ['app.eventfactory'])
   $scope.sendResponse = function(data) {
 
     if ($scope.decline) {
-      console.log("$scope.decline");
       var response = {
         pubId:$scope.eventData.publicEventId,
         username:$window.sessionStorage.getItem('wefeast.user.username')
@@ -15,7 +14,6 @@ angular.module('app.responseform', ['app.eventfactory'])
       eventFactory.declineInvite(response);
     }
     else {
-      console.log("!$scope.decline")
       $scope.responseform = {};
 
       var foodprefs = [];
