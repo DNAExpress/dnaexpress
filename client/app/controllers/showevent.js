@@ -1,7 +1,9 @@
 angular.module('app.showevent', ['app.eventfactory'])
 
 .controller('ShowEventCtrl', ['$scope', '$window', '$stateParams', 'eventFactory', function($scope, $window, $stateParams, eventFactory) {
+
   eventFactory.fetchEvents();
+
   $scope.eventBinLeft = [];
   $scope.eventBinCenter = [];
   $scope.eventBinRight = [];
@@ -41,10 +43,6 @@ angular.module('app.showevent', ['app.eventfactory'])
 
   $scope.selection = JSON.parse($window.sessionStorage.getItem('wefeast.selection'));
 
-  $scope.showSelection = function(item) {
-    console.log(item);
-  };
-
   $scope.finalChoice = function(choice) {
 
     var eventData = JSON.parse($window.sessionStorage.getItem('wefeast.temp.focusevent'));
@@ -54,7 +52,7 @@ angular.module('app.showevent', ['app.eventfactory'])
       pubEventId:eventData.publicEventId,
       restaurant:choice.name
     }
-    eventFactory.selectrestaurant(selectionData);
+    eventFactory.selectRestaurant(selectionData);
 
   };
 

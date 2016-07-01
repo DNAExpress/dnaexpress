@@ -148,7 +148,6 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       authenticate:true
     });
 
-
     $locationProvider.html5Mode(true);
 
     $httpProvider.interceptors.push('AttachTokens');
