@@ -8,6 +8,10 @@
     "start": "node index.js",
     "postinstall": "bower install"
   },
+  "engines": {
+    "node": "5.5.0",
+    "npm": "3.5.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dnaexpress/dnaexpress.git"
