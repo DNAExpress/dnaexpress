@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var db = require('./server/data/db_schema.js');
 
 var app = require('./server/server.js');
