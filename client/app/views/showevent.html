@@ -11,7 +11,8 @@
             <h6>{{events.date}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
-            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>
         </li>
       </ul>
@@ -23,7 +24,8 @@
             <h6>{{events.date}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
-            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>
         </li>
       </ul>
@@ -35,7 +37,8 @@
             <h6>{{events.date}}</h6>
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
-            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events)" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
+            <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>
         </li>
       </ul>

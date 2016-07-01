@@ -6,9 +6,9 @@ angular.module('app.responseform', ['app.eventfactory'])
 
   $scope.sendResponse = function(data) {
 
-    if ($scope.declined) {
+    if ($scope.decline) {
       var response = {
-        pubId:eventData.publicEventId,
+        pubId:$scope.eventData.publicEventId,
         username:$window.sessionStorage.getItem('wefeast.user.username')
       }
       eventFactory.declineInvite(response);

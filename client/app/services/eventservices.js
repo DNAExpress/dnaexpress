@@ -95,16 +95,16 @@ angular.module('app.eventfactory',[])
         data:data
       })
       .then(function(res) {
+        console.log("event declined response", res)
         liveEventDataHandler(res);
         $state.go('dashboard.showevent');
       })
       .catch(function(error) {
         console.log(error);
       })
-    }
+    };
 
-    var selectrestaurant = function(data) {
-      console.log("selectrestaurant fired");
+    var selectRestaurant = function(data) {
       return $http({
         method:'POST',
         url:'api/events/selectrestaurant',
@@ -118,7 +118,7 @@ angular.module('app.eventfactory',[])
       .catch(function(error) {
         console.log(error)
       })
-    }
+    };
 
     return {
       guestList: guestList,
@@ -131,7 +131,7 @@ angular.module('app.eventfactory',[])
       sendEventResponse: sendEventResponse,
       fetchEvents: fetchEvents,
       declineInvite: declineInvite,
-      selectrestaurant: selectrestaurant
+      selectRestaurant: selectRestaurant
     };
 
 }])
