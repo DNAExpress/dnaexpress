@@ -9,10 +9,6 @@ var nodemailer = require('nodemailer');
 module.exports = {
 
   mail: function (creator, email, recipients, optionalEventName) {
-    console.log('type of alert', email)
-        console.log('creator', creator)
-            console.log('recipients', recipients)
-                console.log('optionalEventName', optionalEventName)
     var data;
 
     if ('eventAlert' === email) {
@@ -37,7 +33,7 @@ module.exports = {
     });
     console.log('data', data)
       var template = Handlebars.compile(data),
-      html = template({creator: creator, link: 'http://localhost:8000/', event: optionalEventName}),
+      html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', event: optionalEventName}),
       mailOptions = {
         from: '"DNAExpress" <dnaexpress123.com>', // sender address
         to: recipients, // list of receivers
