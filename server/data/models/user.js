@@ -98,17 +98,22 @@ var User = db.Model.extend({
       resData.user.email = updatedUser.attributes.email,
       resData.user.location = updatedUser.attributes.location
     })
-    foodServices.editProfileFoodPrefs(next, self, preferences)
-    .then(function(prefs) {
-      resData.user.preferences = prefs;
-    })
     .then(function() {
-      dietServices.editDietRestrictions(next, self, restrictions)
-      .then(function(restrictions) {
-        resData.user.restrictions = restrictions;
-        callback(resData);
+      foodServices.editProfileFoodPrefs(next, self, preferences)
+      .then(function(prefs) {
+        resData.user.preferences = prefs;
+      })
+      .then(function() {
+        dietServices.editDietRestrictions(next, self, restrictions)
+        .then(function(restrictions) {
+          resData.user.restrictions = restrictions;
+        })
+        .then(function() {
+          callback(resData);
+        })
       });
-    });
+    })
+    
   },
 
   getEvents: function(req, res, next) {
@@ -153,34 +158,40 @@ var User = db.Model.extend({
               userResponseStatus: eventUserRespMap[event.id],
               selectedRestaurant: null
             }
-            return eventModel.getRecommendations()
-              .then(function(recommendations) {
-                eventDetails.recommendations = recommendations;
-              })
-              .then(function() {
-                if (event.selectedRestaurant) {
-                  return Recommendation.forge({id: event.selectedRestaurant})
-                  .fetch()
-                  .then(function(model) {
-                    return {
-                      name: model.attributes.name,
-                      address: model.attributes.address,
-                      city: model.attributes.city,
-                      phone: model.attributes.phone,
-                      rating_img_url: model.attributes.rating_img_url,
-                      snippet_image_url: model.attributes.snippet_image_url,
-                      url: model.attributes.url,
-                      userVotes: model.attributes.userVotes
-                    }
+            return User.forge({id: event.creator})
+              .fetch()
+              .then(function(creator) {
+                eventDetails.creator = creator.attributes.username;
+              }).then(function() {
+                return eventModel.getRecommendations()
+                  .then(function(recommendations) {
+                    eventDetails.recommendations = recommendations;
                   })
-                  .then(function(selectedRestaurant) {
-                    eventDetails.selectedRestaurant = selectedRestaurant;
-                    return eventDetails;
+                  .then(function() {
+                    if (event.selectedRestaurant) {
+                      return Recommendation.forge({id: event.selectedRestaurant})
+                      .fetch()
+                      .then(function(model) {
+                        return {
+                          name: model.attributes.name,
+                          address: model.attributes.address,
+                          city: model.attributes.city,
+                          phone: model.attributes.phone,
+                          rating_img_url: model.attributes.rating_img_url,
+                          snippet_image_url: model.attributes.snippet_image_url,
+                          url: model.attributes.url,
+                          userVotes: model.attributes.userVotes
+                        }
+                      })
+                      .then(function(selectedRestaurant) {
+                        eventDetails.selectedRestaurant = selectedRestaurant;
+                        return eventDetails;
+                      }) 
+                    } else {
+                      return eventDetails;
+                    }
                   }) 
-                } else {
-                  return eventDetails;
-                }
-              }) 
+              })
             })
 
         });

@@ -8,6 +8,10 @@
     "start": "node index.js",
     "postinstall": "bower install"
   },
+  "engines": {
+    "node": "5.5.0",
+    "npm": "3.5.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dnaexpress/dnaexpress.git"
@@ -23,6 +27,7 @@
     "body-parser": "^1.15.1",
     "bookshelf": "^0.9.5",
     "bower": "^1.7.9",
+    "dotenv": "^2.0.0",
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
@@ -37,6 +42,8 @@
     "jwt-simple": "^0.5.0",
     "knex": "^0.11.5",
     "nodemailer": "^2.4.2",
+    "pg": "^6.0.1",
+    "postgresql": "0.0.1",
     "sqlite3": "^3.1.4",
     "yelp": "^1.0.1"
   },

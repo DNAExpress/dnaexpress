@@ -57,8 +57,8 @@ module.exports = dietServices = {
   },
 
   addDietRestrictions: function (user, toAdd) {
-    toAdd.forEach(function(item) {
-      add(item);
+    var result = toAdd.map(function(item) {
+      return add(item);
     });
     function add(item) {
       return DietRestriction
@@ -74,16 +74,17 @@ module.exports = dietServices = {
               .attach(references.dietRestrictionModel);
         })
         .then(function(relation) {
-            console.log('Successfully created relationship in addDietRestrictions function');
+            return pref;
         }).catch(function(error){
             return next(new Error('Failed to create relationship in addDietRestrictions function'))
         });
     };
+    Promise.all(result);
   },
 
   removeDietRestrictions: function (user, toRemove) {
-    toRemove.forEach(function(item) {
-      remove(item);
+    var result = toRemove.map(function(item) {
+      return remove(item);
     });
 
     function remove(item) {
@@ -101,14 +102,11 @@ module.exports = dietServices = {
             .detach(references.dietRestrictionModel);
         })
         .then(function(relation) {
-          console.log('Successfully removed relationship in removeDietRestrictions function');
+          return pref;
         }).catch(function(error){
           return next(new Error('Failed to remove relationship in removeDietRestrictions function' + error));
         });
     }
+    return Promise.all(result);
   }
 };
-// User.forge().fetch({id: 1}).then(function(user){
-//   dietServices.editDietRestrictions(null, user, ['vegetarian', 'vegan']);
-// });
-
