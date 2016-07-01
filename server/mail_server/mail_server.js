@@ -33,7 +33,7 @@ module.exports = {
     });
     console.log('data', data)
       var template = Handlebars.compile(data),
-      html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', event: optionalEventName}),
+      html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', eventName: optionalEventName}),
       mailOptions = {
         from: '"DNAExpress" <dnaexpress123.com>', // sender address
         to: recipients, // list of receivers
