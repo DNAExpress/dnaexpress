@@ -27,15 +27,15 @@ module.exports = {
       port: 465,
       secure: true, // use SSL
       auth: {
-          user: 'dnaexpress123@gmail.com',
-          pass: 'projectDNA123'
+          user: process.env.GMAIL_ADDRESS,
+          pass: process.env.PASS
       }
     });
     console.log('data', data)
       var template = Handlebars.compile(data),
       html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', eventName: optionalEventName}),
       mailOptions = {
-        from: '"DNAExpress" <dnaexpress123.com>', // sender address
+        from: '"WeFeast" <wefeastnotifications@gmail.com>', // sender address
         to: recipients, // list of receivers
         subject: 'WeFeast Event', // Subject line
         html: html,
