@@ -59,6 +59,7 @@ module.exports = eventControls = {
   },
 
   formSubmission: function (req, res, next) {
+    console.log('in form submission');
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.prefs;
@@ -159,7 +160,7 @@ module.exports = eventControls = {
       })
       .destroy()
       .then(function (userevent) {
-        console.log(userevent);
+        console.log('From line 162 of eventsController', userevent);
       });
   },
 
@@ -325,9 +326,9 @@ module.exports = eventControls = {
    });
  },
 
-  declineEvent: function (res, req, next) {
-    var username = res.body.username;
-    var pubId = res.body.pubId;
+  declineEvent: function (req, res, next) {
+    var username = req.body.username;
+    var pubId = req.body.pubId;
     User
       .forge({username: username})
       .fetch()
@@ -341,6 +342,7 @@ module.exports = eventControls = {
               return eventControls.deleteUserEventModel(user.attributes.id, event.attributes.id)
             })
             .then(function (model) {
+              console.log('before attendeeNum check');
               if (event.attributes.responded === event.attributes.attendeesNum) {
                 var searchDetails = {location: event.attributes.location, restrictions: [], userFoodPrefs: [], eventId: event.attributes.id};
                 return eventControls.getPrefsForAllAttendees(searchDetails.eventId)
@@ -355,14 +357,13 @@ module.exports = eventControls = {
                      // spit through alg
                     searchControls.getEventRecommendations(searchDetails, event);
                   })
-                  .then(function() {
-                    // fetch all of users events and res
-                    return user.getEvents()
-                      .then(function(events) {
-                        res.status(200).send(events);
-                      });
-                  });
               }
+              user.getEvents()
+                .then(function(events) {
+                  res.status(200).send(events);
+              }).catch(function (err) {
+                console.error('Failed to decline user invitation', err);
+              });
             }).catch(function (err) {
               console.error('Failed to decline user invitation', err);
             });
