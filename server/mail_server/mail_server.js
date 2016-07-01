@@ -2,13 +2,17 @@ var Handlebars = require('handlebars');
 var Path = require('path');
 var fs = require('fs');
 var event = require('./mail_templates/eventAlert');
-// var recommendation = require('./mail_templates/recommendationAlert');
-// var creator = require('./mail_templates/creatorAlert');
+var recommendation = require('./mail_templates/recommendationAlert');
+var creatorAlert = require('./mail_templates/creatorAlert');
 var nodemailer = require('nodemailer');
 
 module.exports = {
 
-  mail: function (creator, email, recipients) {
+  mail: function (creator, email, recipients, optionalEventName) {
+    console.log('type of alert', email)
+        console.log('creator', creator)
+            console.log('recipients', recipients)
+                console.log('optionalEventName', optionalEventName)
     var data;
 
     if ('eventAlert' === email) {
@@ -16,7 +20,7 @@ module.exports = {
     } else if ('recommendationAlert' === email) {
       data = recommendation;
     } else if ('creatorAlert' === email) {
-      data = creator;
+      data = creatorAlert;
     } else {
       console.error('email type not found')
     }
@@ -31,9 +35,9 @@ module.exports = {
           pass: 'projectDNA123'
       }
     });
-
+    console.log('data', data)
       var template = Handlebars.compile(data),
-      html = template({creator: creator, link: 'http://localhost:8000/'}),
+      html = template({creator: creator, link: 'http://localhost:8000/', event: optionalEventName}),
       mailOptions = {
         from: '"DNAExpress" <dnaexpress123.com>', // sender address
         to: recipients, // list of receivers

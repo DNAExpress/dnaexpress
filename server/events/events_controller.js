@@ -40,9 +40,9 @@ module.exports = eventControls = {
             res.status(200).send(usersEvents);
             return;
           })
-          // .then(function() {
-          //   eventControls.mailUsers(attendees, creator, 'eventAlert');
-          // })
+          .then(function() {
+            eventControls.mailUsers(attendees, creator, 'eventAlert');
+          })
           .catch(function (err) {
             console.error(err);
           });
