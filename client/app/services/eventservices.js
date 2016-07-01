@@ -41,8 +41,9 @@ angular.module('app.eventfactory',[])
         })
         .then(function(res){
           liveEventDataHandler(res);
-          return res;
-        }).then(function() {
+          return res
+        })
+        .then(function() {
           $state.go('dashboard.showevent');
         })
         .catch(function(error) {
@@ -64,9 +65,9 @@ angular.module('app.eventfactory',[])
       })
       .then(function(res) {
         liveEventDataHandler(res);
-        return res;
+        return res
       })
-      .then(function(){
+      .then(function() {
         $state.go('dashboard.showevent');
       })
       .catch(function(error) {
@@ -95,8 +96,11 @@ angular.module('app.eventfactory',[])
         data:data
       })
       .then(function(res) {
-        console.log("event declined response", res)
+        console.log("decline event response")
         liveEventDataHandler(res);
+        return res
+      })
+      .then(function() {
         $state.go('dashboard.showevent');
       })
       .catch(function(error) {
@@ -111,8 +115,10 @@ angular.module('app.eventfactory',[])
         data:data
       })
       .then(function(res) {
-        console.log("select restaurant response", res)
         liveEventDataHandler(res);
+        return res;
+      })
+      .then(function() {
         $state.go('dashboard.showevent');
       })
       .catch(function(error) {
