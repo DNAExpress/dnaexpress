@@ -3,14 +3,23 @@
 <div class="container">
   <div class="container">
     <div class="card-panel hoverable" style="opacity:.9">
+      <img src="assets/photos/invited.jpg" style="height:250px;margin-right:10px;" class="left" />
       <h4>{{singleEvent.name}}</h4>
-      <h4>{{singleEvent.date | date: 'fullDate'}}</h4>
-      <h5>{{singleEvent.date | date: 'shortTime'}}</h4>
-      <h5 ng-if="!singleEvent.responded">You have not responded to this invitation</h5>
-      <h6 ng-if="!singleEvent.responded"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">Respond Now!</a></h6>
-      <h5 ng-if="singleEvent.responded">You have responded to this invitation</h5>
+      <h4>{{singleEvent.date}}</h4>
+      <h5 ng-if="!singleEvent.userResponseStatus">You have not responded to this invitation</h5>
+      <h6 ng-if="!singleEvent.userResponseStatus"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">RSVP Now!</a></h6>
+      <h5 ng-if="singleEvent.userResponseStatus && !singleEvent.selectedRestaurant">You have responded to this invitation</h5>
+      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent) && !singleEvent.selectedRestaurant;">All Invitees Have Responded</h5>
+      <h5 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.name}}</h5>
+      <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.address}}</h6>
+      <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.city}}</h6>
+      <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.phone}}</h6>
       <br>
-      <h6 class="left" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
+      <br>
+      <br>
+      <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent) && !singleEvent.selectedRestaurant;"><a ng-click="showSelection(singleEvent);setRecommendations(singleEvent);"ui-sref='dashboard.eventrecommendations'>click to view WeFeast's Recommended Restaurants</a></h5>
+      <br>
+      <h6 class="right" style="opacity:1"><a ui-sref="dashboard.showevent">Back to All Events</a></h6>
       <br>
     </div>
   </div>

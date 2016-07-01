@@ -1,21 +1,41 @@
 var Handlebars = require('handlebars');
+var Path = require('path');
 var fs = require('fs');
+var event = require('./mail_templates/eventAlert');
+var recommendation = require('./mail_templates/recommendationAlert');
+var creatorAlert = require('./mail_templates/creatorAlert');
 var nodemailer = require('nodemailer');
 
 module.exports = {
 
-  mail: function (creator, link, templatePath, recipients) {
+  mail: function (creator, email, recipients, optionalEventName) {
+    var data;
 
-    var transporter = nodemailer.createTransport('smtps://dnaexpress123%40gmail.com:projectDNA123@smtp.gmail.com');
+    if ('eventAlert' === email) {
+      data = event;
+    } else if ('recommendationAlert' === email) {
+      data = recommendation;
+    } else if ('creatorAlert' === email) {
+      data = creatorAlert;
+    } else {
+      console.error('email type not found')
+    }
 
-  //   // setup e-mail data with unicode symbols
-    fs.readFile((__dirname + templatePath), 'utf8', function(err, data){
-      if (err) console.error(err);
 
+    var transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // use SSL
+      auth: {
+          user: process.env.GMAIL_ADDRESS,
+          pass: process.env.PASS
+      }
+    });
+    console.log('data', data)
       var template = Handlebars.compile(data),
-      html = template({creator: creator, link: link}),
+      html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', eventName: optionalEventName}),
       mailOptions = {
-        from: '"DNAExpress" <dnaexpress123.com>', // sender address
+        from: '"WeFeast" <wefeastnotifications@gmail.com>', // sender address
         to: recipients, // list of receivers
         subject: 'WeFeast Event', // Subject line
         html: html,
@@ -32,8 +52,6 @@ module.exports = {
         }
         console.log('Message sent: ' + info.response);
       });
-    });
+    // });
   }
 };
-
-

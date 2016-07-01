@@ -5,7 +5,6 @@ var User = require('./../data/models/user');
 
 module.exports = foodServices = {
     getProfileFoodPrefs: function(user) {
-        //console.log('inside getProfileFoodPrefs')
         return Food
             .forge()
             .fetch()
@@ -18,22 +17,17 @@ module.exports = foodServices = {
                     .userModel
                     //get the belongsToMany relation specified in the first definition, which returns a collection
                     .foodtypes()
-                    .fetch();
+                    .fetch()
             })
             .then(function(relation) {
-                //console.log('got userProfileFoodPrefs table', relation.models)
                 return relation.models.map(function(model) {
-
-                  console.log('model atts.type', model.attributes.type)
                   return model.attributes.type
                 })
             })
     },
     addProfileFoodPrefs: function(user, submittedPrefs) {
-        //console.log('inside addProfileFoodPrefs', submittedPrefs)
-
-        submittedPrefs.forEach(function(pref) {
-          addPref(pref);
+        var result = submittedPrefs.map(function(pref) {
+          return addPref(pref);
         })
 
         function addPref(pref) {
@@ -54,16 +48,16 @@ module.exports = foodServices = {
                   .attach(references.foodModel);
             })
             .then(function(relation) {
-                console.log('added user-food connection to userProfileFoodPrefs table')
+              return pref;
             })
         }
+
+        return Promise.all(result);
     },
     removeProfileFoodPrefs: function(user, prefsToRemove) {
-        //console.log('inside removeProfileFoodPrefs, ', prefsToRemove);
-
-        prefsToRemove.forEach(function(pref) {
-          removePref(pref);
-        })
+        var result = prefsToRemove.map(function(pref) {
+          return removePref(pref);
+        });
 
         function removePref(pref) {
           return Food
@@ -83,12 +77,13 @@ module.exports = foodServices = {
                     .detach(references.foodModel);
               })
               .then(function(relation) {
-                  console.log('removed user-food connection to userProfileFoodPrefs table')
+                return pref;
               })
-        }
+        };
+
+        Promise.all(result);
     },
     editProfileFoodPrefs: function(next, user, updatedFoodPrefs) {
-        console.log('inside editProfileFoodPrefs')
         var toRemove = [];
         var toAdd = [];
 
@@ -106,10 +101,12 @@ module.exports = foodServices = {
             }
           })
           .then(function() {
-            foodServices.removeProfileFoodPrefs(user, toRemove);
-          }).then(function() {
-            foodServices.addProfileFoodPrefs(user, toAdd);
-          }).then(function() {
+            return foodServices.removeProfileFoodPrefs(user, toRemove)
+          })
+          .then(function() {
+              return foodServices.addProfileFoodPrefs(user, toAdd)
+          })
+          .then(function() {
             return foodServices.getProfileFoodPrefs(user);
           })
           .catch(function(error) {

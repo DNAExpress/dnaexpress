@@ -1,17 +1,18 @@
 var path = require('path');
-var db = require('knex')({
-  client: 'sqlite3',
-  connection: {
-    host: '127.0.0.1',
-    user: 'dnaExpress',
-    password: 'password',
-    database: 'dnaExpressdb',
-    charset: 'utf8',
-    filename: path.join(__dirname, './db/dna.sqlite')
-  },
-  useNullAsDefault: true,
-});
 
+var db = require('knex')({
+  client: 'pg',
+  connection: {
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+    ssl: process.env.DB_SSL
+  },
+  searchPath: 'knex,public',
+  useNullAsDefault: true
+});
 
 db.schema.hasTable('users').then(function(exists) {
   if (!exists) {
@@ -102,6 +103,7 @@ db.schema.hasTable('recommendations').then(function(exists){
       recommendation.string('snippet_image_url');
       recommendation.string('url');
       recommendation.string('userVotes');
+      recommendation.string('image_url');
     }).then(function (table) {
       console.log('Created recommendations table', table);
     });

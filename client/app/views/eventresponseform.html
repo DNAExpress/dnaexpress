@@ -1,15 +1,20 @@
-<h2 class="center-align white-text"><a class="white-text">Vote for your food preferences</a></h2>
+<h2 class="center-align white-text"><a class="white-text">{{eventData.name}}</a></h2>
 
 <div class="container" style="opacity:.9">
   <div class="card-panel hoverable">
     <div class="row" style="padding-left:10px;">
-      <h4>{{eventData.name}}</h4>
-      <h5 class="light italic">{{eventData.date | date:'fullDate'}}&nbsp;&nbsp;{{eventData.date | date:'shortTime'}}</h5>
+      <h5 class="light italic">{{eventData.date}}</h5>
     </div>
     <form>
       <div class="row">
         <div class="col s10">
-          <input type='checkbox' id='useprofileprefs' ng-model='useprofileprefs' />
+          <input type='checkbox' id='decline' ng-disabled='useprofileprefs || responseform' ng-model='decline' />
+          <label for='decline' class='black-text'>I'm unable to attend</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s10">
+          <input type='checkbox' id='useprofileprefs' ng-disabled="decline || responseform" ng-model='useprofileprefs' />
           <label for='useprofileprefs' class="black-text">Only use my profile preferences</label>
         </div>
       </div>
@@ -17,19 +22,19 @@
       <div class="row">
         <div class="col s2"><h6>Dietary Needs:</h6></div>
         <div class="col s2">
-          <input checked type='checkbox' id='vegetarian' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model='responseform.vegetarian' />
+          <input checked type='checkbox' id='vegetarian' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model='responseform.vegetarian' />
           <label for='vegetarian'>Vegetarian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='vegan' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0"ng-model='responseform.vegan' />
+          <input type='checkbox' id='vegan' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0"ng-model='responseform.vegan' />
           <label for='vegan'>Vegan</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='glutenfree' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0"ng-model='responseform.glutenFree' />
+          <input type='checkbox' id='glutenfree' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0"ng-model='responseform.glutenFree' />
           <label for='glutenfree'>Gluten-Free</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='kosher' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0"ng-model='responseform.kosher' />
+          <input type='checkbox' id='kosher' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0"ng-model='responseform.kosher' />
           <label for='kosher'>Kosher</label>
         </div>
       </div>
@@ -38,153 +43,153 @@
           <h6>Top Food Choices:</h6>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='burgers' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.burgers" checked >
+          <input type='checkbox' id='burgers' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.burgers" checked >
           <label for='burgers'>Burgers</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='thai' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.thai" />
+          <input type='checkbox' id='thai' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.thai" />
           <label for='thai'>Thai</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='indian' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.indian" />
+          <input type='checkbox' id='indian' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.indian" />
           <label for='indian'>Indian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='koreanbbq' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.koreanbbq" />
+          <input type='checkbox' id='koreanbbq' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.koreanbbq" />
           <label for='koreanbbq'>Korean BBQ</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='bbq' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.bbq" />
+          <input type='checkbox' id='bbq' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.bbq" />
           <label for='bbq'>Barbecue</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='french' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.french" />
+          <input type='checkbox' id='french' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.french" />
           <label for='french'>French</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='pubgrub' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.pubgrub" />
+          <input type='checkbox' id='pubgrub' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.pubgrub" />
           <label for='pubgrub'>Pub Grub</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='szechuan' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.szechuan" />
+          <input type='checkbox' id='szechuan' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.szechuan" />
           <label for='szechuan'>Szechuan</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='jamaican' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.jamaican" />
+          <input type='checkbox' id='jamaican' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.jamaican" />
           <label for='jamaican'>Jamaican</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='soul' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.soul" />
+          <input type='checkbox' id='soul' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.soul" />
           <label for='soul'>Soul</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='sushi' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.sushi" />
+          <input type='checkbox' id='sushi' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.sushi" />
           <label for='sushi'>Sushi</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='steakhouse' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.steakhouse" />
+          <input type='checkbox' id='steakhouse' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.steakhouse" />
           <label for='steakhouse'>Steakhouse</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='vietnamese' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.vietnamese" />
+          <input type='checkbox' id='vietnamese' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.vietnamese" />
           <label for='vietnamese'>Vietnamese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='mexican' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.mexican" />
+          <input type='checkbox' id='mexican' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.mexican" />
           <label for='mexican'>Mexican</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='cantonese' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.cantonese" />
+          <input type='checkbox' id='cantonese' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.cantonese" />
           <label for='cantonese'>Cantonese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='irish' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.irish" />
+          <input type='checkbox' id='irish' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.irish" />
           <label for='irish'>Irish</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='greek' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.greek" />
+          <input type='checkbox' id='greek' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.greek" />
           <label for='greek'>Greek</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='italian' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.italian" />
+          <input type='checkbox' id='italian' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.italian" />
           <label for='italian'>Italian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='sandwiches' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.sandwiches" />
+          <input type='checkbox' id='sandwiches' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.sandwiches" />
           <label for='sandwiches'>Sandwiches</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='bagels' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.bagels" />
+          <input type='checkbox' id='bagels' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.bagels" />
           <label for='bagels'>Bagels</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='pakistani' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.pakistani" />
+          <input type='checkbox' id='pakistani' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.pakistani" />
           <label for='pakistani'>Pakistani</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='ethiopian' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.ethiopian" />
+          <input type='checkbox' id='ethiopian' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.ethiopian" />
           <label for='ethiopian'>Ethiopian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='salad' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.salad" />
+          <input type='checkbox' id='salad' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.salad" />
           <label for='salad'>Salad</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='ramen' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.ramen" />
+          <input type='checkbox' id='ramen' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.ramen" />
           <label for='ramen'>Ramen</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='coffee' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.coffee" />
+          <input type='checkbox' id='coffee' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.coffee" />
           <label for='coffee'>Coffee</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='doughnuts' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.doughnuts" />
+          <input type='checkbox' id='doughnuts' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.doughnuts" />
           <label for='doughnuts'>Doughnuts</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='german' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.german" />
+          <input type='checkbox' id='german' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.german" />
           <label for='german'>German</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='russian' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.russian" />
+          <input type='checkbox' id='russian' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.russian" />
           <label for='russian'>Russian</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='deli' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.deli" />
+          <input type='checkbox' id='deli' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.deli" />
           <label for='deli'>Delicatessan</label>
         </div>
       </div>
       <div class="row">
         <div class="col s2">
-          <input type='checkbox' id='seafood' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.seafood" />
+          <input type='checkbox' id='seafood' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.seafood" />
           <label for='seafood'>Seafood</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='singaporean' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.singaporean" />
+          <input type='checkbox' id='singaporean' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.singaporean" />
           <label for='singaporean'>Singaporean</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='lebanese' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.lebanese" />
+          <input type='checkbox' id='lebanese' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.lebanese" />
           <label for='lebanese'>Lebanese</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='fusion' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.fusion" />
+          <input type='checkbox' id='fusion' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.fusion" />
           <label for='fusion'>Fusion</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='afghan' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.afghan" />
+          <input type='checkbox' id='afghan' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.afghan" />
           <label for='afghan'>Afghan</label>
         </div>
         <div class="col s2">
-          <input type='checkbox' id='creole' ng-disabled="useprofileprefs" ng-checked="!useprofileprefs&&0" ng-model="responseform.creole" />
+          <input type='checkbox' id='creole' ng-disabled="useprofileprefs || decline" ng-checked="!useprofileprefs&&0" ng-model="responseform.creole" />
           <label for='creole'>Creole</label>
         </div>
       </div>

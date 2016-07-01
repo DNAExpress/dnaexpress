@@ -1,0 +1,1 @@
+module.exports = '<!DOCTYPE html><html><body><div>You have been add to an event by {{creator}} on WeFeast.Follow the link below to fill out your preferences or decline your invitation.</div><div><a href={{link}}>Login to WeFeast and fill out the form</a></div><div><img src="cid:1234"/></div><body/></html>'

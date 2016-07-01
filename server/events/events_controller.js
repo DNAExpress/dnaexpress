@@ -18,39 +18,36 @@ module.exports = eventControls = {
     var creator = req.body.creator;
     var attendees = (req.body.attendees).concat(creator);
     var location = 'San Francisco'  // get from client!!
-    var event = new Event({
-      name: name,
-      date: date,
-      creator: creator,
-      attendeesNum: attendees.length,
-      responded: 0,
-      status: 'active',
-      location: location
-    });
-    event.save()
-    .then(function(newEvent){
-      return eventControls.connectEventUsers(attendees, newEvent, res, next)
-      .then(function() {
-        User
-        .forge({username: creator})
-        .fetch()
-        .then(function(user){
-          return UserEventServices.getSingleUsersEventConnections(user.attributes.id);
-        })
-        .then(function(events){
-          UserEventServices.getSingleUsersEvents(events)
+
+    User
+    .forge({username: creator})
+    .fetch().then(function(user){
+      Event.forge({
+        name: name,
+        date: date,
+        creator: user.attributes.id,
+        attendeesNum: attendees.length,
+        responded: 0,
+        status: 'active',
+        location: location
+      })
+      .save()
+      .then(function(newEvent){
+        return eventControls.connectEventUsers(attendees, newEvent, res, next)
+        .then(function() {
+          return user.getEvents(req, res, next)
           .then(function(usersEvents) {
             res.status(200).send(usersEvents);
             return;
           })
           .then(function() {
-            eventControls.mailAttendees(attendees, creator);
+            eventControls.mailUsers(attendees, creator, 'eventAlert');
           })
           .catch(function (err) {
             console.error(err);
-          });;
-        });
-      });
+          });
+        })
+      })
     });
   },
 
@@ -59,6 +56,7 @@ module.exports = eventControls = {
   },
 
   formSubmission: function (req, res, next) {
+    console.log('in form submission');
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.prefs;
@@ -69,7 +67,7 @@ module.exports = eventControls = {
           .then(function (event) {
             searchDetails.eventId = event.attributes.id;
             searchDetails.location = event.attributes.location;
-            // update the number of responded attendees ; 
+            // update the number of responded attendees ;
               // will be used below to check if all attendees have completed foodPref forms
             var attendeesNum = event.get('attendeesNum');
             var responded = event.get('responded') + 1;
@@ -77,7 +75,7 @@ module.exports = eventControls = {
 
             eventControls.getUserEventModel(user.attributes.id, event.attributes.id)
             .then(function (userEvent) {
-              // set users resp status for event to true, 
+              // set users resp status for event to true,
               // so that sever and client know they have completed form
               userEvent.save('responseStatus', 1);
             // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
@@ -97,7 +95,7 @@ module.exports = eventControls = {
                   })
                   .then(function () {
                      // spit through alg
-                    searchControls.getEventRecommendations(searchDetails);
+                    searchControls.getEventRecommendations(searchDetails, event);
                   })
                   .then(function() {
                     // fetch all of users events and res
@@ -122,7 +120,7 @@ module.exports = eventControls = {
               //return next(new Error('failure in form submission handling: ' + error));
             });
           })
-          
+
       })
   },
 
@@ -148,6 +146,18 @@ module.exports = eventControls = {
       .fetch()
       .then(function (userevent) {
         return userevent;
+      });
+  },
+
+  deleteUserEventModel: function (userId, eventId) {
+    return UserEvent
+      .forge()
+      .query(function(qb){
+        qb.where('user_id', '=', userId).andWhere('event_id', '=', eventId);
+      })
+      .destroy()
+      .then(function (userevent) {
+        console.log('From line 162 of eventsController', userevent);
       });
   },
 
@@ -214,7 +224,8 @@ module.exports = eventControls = {
   },
 
   getUsersEvents: function(req, res, next) {
-    User.forge({username: req.body.username})
+    User
+      .forge({username: req.body.username})
       .fetch()
       .then(function(user) {
         if (!user) {
@@ -261,27 +272,45 @@ module.exports = eventControls = {
     var creator = req.body.creator;
     var pubEventId = req.body.pubEventId;
     var selection = req.body.restaurant;
-
-    Event.forge({publicEventId: pubEventId})
+    Event
+      .forge({publicEventId: pubEventId})
       .fetch()
       .then(function(event) {
-        event.saveSelection(selection)
+        event.saveSelection(selection);
+        return event;
       })
-      .then(function() {
+      .then(function(event) {
         User.forge({username: creator})
           .fetch()
           .then(function(user) {
-            user.getEvents(res, res, next)
+            user.getEvents(req, res, next)
               .then(function(events) {
                 res.status(200).send(events);
-              })
-          })
+                UserEvent
+                  .query('where', 'event_id', '=', event.attributes.id)
+                  .fetchAll()
+                  .then(function (userevents) {
+                    Promise.all(userevents.map(function (userevent) {
+                      return User
+                        .query('where', 'id', '=', userevent.attributes.user_id)
+                        .fetch()
+                        .then(function (user) {
+                          return user.attributes.username;
+                        });
+                    })).then(function (attendees) {
+                      console.log(attendees);
+                      eventControls.mailUsers(attendees, creator, 'recommendationAlert', event.attributes.name);
+                    }).catch(function (err) {
+                      console.error('Failed to send email', err);
+                    });
+                  });
+              });
+          });
       });
   },
 
-  mailAttendees: function (attendees, creator) {
+  mailUsers: function (attendees, creator, template) {
    return Promise.all(attendees.map(function (attendee) {
-     console.log(attendee);
      return User
      .forge({username: attendee})
      .fetch()
@@ -290,9 +319,53 @@ module.exports = eventControls = {
      });
    })).then(function (emailList) {
      emailList = emailList.join(', ');
-     console.log(emailList);
-     MailServer.mail(creator, 'http://localhost:8000', '/mail_Templates/eventAlert.html', emailList);
+     MailServer.mail(creator, template, emailList);
    });
- }
+ },
+
+  declineEvent: function (req, res, next) {
+    var username = req.body.username;
+    var pubId = req.body.pubId;
+    User
+      .forge({username: username})
+      .fetch()
+      .then(function (user) {
+        Event
+          .forge({publicEventId: pubId})
+          .fetch()
+          .then(function (event) {
+            event.save({attendeesNum: event.attributes.attendeesNum - 1})
+            .then(function () {
+              return eventControls.deleteUserEventModel(user.attributes.id, event.attributes.id)
+            })
+            .then(function (model) {
+              console.log('before attendeeNum check');
+              if (event.attributes.responded === event.attributes.attendeesNum) {
+                var searchDetails = {location: event.attributes.location, restrictions: [], userFoodPrefs: [], eventId: event.attributes.id};
+                return eventControls.getPrefsForAllAttendees(searchDetails.eventId)
+                  .then(function(allUserPrefs) {
+                    // format food Prefs into and array of arrays for the algorithm
+                    allUserPrefs.forEach(function(userPrefs) {
+                      searchDetails.restrictions.push(userPrefs.restrictions)
+                      searchDetails.userFoodPrefs.push([userPrefs.profileFoodPrefs, userPrefs.eventFoodPrefs]);
+                    });
+                  })
+                  .then(function () {
+                     // spit through alg
+                    searchControls.getEventRecommendations(searchDetails, event);
+                  })
+              }
+              user.getEvents()
+                .then(function(events) {
+                  res.status(200).send(events);
+              }).catch(function (err) {
+                console.error('Failed to decline user invitation', err);
+              });
+            }).catch(function (err) {
+              console.error('Failed to decline user invitation', err);
+            });
+          });
+      });
+  }
 
 };

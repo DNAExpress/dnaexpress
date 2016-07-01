@@ -1,0 +1,1 @@
+module.exports = '<!DOCTYPE html><html><body><div>Your event creator for {{eventName}} has chosen the restaurant that you are going to. Follow the link below to see the full event details!</div><div><a href={{link}}>Login to WeFeast and choose a restaurant</a></div><div><img src="cid:1234"/></div><body/></html>'

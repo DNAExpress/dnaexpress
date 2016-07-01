@@ -40,7 +40,6 @@ angular.module('app.eventfactory',[])
           data: data
         })
         .then(function(res){
-          console.log(res);
           liveEventDataHandler(res);
           return res;
         }).then(function() {
@@ -64,7 +63,6 @@ angular.module('app.eventfactory',[])
         data: data
       })
       .then(function(res) {
-        console.log(res);
         liveEventDataHandler(res);
         return res;
       })
@@ -88,7 +86,39 @@ angular.module('app.eventfactory',[])
       .catch(function(error) {
         console.log(error)
       });
-    }
+    };
+
+    var declineInvite = function(data) {
+      return $http({
+        method:'POST',
+        url:'api/events/decline',
+        data:data
+      })
+      .then(function(res) {
+        console.log("event declined response", res)
+        liveEventDataHandler(res);
+        $state.go('dashboard.showevent');
+      })
+      .catch(function(error) {
+        console.log(error);
+      })
+    };
+
+    var selectRestaurant = function(data) {
+      return $http({
+        method:'POST',
+        url:'api/events/selectrestaurant',
+        data:data
+      })
+      .then(function(res) {
+        console.log("select restaurant response", res)
+        liveEventDataHandler(res);
+        $state.go('dashboard.showevent');
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
+    };
 
     return {
       guestList: guestList,
@@ -99,7 +129,9 @@ angular.module('app.eventfactory',[])
       databinRight: databinRight,
       liveEventDataHandler: liveEventDataHandler,
       sendEventResponse: sendEventResponse,
-      fetchEvents: fetchEvents
+      fetchEvents: fetchEvents,
+      declineInvite: declineInvite,
+      selectRestaurant: selectRestaurant
     };
 
 }])

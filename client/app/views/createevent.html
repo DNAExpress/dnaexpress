@@ -5,16 +5,19 @@
     <form ng-submit="collectEventData()"  style="border:1px solid brown">
       <div class="container">
         <div class="row">
+          <br>
+          <br>
           <div class="col s3">
-            <div class='input-field'>
-              <input id="eventdatepicker" type="date" class="datepicker" placeholder="date" ng-model="event.date">
-            </div>
+            <input type="button" value="Event Date/Time" datetime-picker future-only hour="12" ng-model="event.date" required />
+          </div>
+          <div class="col s3">
+            <div>{{event.date}}</div>
           </div>
         </div>
       <div class="row">
         <div>
           <div class='input-field'>
-            <input type="text" placeholder="event name" ng-model="event.name">
+            <input type="text" placeholder="event name" ng-model="event.name" minlength="4" required >
           </div>
         </div>
       </div>
