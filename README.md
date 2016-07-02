@@ -15,9 +15,9 @@ There are Two ways to use this app.
 
 ## Table of Contents
 1. [Usage](#usage)
-2. [Developement](#developement)
-    1. [Installing Dependencies](#dnstalling-dependencies)
-    2. [Initializing Database](#Initializing Database)
+2. [Developement](#development)
+    1. [Installing Dependencies](#installing-dependencies)
+    2. [Initializing Database](#initializing-database)
 3. [Team Bios](#team-bios)
 
 ## Usage
