@@ -3,14 +3,30 @@
     <div class="nav-wrapper">
       <img src="assets/svg/cutlery.png" style="height:50px;margin-top:7px;padding"class="left" />
       <a class="left" ui-sref="dashboard.showevent" class="white-text" style="font-size:25pt;">WeFeast</a>
-      <ul class="right">
+      <ul class="right hide-on-med-and-down">
         <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.createevent">Create Event</a></li>
         <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.showevent">Show Events</a></li>
         <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.findrestaurant">Dining Solo</a></li>
         <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.profile">View Profile</a></li>
         <li class="col s12 m3 l1 push-l5"><a style="cursor:pointer;" ng-click="signout()">Log Out</a></li>
       </ul>
+      <ul id="nav-mobile" class="side-nav">
+        <li><a ui-sref="dashboard.createevent">Create Event</a></li>
+        <li><a ui-sref="dashboard.showevent">Show Events</a></li>
+        <li><a ui-sref="dashboard.findrestaurant">Dining Solo</a></li>
+        <li><a ui-sref="dashboard.profile">View Profile</a></li>
+        <li><a ng-click="signout()">Log Out</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons"></i></a>
     </div>
   </nav>
   <div ui-view></div>
 </div>
+<script>
+  $('.button-collapse').sideNav({
+      menuWidth: 300, // Default is 240
+      edge: 'right', // Choose the horizontal origin
+      closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    }
+  );
+</script>
