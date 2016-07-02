@@ -1,10 +1,16 @@
-<nav class="black z-depth-2" style="height:75px">
-  <div class="black left">
-    <a ui-sref="main" class="white-text" style="font-size:35pt;padding-left:10px">WeFeast</a>
-  </div>
-</nav>
 
-<div>
-  <h2 class="center-align white-text">Welcome</h2>
-  <div ui-view></div>
+<div class="container">
+  <div class="container">
+    <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px"><a class="white-text">Welcome</a></h2>
+    <div class="card-panel z-depth-4">
+      <div class="row">
+        <div class="card-panel col s6 hoverable white-text" style="background-color:#212121;cursor:pointer;" ui-sref="main.signup">
+          Click here to sign up
+        </div>
+        <div class="card-panel col s6 hoverable white-text" style="background-color:#212121;cursor:pointer;" ui-sref="main.signin">
+          Click here to sign in
+        </div>
+    </div>
+          <div ui-view></div>
+  </div>
 </div>
