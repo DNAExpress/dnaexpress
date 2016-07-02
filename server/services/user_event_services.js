@@ -41,7 +41,7 @@ module.exports = UserEventServices = {
           .then(function(newUserEventsFoodJoin) {
             // console.log('add food type to userEventsFood!')
           }).catch(function (error) {
-            console.log(error);
+            return next(new Error('error adding food pref: ' + error));
           });
         });
     }

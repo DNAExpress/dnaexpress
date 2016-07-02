@@ -79,7 +79,6 @@ module.exports = eventControls = {
               // so that sever and client know they have completed form
               userEvent.save('responseStatus', 1);
             // uesrEventModel links a user and event, used to get user and event info, and users prefs for specific event
-            console.log(prefs)
             UserEventServices.addEventUserFoodPrefs(userEvent, prefs);
             })
             .then(function () {
@@ -296,7 +295,6 @@ module.exports = eventControls = {
                           return user.attributes.username;
                         });
                     })).then(function (attendees) {
-                      console.log(attendees);
                       eventControls.mailUsers(attendees, creator, 'recommendationAlert', event.attributes.name);
                     }).catch(function (err) {
                       console.error('Failed to send email', err);
