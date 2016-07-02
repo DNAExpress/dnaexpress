@@ -50,6 +50,7 @@ module.exports = userControls = {
         }
       });
   },
+
   signin: function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
@@ -83,11 +84,13 @@ module.exports = userControls = {
               resData.user.preferences = allData.preferences;
               resData.user.dietRestrictions = allData.restrictions;
               resData.user.events = allData.events;
+              
               res.status(200).send(resData);
           });
         }
     });
   },
+
   editUserProfile: function (req, res, next) {
     new User({ email: req.body.email })
       .fetch()
@@ -101,6 +104,7 @@ module.exports = userControls = {
         }
       });
   },
+
   getAllUserData: function (req, res, next, user) {
     var allData = {};
     return userControls.getAllUsers(user)
@@ -131,6 +135,7 @@ module.exports = userControls = {
       });
     })
   },
+
   getAllUsers: function (currUser) {
     var currUser = currUser.attributes.username;
     return User
@@ -154,8 +159,8 @@ module.exports = userControls = {
         return currUsers;
       });
   },
+
   deactivateAccount: function(req, res, next) {
-    // will want to add in password verification...
     var username = req.body.username;
     User.forge({username: username}).fetch()
     .then(function(user) {
