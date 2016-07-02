@@ -17,7 +17,7 @@ module.exports = eventControls = {
     var date = req.body.date;
     var creator = req.body.creator;
     var attendees = (req.body.attendees).concat(creator);
-    var location = 'San Francisco'  // get from client!!
+    var location = req.body.location;
 
     User
     .forge({username: creator})
@@ -44,7 +44,7 @@ module.exports = eventControls = {
             eventControls.mailUsers(attendees, creator, 'eventAlert');
           })
           .catch(function (err) {
-            console.error(err);
+            return next(new Error('error creating event' + error));
           });
         })
       })
@@ -56,11 +56,11 @@ module.exports = eventControls = {
   },
 
   formSubmission: function (req, res, next) {
-    console.log('in form submission');
     var pubEventId = req.body.pubEventId;
     var username  = req.body.username;
     var prefs = req.body.prefs;
     var searchDetails = {location:'', restrictions: [], userFoodPrefs: [], eventId: null};
+
     eventControls.getUserModelByUsername(username)
       .then(function (user) {
         eventControls.getEventModelByPubId(pubEventId)
@@ -94,30 +94,27 @@ module.exports = eventControls = {
                     });
                   })
                   .then(function () {
-                     // spit through alg
+                     // send to search controller, which will: run details through foodtype selection algorthim, make requests to yelp, and save top suggestions in db
                     searchControls.getEventRecommendations(searchDetails, event);
                   })
                   .then(function() {
-                    // fetch all of users events and res
+                    // fetch all of current user's events and respond
                     return user.getEvents()
                       .then(function(events) {
                         res.status(200).send(events);
                       })
                   }).catch(function(error) {
-                    console.log('error line 110 events controller', error)
-                    //return next(new Error('failure in form submission handling: ' + error));
+                    return next(new Error('failure in form submission handling: ' + error));
                   });
               } else {
                 return user.getEvents()
                   .then(function(events) {
-                    console.log('more forms to submit')
                     res.status(200).send(events);
                   });
               }
             })
             .catch(function(error) {
-              console.log('error line 122 events controller', error)
-              //return next(new Error('failure in form submission handling: ' + error));
+              return next(new Error('failure in form submission handling: ' + error));
             });
           })
 
@@ -157,7 +154,7 @@ module.exports = eventControls = {
       })
       .destroy()
       .then(function (userevent) {
-        console.log('From line 162 of eventsController', userevent);
+        //console.log('userevent', userevent);
       });
   },
 
@@ -272,6 +269,7 @@ module.exports = eventControls = {
     var creator = req.body.creator;
     var pubEventId = req.body.pubEventId;
     var selection = req.body.restaurant;
+
     Event
       .forge({publicEventId: pubEventId})
       .fetch()
@@ -317,7 +315,8 @@ module.exports = eventControls = {
      .then(function (user) {
        return user.attributes.email;
      });
-   })).then(function (emailList) {
+   }))
+   .then(function (emailList) {
      emailList = emailList.join(', ');
      MailServer.mail(creator, template, emailList);
    });
@@ -326,6 +325,7 @@ module.exports = eventControls = {
   declineEvent: function (req, res, next) {
     var username = req.body.username;
     var pubId = req.body.pubId;
+
     User
       .forge({username: username})
       .fetch()
@@ -339,7 +339,7 @@ module.exports = eventControls = {
               return eventControls.deleteUserEventModel(user.attributes.id, event.attributes.id)
             })
             .then(function (model) {
-              console.log('before attendeeNum check');
+              // if they were they were the last person to rsvp, the search for recommendtions should be triggered
               if (event.attributes.responded === event.attributes.attendeesNum) {
                 var searchDetails = {location: event.attributes.location, restrictions: [], userFoodPrefs: [], eventId: event.attributes.id};
                 return eventControls.getPrefsForAllAttendees(searchDetails.eventId)
@@ -351,20 +351,23 @@ module.exports = eventControls = {
                     });
                   })
                   .then(function () {
-                     // spit through alg
+                    // send to search controller, which will: run details through foodtype selection algorthim, make requests to yelp, and save top suggestions in db
                     searchControls.getEventRecommendations(searchDetails, event);
                   })
               }
+
               user.getEvents()
                 .then(function(events) {
                   res.status(200).send(events);
               }).catch(function (err) {
-                console.error('Failed to decline user invitation', err);
+                return next(new Error('Failed to decline user invitation: ' + error));
               });
+
             }).catch(function (err) {
-              console.error('Failed to decline user invitation', err);
+              return next(new Error('Failed to decline user invitation: ' + error));
             });
           });
+
       });
   }
 

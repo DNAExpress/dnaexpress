@@ -60,9 +60,7 @@ module.exports = userControls = {
       .fetch()
       .then(function(user) {
         if (!user) {
-          res.status(500).send({error: 'user does not exist'});
-        } else if (user.attributes.status === 'inactive') {
-          res.status(500).send({error: 'user account deactived for ' + email});
+          res.status(404).send({error: 'user does not exist'});
         } else {
           user.comparePassword(password, function(match) {
             if (match) {
@@ -76,7 +74,7 @@ module.exports = userControls = {
                   location: user.attributes.location,
               }
             } else {
-              return next(new Error('user password does not match'));
+              res.status(400).send({error: 'user password does not match'});
             }
           })
           userControls.getAllUserData(res, req, next, user).then(function(allData) {
@@ -96,7 +94,7 @@ module.exports = userControls = {
       .fetch()
       .then(function(user) {
         if (!user) {
-          return next(new Error('user does not exist'));
+          res.status(404).send({error: 'user does not exist'});
         } else {
           user.editUserInfo(req, res, next, function(resData) {
             res.status(200).send(resData)
