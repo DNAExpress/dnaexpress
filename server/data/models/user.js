@@ -50,7 +50,7 @@ var User = db.Model.extend({
         self.set('password', hash);
       })
       .catch(function(error) {
-        console.log('error hashing password', error);
+        return next(new Error('error hashing password: ' + error));
       });
 
     function cipher(password, salt) {
@@ -67,7 +67,7 @@ var User = db.Model.extend({
 
     function getSalt() {
       bcrypt.genSalt(10, function(error, newSalt) {
-        if (error) console.log('error creating salt', error)
+        if (error) return next(new Error('error creating salt: ' + error));
         salt = newSalt;
         return salt;
       });

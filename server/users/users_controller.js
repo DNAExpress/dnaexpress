@@ -50,6 +50,7 @@ module.exports = userControls = {
         }
       });
   },
+
   signin: function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
@@ -59,9 +60,7 @@ module.exports = userControls = {
       .fetch()
       .then(function(user) {
         if (!user) {
-          res.status(500).send({error: 'user does not exist'});
-        } else if (user.attributes.status === 'inactive') {
-          res.status(500).send({error: 'user account deactived for ' + email});
+          res.status(404).send({error: 'user does not exist'});
         } else {
           user.comparePassword(password, function(match) {
             if (match) {
@@ -75,7 +74,7 @@ module.exports = userControls = {
                   location: user.attributes.location,
               }
             } else {
-              return next(new Error('user password does not match'));
+              res.status(400).send({error: 'user password does not match'});
             }
           })
           userControls.getAllUserData(res, req, next, user).then(function(allData) {
@@ -83,17 +82,19 @@ module.exports = userControls = {
               resData.user.preferences = allData.preferences;
               resData.user.dietRestrictions = allData.restrictions;
               resData.user.events = allData.events;
+
               res.status(200).send(resData);
           });
         }
     });
   },
+
   editUserProfile: function (req, res, next) {
     new User({ email: req.body.email })
       .fetch()
       .then(function(user) {
         if (!user) {
-          return next(new Error('user does not exist'));
+          res.status(404).send({error: 'user does not exist'});
         } else {
           user.editUserInfo(req, res, next, function(resData) {
             res.status(200).send(resData)
@@ -101,6 +102,7 @@ module.exports = userControls = {
         }
       });
   },
+
   getAllUserData: function (req, res, next, user) {
     var allData = {};
     return userControls.getAllUsers(user)
@@ -131,6 +133,7 @@ module.exports = userControls = {
       });
     })
   },
+
   getAllUsers: function (currUser) {
     var currUser = currUser.attributes.username;
     return User
@@ -153,17 +156,5 @@ module.exports = userControls = {
         }
         return currUsers;
       });
-  },
-  deactivateAccount: function(req, res, next) {
-    // will want to add in password verification...
-    var username = req.body.username;
-    User.forge({username: username}).fetch()
-    .then(function(user) {
-      user.save('status', 'inactive')
-      .then(function(deactivedUser) {
-        res.status(200).send('user successfully deactived');
-      })
-    })
-      
-  } 
+  }
 };
