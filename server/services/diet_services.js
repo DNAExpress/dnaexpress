@@ -73,9 +73,9 @@ module.exports = dietServices = {
               .attach(references.dietRestrictionModel);
         })
         .then(function(relation) {
-            return pref;
+            return item;
         }).catch(function(error){
-            return next(new Error('Failed to create relationship in addDietRestrictions function'))
+          res.status(500).send({error:'Failed to create relationship in addDietRestrictions function' + error});
         });
     };
     Promise.all(result);
@@ -100,9 +100,9 @@ module.exports = dietServices = {
             .detach(references.dietRestrictionModel);
         })
         .then(function(relation) {
-          return pref;
+          return item;
         }).catch(function(error){
-          return next(new Error('Failed to remove relationship in removeDietRestrictions function' + error));
+          res.status(500).send({error:'Failed to create relationship in removeDietRestrictions function' + error});
         });
     }
     return Promise.all(result);
