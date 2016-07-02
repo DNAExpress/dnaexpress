@@ -7,3 +7,4 @@ client/font
 client/fonts
 client/js
 *.sqlite
+.env
