@@ -96,7 +96,6 @@ angular.module('app.eventfactory',[])
         data:data
       })
       .then(function(res) {
-        console.log("decline event response")
         liveEventDataHandler(res);
         return res
       })
