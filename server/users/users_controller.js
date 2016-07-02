@@ -84,7 +84,7 @@ module.exports = userControls = {
               resData.user.preferences = allData.preferences;
               resData.user.dietRestrictions = allData.restrictions;
               resData.user.events = allData.events;
-              
+
               res.status(200).send(resData);
           });
         }
@@ -158,17 +158,5 @@ module.exports = userControls = {
         }
         return currUsers;
       });
-  },
-
-  deactivateAccount: function(req, res, next) {
-    var username = req.body.username;
-    User.forge({username: username}).fetch()
-    .then(function(user) {
-      user.save('status', 'inactive')
-      .then(function(deactivedUser) {
-        res.status(200).send('user successfully deactived');
-      })
-    })
-      
-  } 
+  }
 };
