@@ -26,13 +26,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
   $stateProvider
     .state('main', {
       url: '/',
-      abstract:true,
       templateUrl:'app/views/welcome.html',
       controller: 'MainCtrl'
-    })
-    .state('main.buttons', {
-      url: '',
-      templateUrl:'app/views/welcomebuttons.html'
     })
     .state('main.signup', {
       templateUrl:'app/views/signup.html',
