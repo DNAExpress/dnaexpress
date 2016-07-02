@@ -1,7 +1,6 @@
 var api_router = require('./../data/api_requests/api_router.js');
 var searchAlgorithm = require('./searchalgorithm');
 var Recommendation = require('./../data/models/recommendation');
-// var eventControls = require('./../events/events_controller');
 var MailServer = require('./../mail_server/mail_server');
 var User = require('./../data/models/user');
 
@@ -19,6 +18,7 @@ module.exports = searchControls = {
   },
 
   makeRequest: function (searchInput, callback) {
+    // used for both single search and event search
     var searchCriteria = {
       location: searchInput.location,
       searchTerm: searchInput.term
@@ -34,6 +34,7 @@ module.exports = searchControls = {
     searchInput.location = userAndEventDetails.location;
     var searchCriteria = searchAlgorithm.parseBestOptions(userAndEventDetails.userFoodPrefs);
     var dietRestriction = getUnique(userAndEventDetails.restrictions);
+
     // make three calls to makeRequest with request details, (a food pref, diet restrictions, and location)
     // pass in a callback to add the result to recommendations (this will need userAndEventDetails.eventId)
     Promise.all(searchCriteria.map(function(criteria) {
@@ -43,11 +44,11 @@ module.exports = searchControls = {
       };
       var userVotes = criteria[1];
 
+      // for each of the three search pass in a callback that adds the top four recommendations into the recommendations table
       searchControls.makeRequest(searchInput, function(searchResults) {
         var topRecommendations = searchResults.slice(0, 4);
 
         topRecommendations.map(function(recommendation) {
-          // should create a seperate add recommendation function on the events controller...
           var newRecommendation  = {
             event_id: userAndEventDetails.eventId,
             name: recommendation.name,
@@ -61,18 +62,18 @@ module.exports = searchControls = {
             image_url: recommendation.image_url
           };
           new Recommendation(newRecommendation).save().then(function(recom) {
-            console.log('new recommendation saved!');
+            //console.log('new recommendation saved!');
           })
           .catch(function(error) {
             console.log(error);
           });
         });
-            // email event creator to alert them to choose a restaurant
       })
       return 1;
     }))
     .then(function (n) {
-        emailCreator(event);
+      // email event creator to alert them to choose a restaurant
+      emailCreator(event);
     }).catch(function (err){
       console.error('Failed to email Creator', err);
     });
@@ -97,9 +98,3 @@ module.exports = searchControls = {
   }
 
 }
-
-//sample current request body from client:
-    // search req body {
-    //  location: 'boston',
-    //   opt1: 'indian'
-    // }

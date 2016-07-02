@@ -1,7 +1,6 @@
 var db = require('./../db_schema.js');
 var Recommendation = require('./recommendation');
 var UserEvent = require('./user_event');
-// var Bookshelf = require('bookshelf');
 db.plugin('registry');
 
 var Event = db.Model.extend({
@@ -9,15 +8,15 @@ var Event = db.Model.extend({
   hasTimestamps: true,
   attendees: function() {
     return this.belongsToMany('User', 'usersEvents');
-    //through usersEvents
   },
+
   createCustomId: function () {
     var num = [1,2,3,4,5,6,7,8,9,'a', 'b', 'c', 'd', 'e'];
     var self = this;
     return function(){
-      var i = 0
-        , j = 0
-        , temp = null;
+      var i = 0,
+          j = 0,
+          temp = null;
 
       for (i = num.length - 1; i > 0; i -= 1) {
         j = Math.floor(Math.random() * (i + 1));
@@ -61,7 +60,6 @@ var Event = db.Model.extend({
         return choosen;
       })
       .then(function(choosen) {
-
         self.save({selectedRestaurant: choosen.attributes.id});
       })
   },

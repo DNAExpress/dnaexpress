@@ -42,7 +42,6 @@ module.exports = dietServices = {
         });
     })
     .then(function(){
-      //console.log(toAdd, toRemove);
       dietServices.removeDietRestrictions(user, toRemove);
     })
     .then(function() {

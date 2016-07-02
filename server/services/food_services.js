@@ -9,13 +9,11 @@ module.exports = foodServices = {
             .forge()
             .fetch()
             .then(function(food) {
-                //send both references down the promise chain
                 return {foodModel: food, userModel: user};
             })
             .then(function(references) {
                 return references
                     .userModel
-                    //get the belongsToMany relation specified in the first definition, which returns a collection
                     .foodtypes()
                     .fetch()
             })
@@ -39,7 +37,6 @@ module.exports = foodServices = {
                 return {foodModel: food, userModel: user};
             })
             .then(function(references) {
-              //console.log('references', references)
                 return references
                   .userModel
                   //get the belongsToMany relation specified in the first definition, which returns a collection
@@ -68,7 +65,6 @@ module.exports = foodServices = {
                   return {foodModel: food, userModel: user};
               })
               .then(function(references) {
-                //console.log('references', references)
                   return references
                     .userModel
                     //get the belongsToMany relation specified in the first definition, which returns a collection
@@ -110,7 +106,7 @@ module.exports = foodServices = {
             return foodServices.getProfileFoodPrefs(user);
           })
           .catch(function(error) {
-            return next(new Error(error));
+            return next(new Error('Error in editting profile food preferences' + error));
           });
     }
 }
