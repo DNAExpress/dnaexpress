@@ -11,6 +11,7 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (response) {
+        console.log(response)
         if (response.data.token) {
           $window.localStorage.setItem('com.app', response.data.token);
           $state.go('dashboard.showevent');
