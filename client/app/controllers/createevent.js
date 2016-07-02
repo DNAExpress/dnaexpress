@@ -53,7 +53,6 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
   };
 
   $scope.submitEvent = function() {
-    console.log(eventFactory.eventData);
     eventFactory.createEvent(eventFactory.eventData);
   };
 
