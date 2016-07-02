@@ -1,13 +1,13 @@
 <div class='container' style="opacity:.95">
-  <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px"><a class="white-text">Create An Event</a></h2>
-  <div class='card-panel z-depth-4'>
+  <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Create An Event</a></h2>
+  <div class='card-panel z-depth-4' style="border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
     <form ng-submit="collectEventData()"  style="border:1px solid #212121">
       <div class="container">
         <div class="row">
           <br>
           <br>
           <div class="col s3">
-            <input type="button" value="Event Date/Time" datetime-picker future-only hour="12" ng-model="event.date" required />
+            <input type="button" value="Event Date/Time" style="border-radius:5px;"datetime-picker future-only hour="12" ng-model="event.date" required />
           </div>
           <div class="col s3">
             <div>{{event.date}}</div>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="row">
-          <input type="submit" class="right signup blue-grey darken-4 waves-effect waves-light btn" value="Invite Guests!">
+          <input type="submit" class="right signup blue-grey darken-4 waves-effect waves-light btn" style="border-radius:5px;" value="Invite Guests!">
         </div>
       </div>
     </form>
