@@ -25,10 +25,6 @@ module.exports = UserEventServices = {
     }));
   },
 
-  getResponseStatus: function (userEvent) {
-    return userEvent.attributes.responseStatus;
-  }, //used in getUserEvents
-
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
@@ -43,7 +39,7 @@ module.exports = UserEventServices = {
             foodType_id: food.attributes.id
           }).save()
           .then(function(newUserEventsFoodJoin) {
-              // console.log('add food type to userEventsFood!')
+            // console.log('add food type to userEventsFood!')
           }).catch(function (error) {
             console.log(error);
           });
@@ -62,10 +58,10 @@ module.exports = UserEventServices = {
             .fetch()
             .then(function (food) {
               return food.attributes.type;
-            })
+            });
         })
         return Promise.all(foods)
-      })
+      });
   }
 
 };
