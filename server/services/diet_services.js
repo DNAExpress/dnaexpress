@@ -42,7 +42,6 @@ module.exports = dietServices = {
         });
     })
     .then(function(){
-      //console.log(toAdd, toRemove);
       dietServices.removeDietRestrictions(user, toRemove);
     })
     .then(function() {
@@ -95,7 +94,6 @@ module.exports = dietServices = {
           return {dietRestrictionModel: restriction, userModel: user};
         })
         .then(function(references) {
-          console.log('references', references)
           return references
             .userModel
             .dietRestrictions()

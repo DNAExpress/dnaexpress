@@ -35,7 +35,7 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
     Auth.signup(data)
       .then(function (token) {
         $window.localStorage.setItem('com.app', token);
-        $state.go('main.createprofile', {user:$scope.user});
+        $state.go('dashboard.createprofile', {user:$scope.user});
       })
       .catch(function (error) {
         console.error(error);

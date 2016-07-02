@@ -1,42 +1,44 @@
-<h2 class="center-align white-text"><a class="white-text">Events Dashboard</a></h2>
 
-<div class="container hoverable" style="opacity:.9">
-  <div ng-if="allEventList" class="card-panel hoverable" style="height:500px;overflow:scroll;">
+
+
+<div class="container"  class="flow-text">
+  <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Events Dashboard</a></h2>
+  <div ng-if="allEventList" class="card-panel z-depth-4" style="height:500px;overflow:scroll;opacity:.95;border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
     <div class="row">
-      <ul class="col s4">
+      <ul class="col s12 m6 l4">
         <li ng-repeat="events in eventBinLeft">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ng-click="showSelection(events)" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
-            <img src="assets/photos/invited.jpg" style="height:120px;margin-right:5px;" class="left" />
-            <h6 style="font-weight:bold">{{events.name}}</h6>
-            <h6>{{events.date}}</h6>
-            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
-            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+          <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
+            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
+            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
+            <img src="assets/photos/Invited.jpg" style="max-height:120px;margin-right:5px;" class="left"/>
+            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
+            <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>
         </li>
       </ul>
-      <ul class="col s4">
+      <ul class="col s12 m6 l4">
         <li ng-repeat="events in eventBinCenter">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
-            <img src="assets/photos/invited.jpg" style="height:120px;margin-right:5px;" class="left" />
-            <h6 style="font-weight:bold">{{events.name}}</h6></a>
-            <h6>{{events.date}}</h6>
-            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
-            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+          <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
+            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
+            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
+            <img src="assets/photos/Invited.jpg" style="height:120px;margin-right:5px;" class="left" />
+            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6></a>
+            <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>
         </li>
       </ul>
-      <ul class="col s4">
+      <ul class="col s12 m6 l4">
         <li ng-repeat="events in eventBinRight">
-          <div class="card-panel hoverable" style="height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
-            <img src="assets/photos/invited.jpg" style="height:120px;margin-right:5px;" class="left" />
-            <h6 style="font-weight:bold">{{events.name}}</h6>
-            <h6>{{events.date}}</h6>
-            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;">You haven't responded to this invitation</h6>
-            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;">You have responded to this invitation</h6>
+          <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
+            <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
+            <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
+            <img src="assets/photos/Invited.jpg" style="height:120px;margin-right:5px;" class="left" />
+            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
+            <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
           </div>

@@ -1,15 +1,15 @@
-<h2 class="center-align white-text"><a class="white-text">Your Profile</a></h2>
 
 <div class="container" style="opacity:.9">
   <div class="container">
-    <div class="card-panel hoverable">
+    <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Your Profile</a></h2>
+    <div class="card-panel hoverable" style="border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
       <p>Name: {{user.firstname}} {{user.lastname}} </p>
       <p>Email: {{user.email}}</p>
       <p>Location: {{user.location}}</p>
       <p>Food preferences: {{user.preferences}}</p>
       <p>Dietary restrictions: {{user.dietrestrictions}} </p>
       <br>
-      <a ui-sref="dashboard.editprofile" class="right align-right signup brown darken-3 waves-effect waves-light btn">Edit Profile</a>
+      <a ui-sref="dashboard.editprofile" class="right align-right signup blue-grey darken-4 waves-effect waves-light btn" style="border-radius:5px;">Edit Profile</a>
       <br>
       <br>
     </div>

@@ -6,8 +6,6 @@ var UserEventsFoods = require('./../data/collections/user_events_foods');
 var UserEventsFood = require('./../data/models/user_events_food');
 var Foods = require('./../data/collections/foods');
 var Food = require('./../data/models/food');
-// var User = require('./../data/models/user');
-// var eventControls = require('./../events/events_controller');
 
 module.exports = UserEventServices = {
 
@@ -27,10 +25,6 @@ module.exports = UserEventServices = {
     }));
   },
 
-  getResponseStatus: function (userEvent) {
-    return userEvent.attributes.responseStatus;
-  }, //used in getUserEvents
-
   addEventUserFoodPrefs: function (userEvent, foodPrefs) {
     foodPrefs.forEach(function (foodPref) {
       add(foodPref);
@@ -45,9 +39,9 @@ module.exports = UserEventServices = {
             foodType_id: food.attributes.id
           }).save()
           .then(function(newUserEventsFoodJoin) {
-              // console.log('add food type to userEventsFood!')
+            // console.log('add food type to userEventsFood!')
           }).catch(function (error) {
-            console.log(error);
+            return next(new Error('error adding food pref: ' + error));
           });
         });
     }
@@ -64,10 +58,10 @@ module.exports = UserEventServices = {
             .fetch()
             .then(function (food) {
               return food.attributes.type;
-            })
+            });
         })
         return Promise.all(foods)
-      })
+      });
   }
 
 };

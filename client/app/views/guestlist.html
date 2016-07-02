@@ -1,9 +1,9 @@
-<h2 class="center-align white-text"><a class="white-text">Step 2: Create A Guest List</a></h2>
 
   <div class="container">
-    <div class="card-panel" style="opacity:.9;">
+    <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Your Guest List</a></h2>
+    <div class="card-panel" style="opacity:.95;border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
       <form ng-submit="addGuestsToEventData()">
-        <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;border:1px solid brown;">
+        <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;border:1px solid #212121;">
           <div class="row">
             <ul class="col s6 m6 l6">
               <li ng-repeat="people in databinLeft">
@@ -34,14 +34,14 @@
           </div>
         </div>
         <br>
-        <div class="card-panel hoverable" style="border:1px solid brown">
-            <h6 style="padding:10px;">Currently on the Guest List:&nbsp;</h6>
-            <span ng-repeat="guest in guestbin" ng-click="removeFromGuestList(guest)" style="cursor:pointer;">{{guest}},&nbsp;</span>
+        <div class="card-panel hoverable" style="border:1px solid #212121">
+            <h6 style="padding-left:10px;">Currently on the Guest List:&nbsp;</h6>
+            <h6 style="padding-left:10px;"><span ng-repeat="guest in guestbin" ng-click="removeFromGuestList(guest)" style="cursor:pointer;">{{guest}},&nbsp;</span></h6>
         </div>
-        <div class="card-panel hoverable" style="border:1px solid brown">
+        <div>
           <div class="row">
-            <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent">Back to Step 1</a></h6>
-            <input class="right brown darken-3 waves-effect waves-light btn" type="submit" value="Add guests">
+            <h6 class="left" style="opacity:1"><a ui-sref="dashboard.createevent" style="padding-left:15px;">Back to Step 1</a></h6>
+            <input class="right blue-grey darken-4 waves-effect waves-light btn" type="submit" value="Add guests" style="border-radius:5px;">
           </div>
         </div>
     </form>

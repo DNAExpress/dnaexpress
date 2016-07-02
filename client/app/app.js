@@ -26,13 +26,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
   $stateProvider
     .state('main', {
       url: '/',
-      abstract:true,
       templateUrl:'app/views/welcome.html',
       controller: 'MainCtrl'
-    })
-    .state('main.buttons', {
-      url: '',
-      templateUrl:'app/views/welcomebuttons.html'
     })
     .state('main.signup', {
       templateUrl:'app/views/signup.html',
@@ -77,8 +72,8 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       controller:'ProfileCtrl',
       authenticate: true
     })
-    .state('main.createprofile', {
-      url:'/createprofile',
+    .state('dashboard.createprofile', {
+      url:'createprofile',
       templateUrl:'app/views/createprofile.html',
       controller:'CreateProfileCtrl',
       params:{

@@ -41,18 +41,20 @@ angular.module('app.createevent', ['app.services', 'app.eventfactory'])
 
   $scope.addGuestsToEventData = function() {
     eventFactory.eventData["attendees"] = $scope.guestbin;
-    $state.go('dashboard.createeventreview')
+    $state.go('dashboard.createeventreview');
   };
 
   $scope.collectEventData = function() {
     eventFactory.eventData["eventName"] = $scope.event.name;
     eventFactory.eventData["creator"] = $scope.event.creator;
     eventFactory.eventData["date"] = $scope.event.date;
-    $state.go('dashboard.guestlist')
+    eventFactory.eventData["location"] = $scope.event.location;
+    $state.go('dashboard.guestlist');
   };
 
   $scope.submitEvent = function() {
-    eventFactory.createEvent(eventFactory.eventData)
+    console.log(eventFactory.eventData);
+    eventFactory.createEvent(eventFactory.eventData);
   };
 
 }]);

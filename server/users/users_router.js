@@ -8,6 +8,4 @@ module.exports = function(app) {
 
   app.post('/profile', usersController.editUserProfile); // edit profile
 
-  app.post('/deactivate', usersController.deactivateAccount);
-
 };
