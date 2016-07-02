@@ -3,12 +3,20 @@
     <div class="nav-wrapper">
       <img src="assets/svg/cutlery.png" style="height:50px;margin-top:7px;padding"class="left" />
       <a class="left"ui-sref="dashboard.showevent" class="white-text" style="font-size:25pt;">WeFeast</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-sm-and-down">
-        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.createevent" >Create Event</a></li>
-        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.showevent" >Show Events</a></li>
-        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.findrestaurant" >Dining Solo</a></li>
-        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.profile">View Profile</a></li>
-        <li class="col s12 m3 l1 push-l5"><a style="cursor:pointer;" ng-click="signout()">Log Out</a></li>
+        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.createevent" ui-sref-active="nav_active">Create Event</a></li>
+        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.showevent" ui-sref-active="nav_active">Show Events</a></li>
+        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.findrestaurant"  ui-sref-active="nav_active">Dining Solo</a></li>
+        <li class="col s12 m3 l1 push-l5"><a ui-sref="dashboard.profile" ui-sref-active="nav_active">View Profile</a></li>
+        <li class="col s12 m3 l1 push-l5"><a style="cursor:pointer;" ng-click="signout()" ui-sref-active="nav_active">Log Out</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a ui-sref="dashboard.createevent" >Create Event</a></li>
+        <li><a ui-sref="dashboard.showevent" >Show Events</a></li>
+        <li><a ui-sref="dashboard.findrestaurant" >Dining Solo</a></li>
+        <li><a ui-sref="dashboard.profile">View Profile</a></li>
+        <li><a style="cursor:pointer;" ng-click="signout()">Log Out</a></li>
       </ul>
     </div>
   </nav>

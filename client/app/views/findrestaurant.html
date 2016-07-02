@@ -1,28 +1,11 @@
 
-<div class="container hoverable" style="opacity:.95">
-  <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px"><a class="white-text">Find a Restaurant</a></h2>
-  <div class="card-panel">
+<div class="container hoverable" style="opacity:.95" class="flow-text">
+  <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Find a Restaurant</a></h2>
+  <div class="card-panel" style="border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
     <form ng-submit="search(formData)">
       <input type="text" class="" placeholder="location" ng-model="formData.location">
-      <div class="row">
-        <div class="col s2"><h6>Dietary Needs:</h6></div>
-        <div class="col s2">
-          <input type='checkbox' id='vegetarian' ng-change="toggleChoice(formData.vegetarian)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.vegetarian) === -1"ng-model="formData.vegetarian" />
-          <label for='vegetarian'>Vegetarian</label>
-        </div>
-        <div class="col s2">
-          <input type='checkbox' id='vegan' ng-change="toggleChoice(formData.vegan)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.vegan) === -1" ng-model='formData.vegan' />
-          <label for='vegan'>Vegan</label>
-        </div>
-        <div class="col s2">
-          <input type='checkbox' id='glutenfree' ng-change="toggleChoice(formData.glutenfree)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.glutenfree) === -1"ng-model='formData.glutenFree' />
-          <label for='glutenfree'>Gluten-Free</label>
-        </div>
-        <div class="col s2">
-          <input type='checkbox' id='kosher' ng-change="toggleChoice(formData.kosher)" ng-disabled="formData.Array.length > 0 && formData.Array.indexOf(formData.kosher) === -1"ng-model='formData.kosher' />
-          <label for='kosher'>Kosher</label>
-        </div>
-      </div>
+      <br>
+      <br>
       <div class="row">
         <div class="col s2">
           <h6>Favorite Foods:</h6>
@@ -178,7 +161,7 @@
           <label for='creole'>Creole</label>
         </div>
       </div>
-      <input type="submit" class="right waves-effect waves-light btn blue-grey darken-4" value="Find It" >
+      <input type="submit" class="right waves-effect waves-light btn blue-grey darken-4" value="Find It" style="border-radius:5px;" >
       <br>
       <br>
     </form>
