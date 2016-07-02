@@ -1,5 +1,5 @@
 <div class="container"  style="opacity:0.9">
-  <div class="card-panel hoverable">
+  <div class="card-panel hoverable" style="border-radius:10px;">
     <form ng-submit='signup()'>
       <input type="text" class="" placeholder="username" ng-model="user.username" minlength="3">
       <input type="text" class="" placeholder="firstname" ng-model="user.firstname">
@@ -8,7 +8,7 @@
       <input type="email" class="" placeholder="email" ng-model="user.email">
       <input type="password" class="" placeholder="password" ng-model="user.password">
       <input type="password" class="" placeholder="confirm password">
-      <input type="submit" class="" value="Continue" ng-click=""><h6 class="right right-align" style="opacity:1">Already a member? <a ui-sref="main.signin">Click here </a>to sign in</h6>
+      <input type="submit" class="" style="border-radius:5px;" value="Continue" ng-click=""><h6 class="right right-align" style="opacity:1">Already a member? <a ui-sref="main.signin">Click here </a>to sign in</h6>
     </form>
   </div>
 </div>

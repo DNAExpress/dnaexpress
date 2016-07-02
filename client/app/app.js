@@ -72,7 +72,7 @@ app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpP
       controller:'ProfileCtrl',
       authenticate: true
     })
-    .state('main.createprofile', {
+    .state('dashboard.createprofile', {
       url:'createprofile',
       templateUrl:'app/views/createprofile.html',
       controller:'CreateProfileCtrl',
