@@ -72,7 +72,6 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function(res){
-      console.log("editprofile response", res);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
       $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
@@ -92,7 +91,6 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function(res){
-      console.log("createprofile response", res);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
       $window.sessionStorage.setItem('wefeast.user.last', res.data.user.lastname);
@@ -123,7 +121,6 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function (res) {
-      console.log(res);
       $window.localStorage.setItem('com.app', res.data.token);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
@@ -148,7 +145,6 @@ angular.module('app.services', ['app.eventfactory'])
       data: userdata
     })
     .then(function (res) {
-      console.log("signup",res);
       $window.localStorage.setItem('com.app', res.data.token);
       $window.sessionStorage.setItem('wefeast.user.username', res.data.user.username);
       $window.sessionStorage.setItem('wefeast.user.first', res.data.user.firstname);
