@@ -5,8 +5,6 @@ angular.module('app.responseform', ['app.eventfactory'])
   $scope.eventData = $stateParams.eventData;
 
   $scope.sendResponse = function(data) {
-    console.log("sendResponse triggered")
-
     if ($scope.decline) {
       var response = {
         pubId:$scope.eventData.publicEventId,

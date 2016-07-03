@@ -30,7 +30,6 @@ angular.module('app.optionform', ['app.services'])
     $state.go('loading');
     userFactory.userReq(searchParams)
     .then(function(res){
-      console.log(res);
       if (res.status === 200) {
         restaurantFactory.databinLeft = [];
         restaurantFactory.databinRight = [];

@@ -39,8 +39,8 @@ module.exports = {
       subject: 'WeFeast Event', // Subject line
       html: html,
       attachments: [{
-        filename: 'dining-restaurants-1057448-1600x1200.jpg',
-        path: __dirname + '/dining-restaurants-1057448-1600x1200.jpg',
+        filename: 'cutlery.png',
+        path: __dirname + '/cutlery.png',
         cid: '1234' //same cid value as in the html img src
       }]
     };
