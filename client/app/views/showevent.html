@@ -6,7 +6,7 @@
   <div ng-if="allEventList" class="card-panel z-depth-4" style="height:500px;overflow:scroll;opacity:.95;border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
     <div class="row">
       <ul class="col s12 m6 l4">
-        <li ng-repeat="events in eventBinLeft">
+        <li ng-repeat="events in eventBinLeft"  class="flow-text">
           <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
@@ -18,7 +18,7 @@
           </div>
         </li>
       </ul>
-      <ul class="col s12 m6 l4">
+      <ul class="col s12 m6 l4"  class="flow-text">
         <li ng-repeat="events in eventBinCenter">
           <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
@@ -31,7 +31,7 @@
           </div>
         </li>
       </ul>
-      <ul class="col s12 m6 l4">
+      <ul class="col s12 m6 l4"  class="flow-text">
         <li ng-repeat="events in eventBinRight">
           <div class="card-panel hoverable" style="min-height:200px;cursor:pointer" ui-sref="dashboard.singleeventview({singleevent:{{events}}})">
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
