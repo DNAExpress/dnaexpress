@@ -6,21 +6,21 @@
         <div class="row">
           <br>
           <br>
-          <div class="col s3">
+          <div class="col s12">
             <input type="button" value="Event Date/Time" style="border-radius:5px;"datetime-picker future-only hour="12" ng-model="event.date" required />
           </div>
-          <div class="col s3">
+          <div class="col s12">
             <div>{{event.date}}</div>
           </div>
         </div>
         <div class="row">
-          <div class="col s8 input-field">
-            <input type="text" placeholder="City Where Event Is Taking Place" ng-model="event.location" required />
+          <div class="col s12 input-field">
+            <input type="text" placeholder="City Where Event Is Taking Place" ng-model="event.location" minlength="4" maxlength="40" required />
           </div>
         </div>
         <div class="row">
-          <div class='col s8 input-field'>
-            <input type="text" placeholder="Event Name" ng-model="event.name" minlength="4" required >
+          <div class='col s12 input-field'>
+            <input type="text" placeholder="Event Name" ng-model="event.name" minlength="4" maxlength="40" required >
           </div>
         </div>
         <div class="row">
