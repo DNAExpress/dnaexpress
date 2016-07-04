@@ -18,6 +18,7 @@ There are Two ways to use this app.
 2. [Developement](#development)
     1. [Installing Dependencies](#installing-dependencies)
     2. [Initializing Database](#initializing-database)
+    3. [Database Schema](#database-schema)
 3. [Team Bios](#team-bios)
 
 ## Usage
@@ -34,15 +35,25 @@ The creator can then review the suggestions made by WeFeast and the party is on!
 
 ### Installing Dependencies
 From within the root directory:
+
 ```sh
 npm install
-bower install
 ```
+
 Gulp file coming soon!!
 
 ### Initializing Database
 ```sh
+download Postgres (http://postgresapp.com/)
+brew install postgres
+createdb dnaexpress
+create a .env file with: 
+  DB_HOST=localhost
+  DB_DATABASE=dnaexpress
+node index.js (start server to create tables)
 ```
+### Database Schema
+![ScreenShot](./dbDiagram.png)
 
 ## Team Bios
 - __Nate Blain__:
