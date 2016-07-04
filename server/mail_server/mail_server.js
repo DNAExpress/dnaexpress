@@ -32,7 +32,7 @@ module.exports = {
     });
 
     var template = Handlebars.compile(data),
-    html = template({creator: creator, link: 'https://fathomless-savannah-94108.herokuapp.com/', eventName: optionalEventName}),
+    html = template({creator: creator, link: 'http://wefeast.org/', eventName: optionalEventName}),
     mailOptions = {
       from: '"WeFeast" <wefeastnotifications@gmail.com>', // sender address
       to: recipients, // list of receivers
