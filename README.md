@@ -18,6 +18,7 @@ There are Two ways to use this app.
 2. [Developement](#development)
     1. [Installing Dependencies](#installing-dependencies)
     2. [Initializing Database](#initializing-database)
+    3. [Database Schema](#database-schema)
 3. [Team Bios](#team-bios)
 
 ## Usage
