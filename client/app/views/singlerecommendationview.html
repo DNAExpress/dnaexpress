@@ -3,10 +3,15 @@
   <div class="container">
     <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">{{selection.name}}</a></h2>
     <div class="card-panel hoverable">
-      <h5>{{selection.phone}}</h5>
-      <h5>{{selection.address}}</h5>
-      <h5>{{selection.city}}</h5>
-      <img src="{{selection.rating_img_url}}" />
+      <div class="row">
+        <div style="padding-left:5px;">
+          <img src="{{selection.image_url}}" style="height:150px;"class="right" />
+          <br><img src="{{selection.rating_img_url}}" />
+          <br><span style="font-size:16pt;">{{selection.address}}</span>
+          <br><span style="font-size:16pt;">{{selection.city}}</span>
+          <br><span style="font-size:16pt;">{{selection.phone}}</span>
+        </div>
+      </div>
       <h5 ng-click="finalChoice(selection);" style="cursor:pointer;">Choose as event location</h5>
     </div>
   </div>

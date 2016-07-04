@@ -7,21 +7,48 @@
       <ul class="col s12 m6 l4">
         <li ng-repeat="place in recommendationsBinLeft">
           <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
-            <h5>{{place.name}}</h5>
+              <div class="row">
+                <div style="padding-left:5px;">
+                  <img src="{{place.image_url}}" class="right" />
+                    <div style="font-size:18pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:0px;margin-bottom:0px;">{{place.name}}</div>
+                    <br><img src="{{place.rating_img_url}}" />
+                    <br><span style="font-size:12pt;">{{place.address}}</span>
+                    <br><span style="font-size:12pt;">{{place.city}}</span>
+                    <br><span style="font-size:12pt;">{{place.phone}}</span>
+                </div>
+              </div>
           </div>
         </li>
       </ul>
       <ul class="col s12 m6 l4">
         <li ng-repeat="place in recommendationsBinCenter">
           <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
-            <h5>{{place.name}}</h5>
+              <div class="row">
+                <div style="padding-left:5px;">
+                  <img src="{{place.image_url}}" class="right" />
+                    <div style="font-size:18pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:0px;margin-bottom:0px;">{{place.name}}</div>
+                    <br><img src="{{place.rating_img_url}}" />
+                    <br><span style="font-size:12pt;">{{place.address}}</span>
+                    <br><span style="font-size:12pt;">{{place.city}}</span>
+                    <br><span style="font-size:12pt;">{{place.phone}}</span>
+                </div>
+              </div>
           </div>
         </li>
       </ul>
       <ul class="col s12 m6 l4">
         <li ng-repeat="place in recommendationsBinRight">
           <div class="card-panel hoverable" style="height:200px;cursor:pointer;" ng-click="selectRecommendation(place);" ui-sref="dashboard.singlerecommendationview">
-            <h5>{{place.name}}</h5>
+              <div class="row">
+                <div style="padding-left:5px;">
+                  <img src="{{place.image_url}}" class="right" />
+                    <div style="font-size:18pt;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:0px;margin-bottom:0px;">{{place.name}}</div>
+                    <br><img src="{{place.rating_img_url}}" />
+                    <br><span style="font-size:12pt;">{{place.address}}</span>
+                    <br><span style="font-size:12pt;">{{place.city}}</span>
+                    <br><span style="font-size:12pt;">{{place.phone}}</span>
+                </div>
+              </div>
           </div>
         </li>
       </ul>
