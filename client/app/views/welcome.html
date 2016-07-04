@@ -10,11 +10,11 @@
     <h2 class="center-align blue-grey darken-4 white-text" style="margin-bottom:-7px;border-top-left-radius:10px;border-top-right-radius:10px;"><a class="white-text">Welcome</a></h2>
     <div class="card-panel z-depth-4" style="border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
       <div class="row" ng-hide="userIsLive;">
-        <div class="card-panel col s4 offset-s1 hoverable white-text center-align" style="background-color:#212121;cursor:pointer;height:30px;padding-top:3px;" ui-sref="main.signup" ng-click="userClicked();">
-          Click here to sign up
+        <div class="card-panel col s4 offset-s1 hoverable white-text center-align" style="background-color:#212121;cursor:pointer;padding-top:3px;" ui-sref="main.signup" ng-click="userClicked();">
+          <span>Click here to sign up</span>
         </div>
-        <div class="card-panel col s4 offset-s2 hoverable white-text center-align" style="background-color:#212121;cursor:pointer;height:30px;padding-top:3px;" ui-sref="main.signin" ng-click="userClicked();">
-          Click here to sign in
+        <div class="card-panel col s4 offset-s2 hoverable white-text center-align" style="background-color:#212121;cursor:pointer;padding-top:3px;" ui-sref="main.signin" ng-click="userClicked();">
+          <span>Click here to sign in</span>
         </div>
     </div>
           <div ui-view></div>
