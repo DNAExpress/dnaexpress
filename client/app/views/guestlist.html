@@ -5,7 +5,7 @@
       <form ng-submit="addGuestsToEventData()">
         <div id="listwindow" style="height:300px;overflow-x:hidden;overflow-y:scroll;border:1px solid #212121;">
           <div class="row">
-            <ul class="col s6 m6 l6">
+            <ul class="col s12 m6 l6">
               <li ng-repeat="people in databinLeft">
                 <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer;">
                   <div class="row">
@@ -18,7 +18,7 @@
                 </div>
               </li>
             </ul>
-            <ul class="col s6 m6 l6">
+            <ul class="col s12 m6 l6">
               <li ng-repeat="people in databinRight">
                 <div class="card-panel hoverable" ng-click="addToGuestList(people.username)" style="cursor:pointer">
                   <div class="row">
