@@ -11,7 +11,7 @@
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
             <img src="assets/photos/Invited.jpg" style="max-height:120px;margin-right:5px;" class="left"/>
-            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
+            <h6 style="font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
             <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
@@ -24,7 +24,7 @@
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
             <img src="assets/photos/Invited.jpg" style="height:120px;margin-right:5px;" class="left" />
-            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6></a>
+            <h6 style="font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6></a>
             <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>
@@ -37,7 +37,7 @@
             <h6 ng-if="!events.userResponseStatus" class="left" style="color:sienna;text-decoration:underline;margin-top:-10px;">You haven't responded to this invitation</h6>
             <h6 ng-if="events.userResponseStatus" class="left" style="color:green;margin-top:-10px;">You have responded to this invitation</h6>
             <img src="assets/photos/Invited.jpg" style="height:120px;margin-right:5px;" class="left" />
-            <h6 style="font-weight:bold" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
+            <h6 style="font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;" class="left">&nbsp;&nbsp;&nbsp;{{events.name}}</h6>
             <h6 class="left">&nbsp;&nbsp;&nbsp;{{events.date | date:'short'}}</h6>
             <h6 ng-if="events.recommendations.length > 0 && userIsEventCreator(events) && !events.selectedRestaurant;" class="left">All Invitees have responded!</h6>
             <h6 ng-if="events.selectedRestaurant" class="left">Restaurant has been selected</h6>

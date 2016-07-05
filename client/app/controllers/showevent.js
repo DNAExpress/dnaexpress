@@ -31,8 +31,6 @@ angular.module('app.showevent', ['app.eventfactory'])
     $window.sessionStorage.setItem('wefeast.temp.focusevent', JSON.stringify(event));
     $window.sessionStorage.removeItem('wefeast.temp.recommendations');
     $window.sessionStorage.setItem('wefeast.temp.recommendations', JSON.stringify(event.recommendations));
-    console.log(event.recommendations);
-
   }
 
   $scope.selectRecommendation = function(selection) {
