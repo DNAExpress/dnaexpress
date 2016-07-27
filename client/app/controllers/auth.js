@@ -32,6 +32,7 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
 
   $scope.signup = function () {
     var data = Profile.processData($scope.user);
+    checkForm($scope.user);
     Auth.signup(data)
       .then(function (token) {
         $window.localStorage.setItem('com.app', token);
@@ -41,5 +42,9 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
         console.error(error);
       });
   };
+
+  function checkForm(data) {
+    console.log(data);
+  }
 
 }])
