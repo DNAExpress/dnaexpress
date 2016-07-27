@@ -1,13 +1,12 @@
 <div class="container"  style="opacity:0.9">
   <div class="card-panel hoverable" style="border-radius:10px;">
     <form ng-submit='signup()'>
-      <input type="text" class="" placeholder="username" ng-model="user.username" minlength="3">
-      <input type="text" class="" placeholder="firstname" ng-model="user.firstname">
-      <input type="text" class="" placeholder="lastname" ng-model="user.lastname">
+      <input type="text" class="" placeholder="username" ng-model="user.username" minlength="3" required>
+      <input type="text" class="" placeholder="firstname" ng-model="user.firstname" minlength="2" required>
+      <input type="text" class="" placeholder="lastname" ng-model="user.lastname" minlength="2">
       <input type="text" class="" placeholder="location" ng-model="user.location">
-      <input type="email" class="" placeholder="email" ng-model="user.email">
-      <input type="password" class="" placeholder="password" ng-model="user.password">
-      <input type="password" class="" placeholder="confirm password">
+      <input type="email" class="" placeholder="email" ng-model="user.email" required>
+      <input type="password" class="" placeholder="password" ng-model="user.password" required>
       <input type="submit" class="" style="border-radius:5px;" value="Continue" ng-click=""><h6 class="right right-align" style="opacity:1">Already a member? <a ui-sref="main.signin">Click here </a>to sign in</h6>
     </form>
   </div>
