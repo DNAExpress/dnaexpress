@@ -9,7 +9,7 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
     }
   }
   $scope.signin = function () {
-    const isValid = validateSignup($scope.user);
+    var isValid = validateSignup($scope.user);
     if (isValid) {
     Auth.signin($scope.user)
       .then(function (response) {
@@ -37,8 +37,8 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
   };
 
   $scope.signup = function () {
-    let data = Profile.processData($scope.user);
-    const isValid = validateSignup($scope.user);
+    var data = Profile.processData($scope.user);
+    var isValid = validateSignup($scope.user);
     if (isValid) {
 
     Auth.signup(data)
@@ -58,13 +58,13 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
 
   function validateSignup(data) {
     console.log(data);
-    let isValid = true;
+    var isValid = true;
     for(var field in data) {
-      let string = data[field];
+      var string = data[field];
       if (field === "email") {
         continue;
       }
-      let n = data[field].search(/\W/g);
+      var n = data[field].search(/\W/g);
       if (n > -1) {
         isValid = false;
       }
