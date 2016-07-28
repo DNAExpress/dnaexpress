@@ -9,6 +9,8 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
     }
   }
   $scope.signin = function () {
+    const isValid = validateSignup($scope.user);
+    if (isValid) {
     Auth.signin($scope.user)
       .then(function (response) {
         if (response.data.token) {
@@ -24,6 +26,10 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
       .catch(function (error) {
         console.error(error);
       });
+    }
+    else {
+      alert("Please use only letters and numbers. Emails should contain an '@' and a '.'");
+    }
   };
 
   $scope.advanceToFoodPrefs = function() {
@@ -46,7 +52,7 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
 
     }
     else {
-      alert("Please use only letters and numbers to fill out the form. Emails should contain an '@' and a '.'");
+      alert("Please use only letters and numbers. Emails should contain an '@' and a '.'");
     }
   };
 
@@ -54,7 +60,8 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
     console.log(data);
     let isValid = true;
     for(var field in data) {
-      if (field ==="email") {
+      let string = data[field];
+      if (field === "email") {
         continue;
       }
       let n = data[field].search(/\W/g);
