@@ -31,8 +31,10 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
   };
 
   $scope.signup = function () {
-    var data = Profile.processData($scope.user);
-    checkForm($scope.user);
+    let data = Profile.processData($scope.user);
+    const isValid = validateSignup($scope.user);
+    if (isValid) {
+
     Auth.signup(data)
       .then(function (token) {
         $window.localStorage.setItem('com.app', token);
@@ -41,10 +43,26 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
       .catch(function (error) {
         console.error(error);
       });
+
+    }
+    else {
+      alert("Please use only letters and numbers to fill out the form. Emails should contain an '@' and a '.'");
+    }
   };
 
-  function checkForm(data) {
+  function validateSignup(data) {
     console.log(data);
-  }
+    let isValid = true;
+    for(var field in data) {
+      if (field ==="email") {
+        continue;
+      }
+      let n = data[field].search(/\W/g);
+      if (n > -1) {
+        isValid = false;
+      }
+    }
+    return isValid;
+  };
 
 }])
