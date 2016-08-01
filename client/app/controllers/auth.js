@@ -9,6 +9,8 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
     }
   }
   $scope.signin = function () {
+    var isValid = validateSignup($scope.user);
+    if (isValid) {
     Auth.signin($scope.user)
       .then(function (response) {
         if (response.data.token) {
@@ -24,6 +26,10 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
       .catch(function (error) {
         console.error(error);
       });
+    }
+    else {
+      alert("Please use only letters and numbers. Emails should contain an '@' and a '.'");
+    }
   };
 
   $scope.advanceToFoodPrefs = function() {
@@ -32,6 +38,9 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
 
   $scope.signup = function () {
     var data = Profile.processData($scope.user);
+    var isValid = validateSignup($scope.user);
+    if (isValid) {
+
     Auth.signup(data)
       .then(function (token) {
         $window.localStorage.setItem('com.app', token);
@@ -40,6 +49,27 @@ angular.module('app.auth', ['app.services', 'app.eventfactory'])
       .catch(function (error) {
         console.error(error);
       });
+
+    }
+    else {
+      alert("Please use only letters and numbers. Emails should contain an '@' and a '.'");
+    }
+  };
+
+  function validateSignup(data) {
+    console.log(data);
+    var isValid = true;
+    for(var field in data) {
+      var string = data[field];
+      if (field === "email") {
+        continue;
+      }
+      var n = data[field].search(/\W/g);
+      if (n > -1) {
+        isValid = false;
+      }
+    }
+    return isValid;
   };
 
 }])

@@ -11,7 +11,7 @@
       <h6 ng-if="!singleEvent.userResponseStatus"><a ui-sref="dashboard.eventresponseform({eventData:singleEvent})">RSVP Now!</a></h6>
       <h5 ng-if="singleEvent.userResponseStatus && !singleEvent.selectedRestaurant">You have responded to this invitation</h5>
       <h5 ng-if="singleEvent.recommendations.length > 0 && userIsEventCreator(singleEvent) && !singleEvent.selectedRestaurant;">All Invitees Have Responded</h5>
-      <h5 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.name}}</h5>
+      <h5 ng-if="singleEvent.selectedRestaurant">@&nbsp;{{singleEvent.selectedRestaurant.name}}</h5>
       <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.address}}</h6>
       <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.city}}</h6>
       <h6 ng-if="singleEvent.selectedRestaurant">{{singleEvent.selectedRestaurant.phone}}</h6>
